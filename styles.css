@@ -123,6 +123,18 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .about__bio em { color: var(--primary); font-style: italic; }
 .about__side { display: grid; gap: 16px; }
 
+.about__photo { margin: 0; }
+.about__photo img {
+  width: 100%; max-width: 240px; height: auto; aspect-ratio: 1 / 1; object-fit: cover;
+  margin-inline: auto; display: block;
+  border-radius: var(--radius); border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.about__photo figcaption {
+  margin-top: 10px; text-align: center;
+  font-family: var(--font-mono); font-size: .82rem; color: var(--ink-soft);
+}
+
 .card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
 .card--soft { box-shadow: var(--shadow); }
 .card__title { margin: 0 0 6px; font-size: .82rem; text-transform: uppercase; letter-spacing: .12em; color: var(--support); }
