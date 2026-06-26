@@ -90,12 +90,44 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   background: var(--cream); padding: 18px;
   box-shadow: var(--shadow); border: 1px solid var(--line);
 }
-.ascii {
-  font-family: var(--font-mono); font-size: .72rem; line-height: 1.25;
-  color: var(--ink-soft); background: var(--cream);
-  border: 1px dashed var(--secondary); border-radius: 14px;
-  padding: 16px 22px; margin: 0; text-align: left;
-  max-width: 100%; overflow-x: auto;
+/* Interactive code-comment card */
+.codecard {
+  width: 100%; max-width: 360px;
+  background: #fffaf2; border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.codecard__bar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px; background: #f2e3cb; border-bottom: 1px solid var(--line);
+}
+.codecard__dots { display: inline-flex; gap: 6px; }
+.codecard__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--secondary); opacity: .7; }
+.codecard__dots i:nth-child(1) { background: #d98b6a; }
+.codecard__dots i:nth-child(2) { background: var(--highlight); }
+.codecard__dots i:nth-child(3) { background: var(--support); }
+.codecard__name { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); }
+.codecard__langs { margin-left: auto; display: inline-flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 999px; }
+.codecard__langs .lang {
+  font-family: var(--font-mono); font-size: .74rem; font-weight: 500;
+  border: 0; cursor: pointer; color: var(--ink-soft);
+  padding: 4px 12px; border-radius: 999px; background: transparent;
+  transition: background .18s ease, color .18s ease;
+}
+.codecard__langs .lang:hover { color: var(--primary); }
+.codecard__langs .lang.is-active { background: var(--primary); color: var(--cream); }
+
+.codecard__code {
+  margin: 0; padding: 16px 18px; text-align: left;
+  font-family: var(--font-mono); font-size: .74rem; line-height: 1.35;
+  color: var(--support); white-space: pre; overflow-x: auto;
+}
+.codecard__code--swap { animation: codeSwap .28s ease; }
+@keyframes codeSwap {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .codecard__code--swap { animation: none; }
 }
 
 /* ---------- Buttons ---------- */
