@@ -142,7 +142,10 @@
           <p class="section__sub">A few things I'm proud of - small in code, big in scope.</p>
         </header>
 
-        <div class="projects">
+        <div class="projects-wrap">
+          <button class="carousel-nav__btn carousel-nav__btn--prev" data-scroll="prev" aria-label="Previous projects" disabled>‹</button>
+          <button class="carousel-nav__btn carousel-nav__btn--next" data-scroll="next" aria-label="More projects">›</button>
+          <div class="projects" tabindex="0" role="region" aria-label="Pinned projects, scroll horizontally">
           <!-- vla.cpp -->
           <article class="project">
             <div class="project__thumb thumb--vla" aria-hidden="true">
@@ -179,6 +182,24 @@
             </div>
           </article>
 
+          <!-- FaceGen -->
+          <article class="project">
+            <div class="project__thumb thumb--facegen" aria-hidden="true">
+              <span class="thumb__mono">facegen</span>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">FaceGen</h3>
+              <p class="project__desc">
+                Multiple Appropriate Facial Reaction Generation - synthesizing diverse listener
+                reactions from a speaker's audio-visual cues. 3rd place at REACT 2024.
+              </p>
+              <div class="tags tags--sm">
+                <span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">VAE</span><span class="tag">Multimodal</span>
+              </div>
+              <a class="project__link" href="https://github.com/khanhnd61-vr/facegen" target="_blank" rel="noopener">View on GitHub ↗</a>
+            </div>
+          </article>
+
           <!-- search -->
           <article class="project">
             <div class="project__thumb thumb--search" aria-hidden="true">
@@ -196,6 +217,7 @@
               <a class="project__link" href="https://github.com/khanhnd61-vr/search" target="_blank" rel="noopener">View on GitHub ↗</a>
             </div>
           </article>
+          </div>
         </div>
       </div>
     </section>

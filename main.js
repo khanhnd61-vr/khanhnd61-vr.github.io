@@ -82,6 +82,32 @@ if (codeEl) {
   setLang('cpp'); // default
 }
 
+// Projects carousel: prev/next arrows + disabled-state sync
+const track = document.querySelector('.projects');
+if (track) {
+  const prevBtn = document.querySelector('.carousel-nav__btn[data-scroll="prev"]');
+  const nextBtn = document.querySelector('.carousel-nav__btn[data-scroll="next"]');
+
+  const step = () => {
+    const card = track.querySelector('.project');
+    if (!card) return track.clientWidth;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    return card.getBoundingClientRect().width + gap;
+  };
+
+  const syncButtons = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth - 1;
+    if (prevBtn) prevBtn.disabled = track.scrollLeft <= 0;
+    if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll;
+  };
+
+  if (prevBtn) prevBtn.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  if (nextBtn) nextBtn.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+  track.addEventListener('scroll', syncButtons, { passive: true });
+  window.addEventListener('resize', syncButtons);
+  syncButtons();
+}
+
 // Reveal-on-scroll for sections
 const revealEls = document.querySelectorAll('.section, .hero__text, .hero__art');
 revealEls.forEach((el) => el.classList.add('reveal'));

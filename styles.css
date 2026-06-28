@@ -183,9 +183,37 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 }
 .tags--sm .tag { background: rgba(92,122,94,.14); color: var(--support); }
 
-/* ---------- Projects ---------- */
-.projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+/* ---------- Projects (swipeable carousel) ---------- */
+.projects-wrap { position: relative; }
+.carousel-nav__btn {
+  position: absolute; top: 14px; z-index: 5;
+  width: 40px; height: 40px; border: 0; cursor: pointer; padding: 0;
+  display: grid; place-items: center; line-height: 1;
+  font-family: var(--font-display); font-size: 2rem; font-weight: 500;
+  background: transparent; color: var(--cream);
+  text-shadow: 0 1px 8px rgba(75, 46, 15, .55);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.carousel-nav__btn--prev { left: 14px; }
+.carousel-nav__btn--next { right: 14px; }
+.carousel-nav__btn:hover:not(:disabled) { transform: scale(1.18); }
+.carousel-nav__btn:disabled { opacity: .35; pointer-events: none; }
+
+.projects {
+  display: flex; gap: 26px;
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 6px 2px 18px; margin: 0 -2px;
+  scrollbar-width: thin; scrollbar-color: var(--secondary) transparent;
+}
+.projects:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; border-radius: 8px; }
+.projects::-webkit-scrollbar { height: 8px; }
+.projects::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 999px; }
+.projects::-webkit-scrollbar-track { background: transparent; }
+
 .project {
+  flex: 0 0 calc((100% - 2 * 26px) / 3);   /* exactly 3 cards visible */
+  scroll-snap-align: start;
   background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
   overflow: hidden; display: flex; flex-direction: column;
   transition: transform .2s ease, box-shadow .25s ease;
@@ -198,6 +226,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .thumb__mono { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 500; color: var(--cream); letter-spacing: -.02em; }
 .thumb--vla    { background: linear-gradient(135deg, var(--primary), var(--support)); }
 .thumb--rex    { background: linear-gradient(135deg, var(--support), var(--sage)); }
+.thumb--facegen { background: linear-gradient(135deg, var(--highlight), var(--support)); }
 .thumb--search { background: linear-gradient(135deg, var(--secondary), var(--highlight)); }
 .thumb--search .thumb__mono { color: var(--primary); }
 .project__thumb::after {
@@ -247,7 +276,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .hero { grid-template-columns: 1fr; padding: 56px 0; gap: 40px; }
   .hero__art { order: -1; }
   .about { grid-template-columns: 1fr; }
-  .projects { grid-template-columns: 1fr; }
+  .project { flex-basis: 78%; }                    /* peek of next card hints swipe */
   .contacts { grid-template-columns: repeat(2, 1fr); }
 
   .nav__toggle { display: flex; }
@@ -264,6 +293,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 @media (max-width: 480px) {
   .contacts { grid-template-columns: 1fr; }
+  .project { flex-basis: 86%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
