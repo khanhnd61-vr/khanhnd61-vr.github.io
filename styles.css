@@ -227,8 +227,8 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .thumb--vla    { background: linear-gradient(135deg, var(--primary), var(--support)); }
 .thumb--rex    { background: linear-gradient(135deg, var(--support), var(--sage)); }
 .thumb--facegen { background: linear-gradient(135deg, var(--highlight), var(--support)); }
-.thumb--search { background: linear-gradient(135deg, var(--secondary), var(--highlight)); }
-.thumb--search .thumb__mono { color: var(--primary); }
+.thumb--cpu { background: linear-gradient(135deg, var(--secondary), var(--highlight)); }
+.thumb--cpu .thumb__mono { color: var(--primary); }
 .project__thumb::after {
   content: ""; position: absolute; inset: 0;
   background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.22), transparent 60%);
