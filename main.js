@@ -1,4 +1,4 @@
-// Havilab - small, effective interactions.
+// Small, effective interactions.
 
 // Current year in footer
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -20,39 +20,37 @@ links.querySelectorAll('a').forEach((a) => {
   });
 });
 
-// Interactive code-comment card: render the vicuna brand header
-// as a C++ or Python comment depending on the chosen language.
-const vicunaArt = [
-  '      /\\    /\\',
-  '     /  \\__/  \\',
-  '    /  O    O  \\',
-  '   |     ︶     |',
-  '   |   \\____/   |',
-  '    \\  ~~~~~~  /',
-  '     \\________/',
-  '       HAVILAB',
-];
-const tagline = ['Happy Vicuna Laboratory', 'build simple and effective code'];
-
+// Interactive code card: the same short self-introduction
+// written in C++ or Python depending on the chosen language.
 const renderers = {
   cpp: {
-    file: 'vicuna.cpp',
+    file: 'khanh.cpp',
     build: () => [
-      '/*',
-      ...vicunaArt.map((l) => ' * ' + l),
-      ' *',
-      ...tagline.map((l) => ' *  ' + l),
-      ' */',
+      'struct Engineer {',
+      '  const char* name  = "Khanh D. Nguyen";',
+      '  const char* role  = "AI Software Engineer";',
+      '  const char* focus[3] = {',
+      '    "inference engineering",',
+      '    "model optimization",',
+      '    "edge AI for robotics",',
+      '  };',
+      '  const char* motto = "simple code, effective results";',
+      '};',
     ].join('\n'),
   },
   py: {
-    file: 'vicuna.py',
+    file: 'khanh.py',
     build: () => [
-      '# ' + '='.repeat(22),
-      ...vicunaArt.map((l) => '# ' + l),
-      '#',
-      ...tagline.map((l) => '#  ' + l),
-      '# ' + '='.repeat(22),
+      '@dataclass',
+      'class Engineer:',
+      '    name: str = "Khanh D. Nguyen"',
+      '    role: str = "AI Software Engineer"',
+      '    focus: tuple = (',
+      '        "inference engineering",',
+      '        "model optimization",',
+      '        "edge AI for robotics",',
+      '    )',
+      '    motto: str = "simple code, effective results"',
     ].join('\n'),
   },
 };
@@ -80,32 +78,6 @@ if (codeEl) {
 
   langBtns.forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
   setLang('cpp'); // default
-}
-
-// Projects carousel: prev/next arrows + disabled-state sync
-const track = document.querySelector('.projects');
-if (track) {
-  const prevBtn = document.querySelector('.carousel-nav__btn[data-scroll="prev"]');
-  const nextBtn = document.querySelector('.carousel-nav__btn[data-scroll="next"]');
-
-  const step = () => {
-    const card = track.querySelector('.project');
-    if (!card) return track.clientWidth;
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    return card.getBoundingClientRect().width + gap;
-  };
-
-  const syncButtons = () => {
-    const maxScroll = track.scrollWidth - track.clientWidth - 1;
-    if (prevBtn) prevBtn.disabled = track.scrollLeft <= 0;
-    if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll;
-  };
-
-  if (prevBtn) prevBtn.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
-  if (nextBtn) nextBtn.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
-  track.addEventListener('scroll', syncButtons, { passive: true });
-  window.addEventListener('resize', syncButtons);
-  syncButtons();
 }
 
 // Reveal-on-scroll for sections

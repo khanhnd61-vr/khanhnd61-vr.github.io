@@ -1,5 +1,5 @@
 /* ============================================================
-   Havilab - Happy Vicuna Laboratory
+   Khanh D. Nguyen - personal site
    Palette: primary #4B2E0F · secondary #E2A963 · bg #FFF2E1
             support #5C7A5E · highlight #F4C15D · cream #FAF7F2 · sage #A8B89C
    ============================================================ */
@@ -85,14 +85,9 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
 .hero__art { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.hero__poster {
-  width: 100%; border-radius: var(--radius);
-  background: var(--cream); padding: 18px;
-  box-shadow: var(--shadow); border: 1px solid var(--line);
-}
 /* Interactive code-comment card */
 .codecard {
-  width: 100%; max-width: 360px;
+  width: 100%; max-width: 440px;
   background: #fffaf2; border: 1px solid var(--line); border-radius: 14px;
   box-shadow: var(--shadow); overflow: hidden;
 }
@@ -118,7 +113,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 .codecard__code {
   margin: 0; padding: 16px 18px; text-align: left;
-  font-family: var(--font-mono); font-size: .74rem; line-height: 1.35;
+  font-family: var(--font-mono); font-size: .8rem; line-height: 1.55;
   color: var(--support); white-space: pre; overflow-x: auto;
 }
 .codecard__code--swap { animation: codeSwap .28s ease; }
@@ -151,9 +146,10 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 /* ---------- About ---------- */
 .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
-.about__bio p { margin: 0 0 18px; color: var(--ink-soft); }
+.about__bio > p { margin: 0 0 18px; color: var(--ink-soft); }
 .about__bio em { color: var(--primary); font-style: italic; }
 .about__side { display: grid; gap: 16px; }
+.about__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
 
 .about__photo { margin: 0; }
 .about__photo img {
@@ -183,50 +179,24 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 }
 .tags--sm .tag { background: rgba(92,122,94,.14); color: var(--support); }
 
-/* ---------- Projects (swipeable carousel) ---------- */
-.projects-wrap { position: relative; }
-.carousel-nav__btn {
-  position: absolute; top: 14px; z-index: 5;
-  width: 40px; height: 40px; border: 0; cursor: pointer; padding: 0;
-  display: grid; place-items: center; line-height: 1;
-  font-family: var(--font-display); font-size: 2rem; font-weight: 500;
-  background: transparent; color: var(--cream);
-  text-shadow: 0 1px 8px rgba(75, 46, 15, .55);
-  transition: opacity .18s ease, transform .18s ease;
-}
-.carousel-nav__btn--prev { left: 14px; }
-.carousel-nav__btn--next { right: 14px; }
-.carousel-nav__btn:hover:not(:disabled) { transform: scale(1.18); }
-.carousel-nav__btn:disabled { opacity: .35; pointer-events: none; }
-
-.projects {
-  display: flex; gap: 26px;
-  overflow-x: auto; scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 6px 2px 18px; margin: 0 -2px;
-  scrollbar-width: thin; scrollbar-color: var(--secondary) transparent;
-}
-.projects:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; border-radius: 8px; }
-.projects::-webkit-scrollbar { height: 8px; }
-.projects::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 999px; }
-.projects::-webkit-scrollbar-track { background: transparent; }
+/* ---------- Projects (vertical list) ---------- */
+.projects { display: flex; flex-direction: column; gap: 22px; }
 
 .project {
-  flex: 0 0 calc((100% - 2 * 26px) / 3);   /* exactly 3 cards visible */
-  scroll-snap-align: start;
   background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
-  overflow: hidden; display: flex; flex-direction: column;
+  overflow: hidden; display: grid; grid-template-columns: 240px 1fr;
   transition: transform .2s ease, box-shadow .25s ease;
 }
-.project:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+.project:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .project__thumb {
-  height: 132px; display: flex; align-items: center; justify-content: center;
+  min-height: 132px; display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
 .thumb__mono { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 500; color: var(--cream); letter-spacing: -.02em; }
 .thumb--vla    { background: linear-gradient(135deg, var(--primary), var(--support)); }
 .thumb--rex    { background: linear-gradient(135deg, var(--support), var(--sage)); }
 .thumb--facegen { background: linear-gradient(135deg, var(--highlight), var(--support)); }
+.thumb--simd   { background: linear-gradient(135deg, var(--support), var(--primary)); }
 .thumb--cpu { background: linear-gradient(135deg, var(--secondary), var(--highlight)); }
 .thumb--cpu .thumb__mono { color: var(--primary); }
 .project__thumb::after {
@@ -236,6 +206,9 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .project__body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
 .project__title { margin: 0 0 8px; font-size: 1.18rem; color: var(--primary); }
 .project__desc { margin: 0; color: var(--ink-soft); font-size: .96rem; }
+.project__authors { margin: 12px 0 0; font-size: .85rem; color: var(--ink-soft); }
+.project__authors strong { color: var(--primary); }
+.project__authors a, .card__role a { color: inherit; text-decoration: underline; text-decoration-color: var(--secondary); text-underline-offset: 3px; }
 .project__link {
   margin-top: 18px; font-family: var(--font-display); font-weight: 600;
   color: var(--support); align-self: flex-start;
@@ -276,7 +249,8 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .hero { grid-template-columns: 1fr; padding: 56px 0; gap: 40px; }
   .hero__art { order: -1; }
   .about { grid-template-columns: 1fr; }
-  .project { flex-basis: 78%; }                    /* peek of next card hints swipe */
+  .about__cards { grid-template-columns: 1fr; }
+  .project { grid-template-columns: 1fr; }
   .contacts { grid-template-columns: repeat(2, 1fr); }
 
   .nav__toggle { display: flex; }
@@ -293,7 +267,6 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 @media (max-width: 480px) {
   .contacts { grid-template-columns: 1fr; }
-  .project { flex-basis: 86%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
