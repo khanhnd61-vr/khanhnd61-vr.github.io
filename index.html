@@ -50,18 +50,16 @@
       <div class="container">
         <header class="section__head">
           <span class="section__kicker">// about</span>
-          <h2>About me</h2>
+          <h2>Khanh Nguyen</h2>
         </header>
 
         <div class="about">
           <div class="about__bio">
-            <p>
-              I'm <strong>Khanh D. Nguyen</strong>, an AI software engineer. I build and ship software
-              where deep learning meets real hardware. My work focuses on
-              designing SDKs for computer-vision models, optimizing neural networks for AI accelerators,
-              and decomposing operations so they run fast and in parallel - getting capable models onto
-              edge devices and robots.
-            </p>
+            <ul class="about__points">
+              <li>Build efficient inference engines for neural nets across various devices.</li>
+              <li>Optimize VLAs, VLMs, and LLMs for edge deployment.</li>
+              <li>Interested in searching and studying efficient neural net architectures.</li>
+            </ul>
 
             <div class="tags">
               <span class="tag">Edge AI</span>
@@ -92,7 +90,7 @@
           <div class="card card--soft">
             <h3 class="card__title">Now</h3>
             <p class="card__role">AI Software Engineer</p>
-            <p class="card__meta">Inference engineering · Model optimization · Edge AI for robotics</p>
+            <p class="card__meta">Inference engineering · Model optimization · Edge AI for robotics · AI SDK development</p>
           </div>
           <div class="card card--soft">
             <h3 class="card__title">Research</h3>
@@ -113,6 +111,10 @@
           building lean C/C++ inference engines that bring VLMs, VLAs, and LLMs
           to CPUs, accelerators, and robots. Inspired by <a href="https://github.com/ggml-org/llama.cpp" target="_blank" rel="noopener">llama.cpp</a>:
           a few lines of simple code, big results on your own hardware.
+          The two projects I'm proudest of are
+          <a href="https://github.com/VinRobotics/vla.cpp" target="_blank" rel="noopener">vla.cpp</a>
+          and <a href="https://github.com/cair-vinuni/vla.simd" target="_blank" rel="noopener">vla.simd</a> -
+          compare their measured latency across devices in the explorer.
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary" href="#projects">View projects</a>
@@ -120,16 +122,60 @@
         </div>
       </div>
       <div class="hero__art">
-        <div class="codecard">
-          <div class="codecard__bar">
-            <span class="codecard__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="codecard__name" data-filename>khanh.cpp</span>
-            <div class="codecard__langs" role="tablist" aria-label="Comment language">
-              <button class="lang is-active" data-lang="cpp" role="tab" aria-selected="true">C++</button>
-              <button class="lang" data-lang="py" role="tab" aria-selected="false">Python</button>
+        <div class="bench" data-bench>
+          <div class="bench__bar">
+            <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="bench__name">latency explorer</span>
+            <div class="bench__engines" role="group" aria-label="Engine">
+              <button class="bench__engine is-active" type="button" data-engine="vla.cpp" aria-pressed="true">vla.cpp</button>
+              <button class="bench__engine" type="button" data-engine="vla.simd" aria-pressed="false">vla.simd</button>
             </div>
           </div>
-          <pre class="codecard__code"><code data-code aria-live="polite"></code></pre>
+
+          <div class="bench__body">
+            <div class="bench__inputs">
+              <label class="bench__field">
+                <span class="bench__label">Model</span>
+                <select data-model></select>
+              </label>
+              <label class="bench__field">
+                <span class="bench__label">Device</span>
+                <select data-device></select>
+              </label>
+            </div>
+
+            <div class="bench__result" aria-live="polite">
+              <div class="bench__perf">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label">Latency</span>
+                  <span class="bench__value"><span data-out="ms"></span> <small>ms / call</small></span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Actions / s</span>
+                  <span class="bench__value" data-out="rate"></span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Memory</span>
+                  <span class="bench__value" data-out="mem"></span>
+                  <span class="bench__sub" data-out="memsub"></span>
+                </div>
+              </div>
+
+              <dl class="bench__config">
+                <div><dt>Image</dt><dd data-out="img"></dd></div>
+                <div><dt>Views</dt><dd data-out="views"></dd></div>
+                <div><dt>Action chunk</dt><dd data-out="chunk"></dd></div>
+                <div><dt>Setup</dt><dd data-out="setup"></dd></div>
+              </dl>
+            </div>
+
+            <div class="bench__compare">
+              <span class="bench__label">Same model on other devices</span>
+              <ul class="bench__bars" data-out="bars"></ul>
+            </div>
+
+            <p class="bench__note" data-out="note"></p>
+          </div>
         </div>
       </div>
     </section>
@@ -298,10 +344,11 @@
   <footer class="site-footer">
     <div class="container footer__inner">
       <img class="footer__icon" src="assets/havi-pixel.png" alt="" width="32" height="32" />
-      <p>© <span id="year"></span> Khanh D. Nguyen. Simple code, effective results.</p>
+      <p>© <span id="year"></span> Khanh D. Nguyen. Keep committing and pushing.</p>
     </div>
   </footer>
 
+  <script src="bench-data.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

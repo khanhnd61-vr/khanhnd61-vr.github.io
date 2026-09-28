@@ -20,64 +20,105 @@ links.querySelectorAll('a').forEach((a) => {
   });
 });
 
-// Interactive code card: the same short self-introduction
-// written in C++ or Python depending on the chosen language.
-const renderers = {
-  cpp: {
-    file: 'khanh.cpp',
-    build: () => [
-      'struct Engineer {',
-      '  const char* name  = "Khanh D. Nguyen";',
-      '  const char* role  = "AI Software Engineer";',
-      '  const char* focus[3] = {',
-      '    "inference engineering",',
-      '    "model optimization",',
-      '    "edge AI for robotics",',
-      '  };',
-      '  const char* motto = "simple code, effective results";',
-      '};',
-    ].join('\n'),
-  },
-  py: {
-    file: 'khanh.py',
-    build: () => [
-      '@dataclass',
-      'class Engineer:',
-      '    name: str = "Khanh D. Nguyen"',
-      '    role: str = "AI Software Engineer"',
-      '    focus: tuple = (',
-      '        "inference engineering",',
-      '        "model optimization",',
-      '        "edge AI for robotics",',
-      '    )',
-      '    motto: str = "simple code, effective results"',
-    ].join('\n'),
-  },
-};
+// Latency explorer: pick an engine, model and device; show that model's config
+// and the measured latency / memory from bench-data.js.
+const bench = document.querySelector('[data-bench]');
+if (bench && window.BENCH_DATA) {
+  const DATA = window.BENCH_DATA;
+  const out = (k) => bench.querySelector(`[data-out="${k}"]`);
+  const modelSel = bench.querySelector('[data-model]');
+  const deviceSel = bench.querySelector('[data-device]');
+  const engineBtns = bench.querySelectorAll('[data-engine]');
+  const DEFAULTS = { 'vla.cpp': ['smolvla', 'agxorin'], 'vla.simd': ['impact', 'pi5'] };
+  let engine = 'vla.cpp';
 
-const codeEl = document.querySelector('[data-code]');
-if (codeEl) {
-  const fileEl = document.querySelector('[data-filename]');
-  const langBtns = document.querySelectorAll('.codecard__langs .lang');
+  const fmt = (n, digits = 0) => n.toLocaleString('en-US', { maximumFractionDigits: digits, minimumFractionDigits: digits });
+  const fmtMs = (ms) => (ms < 100 ? fmt(ms, 1) : fmt(ms, 0));
+  const fmtMiB = (mib) => (mib >= 1024 ? `${fmt(mib / 1024, 1)} GiB` : `${fmt(mib, 0)} MiB`);
+  const rowsFor = (model) => DATA[engine].results
+    .filter((r) => r[0] === model)
+    .sort((x, y) => x[2] - y[2]);
 
-  const setLang = (lang) => {
-    const r = renderers[lang];
-    if (!r) return;
-    codeEl.textContent = r.build();
-    if (fileEl) fileEl.textContent = r.file;
-    langBtns.forEach((b) => {
-      const active = b.dataset.lang === lang;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-selected', String(active));
-    });
-    // brief swap animation
-    codeEl.parentElement.classList.remove('codecard__code--swap');
-    void codeEl.parentElement.offsetWidth; // reflow to restart animation
-    codeEl.parentElement.classList.add('codecard__code--swap');
+  const fill = (sel, items, keep) => {
+    sel.replaceChildren(...items.map(([id, label]) => new Option(label, id)));
+    sel.value = items.some(([id]) => id === keep) ? keep : items[0][0];
   };
 
-  langBtns.forEach((b) => b.addEventListener('click', () => setLang(b.dataset.lang)));
-  setLang('cpp'); // default
+  const setNA = (el, text) => { el.textContent = text; el.classList.add('is-na'); };
+  const setVal = (el, text) => { el.textContent = text; el.classList.remove('is-na'); };
+
+  const render = () => {
+    const d = DATA[engine];
+    const model = d.models[modelSel.value];
+    const rows = rowsFor(modelSel.value);
+    const row = rows.find((r) => r[1] === deviceSel.value);
+    const [, devId, ms, mem, views, setup] = row;
+
+    out('ms').textContent = fmtMs(ms);
+    setVal(out('rate'), fmt(model.chunk / (ms / 1000), 0));
+
+    const memEl = out('mem');
+    if (mem && mem.vram) {
+      setVal(memEl, fmtMiB(mem.vram));
+      out('memsub').textContent = mem.rss ? `VRAM · ${fmtMiB(mem.rss)} host` : 'VRAM';
+    } else if (mem && mem.rss) {
+      setVal(memEl, fmtMiB(mem.rss));
+      out('memsub').textContent = 'peak RSS';
+    } else {
+      setNA(memEl, 'not reported');
+      out('memsub').textContent = '';
+    }
+
+    out('img').textContent = typeof model.image === 'number' ? `${model.image}×${model.image}` : model.image;
+    out('views').textContent = views ?? model.views ?? '-';
+    out('chunk').textContent = `${model.chunk} steps`;
+    out('setup').textContent = setup;
+    out('note').textContent = d.devices[devId].note;
+
+    const max = rows[rows.length - 1][2];
+    const bars = out('bars');
+    const scroll = bars.scrollTop;
+    bars.replaceChildren(...rows.map(([, id, t]) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = id === devId ? 'is-current' : '';
+      b.setAttribute('aria-label', `${d.devices[id].name}: ${fmtMs(t)} ms`);
+      b.innerHTML = '<span class="dev"></span><span class="track"><span class="fill"></span></span><span class="ms"></span>';
+      b.querySelector('.dev').textContent = d.devices[id].name;
+      b.querySelector('.fill').style.width = `${Math.max(2, (t / max) * 100)}%`;
+      b.querySelector('.ms').textContent = `${fmtMs(t)} ms`;
+      b.addEventListener('click', () => { deviceSel.value = id; render(); });
+      li.append(b);
+      return li;
+    }));
+    bars.scrollTop = scroll;
+  };
+
+  const fillDevices = (keep) => {
+    const d = DATA[engine];
+    fill(deviceSel, rowsFor(modelSel.value).map((r) => [r[1], d.devices[r[1]].name]), keep);
+  };
+
+  const setEngine = (next) => {
+    engine = next;
+    engineBtns.forEach((b) => {
+      const on = b.dataset.engine === next;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    const d = DATA[engine];
+    const [defModel, defDevice] = DEFAULTS[engine] || [];
+    const models = Object.keys(d.models).filter((id) => d.results.some((r) => r[0] === id));
+    fill(modelSel, models.map((id) => [id, d.models[id].name]), defModel);
+    fillDevices(defDevice);
+    render();
+  };
+
+  engineBtns.forEach((b) => b.addEventListener('click', () => setEngine(b.dataset.engine)));
+  modelSel.addEventListener('change', () => { fillDevices(deviceSel.value); render(); });
+  deviceSel.addEventListener('change', render);
+  setEngine(engine);
 }
 
 // Reveal-on-scroll for sections

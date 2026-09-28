@@ -85,44 +85,105 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
 .hero__art { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-/* Interactive code-comment card */
-.codecard {
-  width: 100%; max-width: 440px;
+/* Latency explorer: engine / model / device -> config + measured performance */
+.bench {
+  width: 100%; max-width: 480px;
   background: #fffaf2; border: 1px solid var(--line); border-radius: 14px;
   box-shadow: var(--shadow); overflow: hidden;
 }
-.codecard__bar {
+.bench__bar {
   display: flex; align-items: center; gap: 12px;
   padding: 10px 14px; background: #f2e3cb; border-bottom: 1px solid var(--line);
 }
-.codecard__dots { display: inline-flex; gap: 6px; }
-.codecard__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--secondary); opacity: .7; }
-.codecard__dots i:nth-child(1) { background: #d98b6a; }
-.codecard__dots i:nth-child(2) { background: var(--highlight); }
-.codecard__dots i:nth-child(3) { background: var(--support); }
-.codecard__name { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); }
-.codecard__langs { margin-left: auto; display: inline-flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 999px; }
-.codecard__langs .lang {
-  font-family: var(--font-mono); font-size: .74rem; font-weight: 500;
+.bench__dots { display: inline-flex; gap: 6px; }
+.bench__dots i { width: 10px; height: 10px; border-radius: 50%; }
+.bench__dots i:nth-child(1) { background: #d98b6a; }
+.bench__dots i:nth-child(2) { background: var(--highlight); }
+.bench__dots i:nth-child(3) { background: var(--support); }
+.bench__name { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); white-space: nowrap; }
+.bench__engines { margin-left: auto; display: inline-flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 999px; }
+.bench__engine {
+  font-family: var(--font-mono); font-size: .76rem; font-weight: 500;
   border: 0; cursor: pointer; color: var(--ink-soft);
   padding: 4px 12px; border-radius: 999px; background: transparent;
   transition: background .18s ease, color .18s ease;
 }
-.codecard__langs .lang:hover { color: var(--primary); }
-.codecard__langs .lang.is-active { background: var(--primary); color: var(--cream); }
-
-.codecard__code {
-  margin: 0; padding: 16px 18px; text-align: left;
-  font-family: var(--font-mono); font-size: .8rem; line-height: 1.55;
-  color: var(--support); white-space: pre; overflow-x: auto;
+.bench__engine:hover { color: var(--primary); }
+.bench__engine.is-active { background: var(--primary); color: var(--cream); }
+.bench__engine:focus-visible, .bench select:focus-visible, .bench__bars button:focus-visible {
+  outline: 2px solid var(--secondary); outline-offset: 2px;
 }
-.codecard__code--swap { animation: codeSwap .28s ease; }
-@keyframes codeSwap {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: none; }
+
+.bench__body { padding: 16px 18px 14px; display: grid; gap: 16px; }
+.bench__label {
+  display: block; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--support);
+}
+
+.bench__inputs { display: grid; grid-template-columns: 1fr 1.25fr; gap: 10px; }
+.bench__field { display: grid; gap: 5px; min-width: 0; }
+.bench select {
+  width: 100%; min-width: 0; appearance: none; cursor: pointer;
+  font: 500 .88rem var(--font-body); color: var(--primary);
+  background: var(--cream) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%234B2E0F' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 10px center;
+  border: 1px solid var(--line); border-radius: 9px; padding: 8px 28px 8px 10px;
+  text-overflow: ellipsis;
+}
+.bench select:hover { border-color: var(--secondary); }
+
+.bench__result { display: grid; gap: 12px; }
+.bench__perf { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 8px; }
+.bench__stat {
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+  padding: 9px 11px; display: grid; align-content: start; gap: 3px; min-width: 0;
+}
+.bench__stat--main { background: var(--primary); border-color: var(--primary); }
+.bench__stat--main .bench__label { color: var(--highlight); }
+.bench__value {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; line-height: 1.2;
+  color: var(--primary); font-variant-numeric: tabular-nums; overflow-wrap: anywhere;
+}
+.bench__stat--main .bench__value { font-size: 1.55rem; color: var(--cream); }
+.bench__value small { font-family: var(--font-mono); font-size: .68rem; font-weight: 500; color: var(--sage); }
+.bench__value.is-na { font-family: var(--font-body); font-size: .85rem; font-weight: 500; color: var(--ink-soft); }
+.bench__sub { font-size: .72rem; color: var(--ink-soft); line-height: 1.3; }
+
+.bench__config { margin: 0; display: grid; grid-template-columns: repeat(4, auto); gap: 6px 14px; justify-content: start; }
+.bench__config div { min-width: 0; }
+.bench__config dt { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.bench__config dd { margin: 1px 0 0; font-family: var(--font-mono); font-size: .8rem; font-weight: 500; color: var(--primary); }
+
+.bench__compare { display: grid; gap: 6px; }
+.bench__compare ul {
+  list-style: none; margin: 0; padding: 0 4px 0 0; display: grid; gap: 2px;
+  max-height: 168px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--secondary) transparent;
+}
+.bench__bars button {
+  width: 100%; display: grid; grid-template-columns: 9.5rem 1fr 4.2rem; align-items: center; gap: 8px;
+  border: 0; background: transparent; cursor: pointer; padding: 3px 4px; border-radius: 6px;
+  font: .74rem var(--font-body); color: var(--ink-soft); text-align: left;
+}
+.bench__bars button:hover { background: var(--bg); }
+.bench__bars .dev { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bench__bars .track { height: 8px; border-radius: 999px; background: rgba(168,184,156,.25); overflow: hidden; }
+.bench__bars .fill { display: block; height: 100%; border-radius: 999px; background: var(--sage); transition: width .3s ease; }
+.bench__bars .ms { font-family: var(--font-mono); font-size: .72rem; text-align: right; font-variant-numeric: tabular-nums; }
+.bench__bars .is-current { color: var(--primary); font-weight: 600; }
+.bench__bars .is-current .fill { background: var(--secondary); }
+
+.bench__note { margin: 0; font-size: .72rem; line-height: 1.45; color: var(--ink-soft); border-top: 1px dashed var(--line); padding-top: 10px; }
+
+@media (max-width: 480px) {
+  .bench__body { padding: 14px 14px 12px; }
+  .bench__name { display: none; }
+  .bench__inputs { grid-template-columns: 1fr; }
+  .bench__perf { grid-template-columns: 1fr 1fr; }
+  .bench__stat--main { grid-column: 1 / -1; }
+  .bench__config { grid-template-columns: repeat(2, auto); }
+  .bench__bars button { grid-template-columns: 7rem 1fr 3.8rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .codecard__code--swap { animation: none; }
+  .bench__bars .fill { transition: none; }
 }
 
 /* ---------- Buttons ---------- */
@@ -146,6 +207,12 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 /* ---------- About ---------- */
 .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
+.about__points { margin: 0 0 18px; padding: 0; list-style: none; display: grid; gap: 12px; }
+.about__points li { position: relative; padding-left: 26px; color: var(--ink-soft); font-size: 1.05rem; }
+.about__points li::before {
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 8px; height: 8px; border-radius: 2px; background: var(--secondary);
+}
 .about__bio > p { margin: 0 0 18px; color: var(--ink-soft); }
 .about__bio em { color: var(--primary); font-style: italic; }
 .about__side { display: grid; gap: 16px; }
@@ -247,7 +314,6 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; padding: 56px 0; gap: 40px; }
-  .hero__art { order: -1; }
   .about { grid-template-columns: 1fr; }
   .about__cards { grid-template-columns: 1fr; }
   .project { grid-template-columns: 1fr; }
