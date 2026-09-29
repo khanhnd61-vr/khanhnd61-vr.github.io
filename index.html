@@ -39,6 +39,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><a href="#play">Play</a></li>
         <li><a class="nav__cta" href="https://github.com/khanhnd61-vr" target="_blank" rel="noopener">GitHub ↗</a></li>
       </ul>
     </nav>
@@ -65,11 +66,8 @@
               <span class="tag">Edge AI</span>
               <span class="tag">Model optimization</span>
               <span class="tag">Robotics</span>
-              <span class="tag">VLM</span>
               <span class="tag">VLA</span>
-              <span class="tag">LLM</span>
               <span class="tag">C / C++</span>
-              <span class="tag">Python · PyTorch</span>
             </div>
           </div>
 
@@ -236,6 +234,25 @@
             </div>
           </article>
 
+          <!-- modelopt101 -->
+          <article class="project">
+            <div class="project__thumb thumb--modelopt" aria-hidden="true">
+              <span class="thumb__mono">modelopt101</span>
+            </div>
+            <div class="project__body">
+              <h3 class="project__title">Model Optimization 101</h3>
+              <p class="project__desc">
+                Hands-on notebooks for learning model optimization for edge deployment - quantization,
+                distillation, pruning, NAS and GPU kernels, each measuring size, latency and accuracy
+                before vs. after.
+              </p>
+              <div class="tags tags--sm">
+                <span class="tag">Quantization</span><span class="tag">Distillation</span><span class="tag">Pruning</span><span class="tag">NAS</span><span class="tag">Kernels</span>
+              </div>
+              <a class="project__link" href="https://github.com/khanhnd61-vr/modelopt101" target="_blank" rel="noopener">View on GitHub ↗</a>
+            </div>
+          </article>
+
           <!-- REX -->
           <article class="project">
             <div class="project__thumb thumb--rex" aria-hidden="true">
@@ -338,6 +355,112 @@
         </div>
       </div>
     </section>
+
+    <!-- ===== Game ===== -->
+    <section class="section section--alt" id="play">
+      <div class="container">
+        <header class="section__head section__head--center">
+          <span class="section__kicker">// play</span>
+          <h2>Tetris</h2>
+        </header>
+
+        <!-- Tetris (tetris.js) -->
+        <article class="tetris" data-tetris>
+          <div class="bench tetris__card">
+            <div class="bench__bar">
+              <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="bench__name">tetris.js</span>
+              <div class="bench__engines tetris__modes" role="group" aria-label="Players">
+                <button class="bench__engine is-active" type="button" data-mode="1" aria-pressed="true">1 player</button>
+                <button class="bench__engine" type="button" data-mode="2" aria-pressed="false">2 players</button>
+              </div>
+            </div>
+            <div class="tetris__body">
+              <div class="tetris__stage" data-stage tabindex="0" aria-label="Tetris">
+                <!-- One player panel; tetris.js clones it for the right player -->
+                <div class="tetris__player" data-player>
+                  <div class="tetris__screen">
+                    <canvas class="tetris__board" data-board width="280" height="560" aria-hidden="true"></canvas>
+                  </div>
+                  <div class="tetris__side">
+                    <p class="tetris__who" data-who>Left player</p>
+                    <div class="bench__stat bench__stat--main">
+                      <span class="bench__label">Score</span>
+                      <span class="bench__value" data-out="score">0</span>
+                    </div>
+                    <div class="bench__stat" data-solo>
+                      <span class="bench__label">Best</span>
+                      <span class="bench__value" data-out="best">0</span>
+                    </div>
+                    <div class="bench__stat">
+                      <span class="bench__label">Lines</span>
+                      <span class="bench__value" data-out="lines">0</span>
+                    </div>
+                    <div class="bench__stat">
+                      <span class="bench__label">Level</span>
+                      <span class="bench__value" data-out="level">1</span>
+                    </div>
+                    <div class="bench__stat">
+                      <span class="bench__label">Next</span>
+                      <canvas class="tetris__next" data-next width="120" height="60" aria-hidden="true"></canvas>
+                    </div>
+                    <!-- Key lists: tetris.js keeps the right one in each player's panel -->
+                    <div class="bench__stat tetris__keys" data-keys="solo" data-solo>
+                      <span class="bench__label">Keys</span>
+                      <dl>
+                        <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
+                        <div><dt><kbd>↑</kbd><kbd>X</kbd></dt><dd>Rotate ↻</dd></div>
+                        <div><dt><kbd>Z</kbd></dt><dd>Rotate ↺</dd></div>
+                        <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
+                        <div><dt><kbd>Space</kbd></dt><dd>Hard drop</dd></div>
+                        <div><dt><kbd>P</kbd></dt><dd>Pause</dd></div>
+                      </dl>
+                    </div>
+                    <div class="bench__stat tetris__keys" data-keys="left" data-duo>
+                      <span class="bench__label">Keys</span>
+                      <dl>
+                        <div><dt><kbd>A</kbd><kbd>D</kbd></dt><dd>Move</dd></div>
+                        <div><dt><kbd>W</kbd></dt><dd>Rotate</dd></div>
+                        <div><dt><kbd>S</kbd></dt><dd>Soft drop</dd></div>
+                        <div><dt><kbd>F</kbd></dt><dd>Hard drop</dd></div>
+                        <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
+                      </dl>
+                    </div>
+                    <div class="bench__stat tetris__keys" data-keys="right" data-duo>
+                      <span class="bench__label">Keys</span>
+                      <dl>
+                        <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
+                        <div><dt><kbd>↑</kbd></dt><dd>Rotate</dd></div>
+                        <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
+                        <div><dt><kbd>Enter</kbd></dt><dd>Hard drop</dd></div>
+                        <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tetris__overlay" data-overlay>
+                  <div class="tetris__dialog">
+                    <p data-msg aria-live="polite">Stack the blocks, clear the lines.</p>
+                    <button class="btn btn--primary" type="button" data-start>Start game</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Touch controls (shown on touch screens, 1 player only) -->
+              <div class="tetris__pad">
+                <button type="button" data-act="left" aria-label="Move left">←</button>
+                <button type="button" data-act="rotate" aria-label="Rotate">↻</button>
+                <button type="button" data-act="right" aria-label="Move right">→</button>
+                <button type="button" data-act="down" aria-label="Soft drop">↓</button>
+                <button type="button" data-act="drop" aria-label="Hard drop">⤓</button>
+                <button type="button" data-act="pause" aria-label="Pause">❚❚</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
   </main>
 
   <!-- ===== Footer ===== -->
@@ -350,5 +473,6 @@
 
   <script src="bench-data.js"></script>
   <script src="main.js"></script>
+  <script src="tetris.js"></script>
 </body>
 </html>
