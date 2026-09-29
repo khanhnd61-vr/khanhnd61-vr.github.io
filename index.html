@@ -361,7 +361,7 @@
       <div class="container">
         <header class="section__head section__head--center">
           <span class="section__kicker">// play</span>
-          <h2>Tetris</h2>
+          <h2>Games</h2>
         </header>
 
         <!-- Tetris (tetris.js) -->
@@ -459,6 +459,58 @@
             </div>
           </div>
         </article>
+
+        <!-- Hashi (hashi.js) -->
+        <article class="hashi" data-hashi>
+          <div class="bench hashi__card">
+            <div class="bench__bar">
+              <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="bench__name">hashi.js</span>
+              <div class="bench__engines" role="group" aria-label="Difficulty">
+                <button class="bench__engine is-active" type="button" data-level="easy" aria-pressed="true">Easy</button>
+                <button class="bench__engine" type="button" data-level="medium" aria-pressed="false">Medium</button>
+                <button class="bench__engine" type="button" data-level="hard" aria-pressed="false">Hard</button>
+              </div>
+            </div>
+            <div class="hashi__body">
+              <div class="hashi__stage">
+                <!-- Filled in by hashi.js -->
+                <svg class="hashi__board" data-board role="img" aria-label="Hashi puzzle"></svg>
+                <div class="hashi__overlay" data-overlay hidden>
+                  <div class="tetris__dialog">
+                    <p data-msg aria-live="polite">Solved!</p>
+                    <button class="btn btn--primary" type="button" data-new>New puzzle</button>
+                  </div>
+                </div>
+              </div>
+              <div class="hashi__side">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label">Time</span>
+                  <span class="bench__value" data-out="time">0:00</span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Best</span>
+                  <span class="bench__value" data-out="best">-</span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Done</span>
+                  <span class="bench__value" data-out="done">0 / 0</span>
+                </div>
+                <div class="hashi__actions">
+                  <button type="button" data-undo>Undo</button>
+                  <button type="button" data-restart>Clear</button>
+                  <button type="button" data-new>New</button>
+                </div>
+                <div class="bench__stat hashi__help">
+                  <span class="bench__label">How to play</span>
+                  <p>Join all islands into one group. Each number is how many bridges touch that island.</p>
+                  <p>Bridges run straight, never cross, and at most two join a pair.</p>
+                  <p>Tap between two islands, or drag from one to the other, to add a bridge. Tap again for a second one, a third time to remove them.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </main>
@@ -474,5 +526,6 @@
   <script src="bench-data.js"></script>
   <script src="main.js"></script>
   <script src="tetris.js"></script>
+  <script src="hashi.js"></script>
 </body>
 </html>

@@ -368,6 +368,52 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .tetris__keys, .tetris__modes { display: none; }
 }
 
+/* Hashi: SVG board (hashi.js) with stats and actions alongside */
+.hashi { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 36px; }
+.hashi__card { width: min(100%, 740px); max-width: none; justify-self: center; }
+.hashi__body { display: grid; grid-template-columns: minmax(0, 1fr) 168px; gap: 16px; padding: 16px; align-items: start; }
+.hashi__stage { position: relative; }
+.hashi__board {
+  display: block; width: 100%; height: auto; aspect-ratio: 1;
+  background: var(--cream); border: 1px solid var(--line); border-radius: 10px;
+  touch-action: pinch-zoom; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.hashi__dot { fill: var(--line); }
+.hashi__hit { stroke: transparent; stroke-width: 5; stroke-linecap: round; cursor: pointer; }
+.hashi__hit:hover { stroke: rgba(226, 169, 99, .22); }
+.hashi__bridge { pointer-events: none; }
+.hashi__bridge line { stroke: var(--primary); stroke-width: .75; stroke-linecap: round; }
+.hashi__bridge.is-blocked line { stroke: #D9745A; stroke-width: 1.1; }
+.hashi__island { cursor: pointer; }
+.hashi__island circle { fill: #fffaf2; stroke: var(--primary); stroke-width: .6; transition: fill .15s ease, stroke .15s ease; }
+.hashi__island text {
+  font: 600 5px var(--font-display); fill: var(--primary);
+  text-anchor: middle; dominant-baseline: central; pointer-events: none;
+}
+.hashi__island.is-done circle { fill: var(--support); stroke: var(--support); }
+.hashi__island.is-over circle { fill: #D9745A; stroke: #D9745A; }
+.hashi__island.is-done text, .hashi__island.is-over text { fill: var(--cream); }
+.hashi__island.is-cand circle { stroke: var(--secondary); stroke-width: 1; }
+.hashi__island.is-sel circle { stroke: var(--highlight); stroke-width: 1.5; }
+
+.hashi__overlay {
+  position: absolute; inset: 0; padding: 16px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; background: rgba(61, 37, 12, .3);
+}
+.hashi__overlay[hidden] { display: none; }
+
+.hashi__side { display: grid; gap: 6px; align-content: start; }
+.hashi__side .bench__stat { padding: 7px 9px; }
+.hashi__actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.hashi__actions button {
+  height: 38px; border: 0; border-radius: 10px; cursor: pointer;
+  font: 600 .8rem var(--font-display); color: var(--cream); background: var(--primary);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.hashi__actions button:hover, .hashi__actions button:active { background: var(--support); }
+.hashi__actions button:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+.hashi__help p { margin: 2px 0 0; font-size: .74rem; line-height: 1.4; color: var(--ink-soft); }
+
 /* ---------- Footer ---------- */
 .site-footer { border-top: 1px solid var(--line); padding: 28px 0; background: var(--cream); }
 .footer__inner { display: flex; align-items: center; gap: 14px; justify-content: center; text-align: center; flex-wrap: wrap; }
@@ -406,6 +452,18 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .tetris__keys { display: none; }
   .tetris__player { grid-template-columns: minmax(0, 1fr) var(--side); }
   .tetris__side .bench__stat--main .bench__value { font-size: 1.25rem; }
+}
+
+/* Hashi on narrow screens: board full width, stats in a row beneath */
+@media (max-width: 640px) {
+  .hashi__card { justify-self: stretch; }
+  .hashi__body { grid-template-columns: 1fr; padding: 12px; }
+  .hashi__side { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hashi__side .bench__stat--main { grid-column: auto; }
+  .hashi__side .bench__stat--main .bench__value { font-size: 1.25rem; }
+  .hashi__actions, .hashi__help { grid-column: 1 / -1; }
+  .hashi .bench__bar { gap: 8px; flex-wrap: wrap; }
+  .hashi .bench__engine { padding: 4px 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
