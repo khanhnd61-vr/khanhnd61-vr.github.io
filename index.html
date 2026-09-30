@@ -388,7 +388,7 @@
                 <canvas class="dungeon__view" data-view width="400" height="304" aria-hidden="true"></canvas>
                 <div class="tetris__overlay dungeon__overlay" data-overlay>
                   <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">Explore the hall, then find the arcade cabinets.</p>
+                    <p data-msg aria-live="polite">Explore the hall, then find the four game rooms.</p>
                     <button class="btn btn--primary" type="button" data-start>Enter the dungeon</button>
                   </div>
                 </div>
@@ -637,6 +637,69 @@
           </div>
         </article>
 
+        <!-- Pong (pong.js): you against the computer, or two players against each other on one keyboard -->
+        <article class="pong" data-pong hidden>
+          <div class="bench pong__card">
+            <div class="bench__bar">
+              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
+              <span class="bench__name">pong.js</span>
+              <div class="bench__engines tetris__modes" role="group" aria-label="Players">
+                <button class="bench__engine is-active" type="button" data-mode="1" aria-pressed="true">Single</button>
+                <button class="bench__engine" type="button" data-mode="2" aria-pressed="false">Duo</button>
+              </div>
+            </div>
+            <div class="pong__body">
+              <div class="pong__stage" data-stage tabindex="0" aria-label="Pong">
+                <canvas class="pong__court" data-court width="480" height="300" aria-hidden="true"></canvas>
+                <div class="tetris__overlay pong__overlay" data-overlay>
+                  <div class="tetris__dialog">
+                    <p data-msg aria-live="polite">First to 7 wins.</p>
+                    <button class="btn btn--primary" type="button" data-start>Start game</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pong__side">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label" data-out="sides">You : CPU</span>
+                  <span class="bench__value" data-out="score">0 : 0</span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Rally</span>
+                  <span class="bench__value" data-out="rally">0</span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Best rally</span>
+                  <span class="bench__value" data-out="best">0</span>
+                </div>
+                <div class="bench__stat tetris__keys" data-solo>
+                  <span class="bench__label">Keys</span>
+                  <dl>
+                    <div><dt><kbd>W</kbd><kbd>S</kbd></dt><dd>Move</dd></div>
+                    <div><dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Move</dd></div>
+                    <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
+                  </dl>
+                </div>
+                <div class="bench__stat tetris__keys" data-duo>
+                  <span class="bench__label">Keys</span>
+                  <dl>
+                    <div><dt><kbd>W</kbd><kbd>S</kbd></dt><dd>Left player</dd></div>
+                    <div><dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Right player</dd></div>
+                    <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
+                  </dl>
+                </div>
+              </div>
+
+              <!-- Touch controls (shown on touch screens, single only); dragging on the court works too -->
+              <div class="tetris__pad pong__pad">
+                <button type="button" data-act="up" aria-label="Move up">↑</button>
+                <button type="button" data-act="down" aria-label="Move down">↓</button>
+                <button type="button" data-act="pause" aria-label="Pause">❚❚</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <p class="play__issue">Found a bug, or have an idea for a game? <a href="https://github.com/khanhnd61-vr/khanhnd61-vr.github.io/issues/new" target="_blank" rel="noopener">Open an issue on GitHub &#8599;</a></p>
       </div>
     </section>
@@ -655,6 +718,7 @@
   <script src="tetris.js"></script>
   <script src="hashi.js"></script>
   <script src="balatro.js"></script>
+  <script src="pong.js"></script>
   <script src="dungeon.js"></script>
   <script src="music.js"></script>
 </body>

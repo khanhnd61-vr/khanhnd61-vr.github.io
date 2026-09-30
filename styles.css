@@ -314,7 +314,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 /* ---------- Play ---------- */
 /* One window at a time: the dungeon, or the game the player walked into */
-.dungeon[hidden], .tetris[hidden], .hashi[hidden], .balatro[hidden] { display: none; }
+.dungeon[hidden], .tetris[hidden], .hashi[hidden], .balatro[hidden], .pong[hidden] { display: none; }
 
 /* Dungeon: pixel map on a canvas (dungeon.js) */
 .dungeon { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -469,6 +469,19 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .hashi__actions button:hover, .hashi__actions button:active { background: var(--support); }
 .hashi__actions button:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
 .hashi__help p { margin: 2px 0 0; font-size: .74rem; line-height: 1.4; color: var(--ink-soft); }
+
+/* Pong: canvas court (pong.js) with the score alongside */
+.pong { display: grid; grid-template-columns: minmax(0, 1fr); }
+.pong:not(.is-duo) [data-duo], .pong.is-duo [data-solo] { display: none; }
+.pong__card { width: min(100%, 680px); max-width: none; justify-self: center; }
+.pong__body { display: grid; grid-template-columns: minmax(0, 1fr) 136px; gap: 14px; padding: 16px; align-items: start; }
+.pong__stage { position: relative; min-width: 0; border-radius: 10px; overflow: hidden; background: #3d250c; }
+.pong__stage:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; }
+.pong__court { display: block; width: 100%; height: auto; touch-action: none; }
+.pong__overlay { border-radius: 10px; }
+.pong__side { display: grid; gap: 6px; align-content: start; }
+.pong__side .bench__stat { padding: 7px 9px; }
+.pong__pad { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
 
 /* ---------- Footer ---------- */
 .site-footer { border-top: 1px solid var(--line); padding: 28px 0; background: var(--cream); }
@@ -641,6 +654,11 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .hashi__actions, .hashi__help { grid-column: 1 / -1; }
   .hashi .bench__bar { gap: 8px; flex-wrap: wrap; }
   .hashi .bench__engine { padding: 4px 9px; }
+  .pong__card { justify-self: stretch; }
+  .pong__body { grid-template-columns: minmax(0, 1fr); padding: 12px; }
+  .pong__side { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pong__side .bench__stat--main { grid-column: auto; }
+  .pong__side .bench__stat--main .bench__value { font-size: 1.25rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

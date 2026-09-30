@@ -1,15 +1,42 @@
-// Dungeon hub for the Play section: a top-down, Zelda-style map of four rooms
-// drawn on one small canvas and scaled up with crisp pixels. The entrance hall
-// has a computer and a book to read; the other rooms each hold an arcade
-// cabinet. Press Z at one to swap this card for that game's window; the red
-// button in the game window's title bar brings the player back here.
+// Dungeon hub for the Play section: a top-down, Zelda-style map of five rooms
+// drawn on one small canvas and scaled up with crisp pixels. The triangular
+// entrance hall has a computer and a book to read; the four L-shaped rooms
+// around it each hold an arcade cabinet. Press Z at one to swap this card for
+// that game's window; the red button in the game window's title bar brings the
+// player back here.
 (() => {
   const root = document.querySelector('[data-dungeon]');
   if (!root) return;
 
+  // The map, one character per tile: # is rock or wall, + a door, and each
+  // letter is a room's floor. The hall (e) is a triangle; the game rooms are
+  // L-shaped: Pong (p), Balatro (b), Tetris (t) and Hashi (h). The hall opens
+  // onto the two bottom rooms, and the four game rooms join up in a ring.
+  const LAYOUT = [
+    '#########################',
+    '#ppppppppppp#bbbbbbbbbbb#',
+    '#ppppppppppp+bbbbbbbbbbb#',
+    '#ppppppppppp+bbbbbbbbbbb#',
+    '#ppp#################bbb#',
+    '#ppp#################bbb#',
+    '#ppp########e########bbb#',
+    '#ppp#######eee#######bbb#',
+    '#ppp######eeeee######bbb#',
+    '##++#####eeeeeee#####++##',
+    '#ttt####eeeeeeeee####hhh#',
+    '#ttt###eeeeeeeeeee###hhh#',
+    '#ttt##eeeeeeeeeeeee##hhh#',
+    '#ttt#eeeeeeeeeeeeeee#hhh#',
+    '#ttt###++#######++###hhh#',
+    '#ttttttttttt#hhhhhhhhhhh#',
+    '#ttttttttttt#hhhhhhhhhhh#',
+    '#ttttttttttt#hhhhhhhhhhh#',
+    '#########################',
+  ];
+
   const TILE = 16;
-  const COLS = 25;
-  const ROWS = 19;
+  const COLS = LAYOUT[0].length;
+  const ROWS = LAYOUT.length;
   const W = COLS * TILE;
   const H = ROWS * TILE;
   const SPEED = 72; // px per second, in canvas pixels
@@ -36,33 +63,37 @@
   const CHAIR = 16;
   const SHELF = 17;
   const PLANT = 18;
+  const COURT = 19;
   const SOLID = new Set([WALL, POT, WATER, ISLAND, BRIDGE_H, BRIDGE_V, ARCADE, COMPUTER, DESK, BOOK, CHAIR, SHELF, PLANT]);
 
-  // The inner walls run along column 12 and row 9; each has two-tile doors.
-  const ROOMS = [
-    { name: 'Entrance hall', x: 1, y: 1, w: 11, h: 8 },
-    { name: 'Balatro room', x: 13, y: 1, w: 11, h: 8, label: 'BALATRO' },
-    { name: 'Tetris room', x: 1, y: 10, w: 11, h: 8, label: 'TETRIS' },
-    { name: 'Hashi room', x: 13, y: 10, w: 11, h: 8, label: 'HASHI' },
-  ];
-  const DOORS = [[12, 4], [12, 5], [12, 13], [12, 14], [5, 9], [6, 9], [17, 9], [18, 9]];
-  const TORCHES = [[3, 0], [9, 0], [15, 0], [21, 0], [0, 4], [24, 4], [0, 14], [24, 14], [3, 18], [9, 18], [15, 18], [21, 18]];
-  const POTS = [[14, 2], [22, 2], [22, 7], [10, 7]];
-  const ISLANDS = { '16,13': 2, '20,13': 2, '16,15': 2, '20,15': 2 };
+  // Room floors by letter; each game room's name is painted on its floor at `at` (tiles).
+  const ROOMS = {
+    e: { name: 'Entrance hall' },
+    p: { name: 'Pong room', label: 'PONG', at: [2.5, 6.5] },
+    b: { name: 'Balatro room', label: 'BALATRO', at: [22.5, 6.5] },
+    t: { name: 'Tetris room', label: 'TETRIS', at: [2.5, 12.5] },
+    h: { name: 'Hashi room', label: 'HASHI', at: [22.5, 12.5] },
+  };
+  const DOORS = [];
+  LAYOUT.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '+') DOORS.push([x, y]); }));
+  const TORCHES = [[6, 0], [18, 0], [0, 6], [24, 6], [0, 12], [24, 12], [6, 18], [18, 18], [11, 6], [13, 6], [12, 14]];
+  const POTS = [[11, 1], [1, 8], [13, 1], [23, 8], [11, 17], [23, 17]];
+  // A small Hashi pond at the far end of the Hashi room: four islands joined in a ring.
+  const ISLANDS = { '13,15': 2, '15,15': 2, '13,17': 2, '15,17': 2 };
   const BLOCK_COLORS = {
     I: '#8FB8C4', O: '#F4C15D', T: '#B48CB0', S: '#8DB07E', Z: '#D9745A', J: '#6F8FC0', L: '#E2A963',
   };
   // Fallen tetrominoes on the Tetris room floor.
   const BLOCKS = {
-    T: [[4, 12], [3, 13], [4, 13], [5, 13]],
-    I: [[10, 11], [10, 12], [10, 13], [10, 14]],
-    O: [[2, 15], [3, 15], [2, 16], [3, 16]],
-    S: [[8, 14], [9, 14], [7, 15], [8, 15]],
-    L: [[6, 15], [4, 16], [5, 16], [6, 16]],
-    Z: [[1, 11], [2, 11], [2, 12], [3, 12]],
+    Z: [[1, 10], [2, 10], [2, 11], [3, 11]],
+    S: [[2, 14], [3, 14], [1, 15], [2, 15]],
+    T: [[2, 16], [1, 17], [2, 17], [3, 17]],
+    I: [[5, 17], [6, 17], [7, 17], [8, 17]],
+    O: [[9, 15], [10, 15], [9, 16], [10, 16]],
   };
-  const CRACKS = [[19, 6], [21, 3], [3, 7], [8, 2], [22, 11], [14, 16]];
-  const CARDS = [[16, 3], [18, 4], [20, 3], [15, 6], [19, 7]]; // playing cards strewn on the floor
+  const CRACKS = [[3, 7], [4, 2], [6, 12], [17, 12], [23, 11], [18, 17]];
+  const CARDS = [[15, 2], [17, 1], [19, 3], [16, 3], [23, 5], [21, 7]]; // playing cards strewn on the floor
+  const COURT_AT = [5, 1, 6, 3]; // Pong court painted on the Pong room floor: x, y, w, h in tiles
 
   // What the book on the table and the computer on the desk say, a page at a time.
   const PROFILE = [
@@ -86,35 +117,34 @@
 
   // Things the player can face and press Z at.
   const THINGS = [
-    { x: 9, y: 1, tile: COMPUTER, name: 'Computer', pages: PROJECTS },
-    { x: 6, y: 5, tile: BOOK, name: 'Book', pages: PROFILE },
-    { x: 9, y: 10, tile: ARCADE, name: 'Tetris', game: '[data-tetris]' },
-    { x: 18, y: 1, tile: ARCADE, name: 'Balatro', game: '[data-balatro]' },
-    { x: 21, y: 10, tile: ARCADE, name: 'Hashi', game: '[data-hashi]' },
+    { x: 9, y: 9, tile: COMPUTER, name: 'Computer', pages: PROJECTS },
+    { x: 12, y: 11, tile: BOOK, name: 'Book', pages: PROFILE },
+    { x: 2, y: 1, tile: ARCADE, name: 'Pong', game: '[data-pong]' },
+    { x: 22, y: 1, tile: ARCADE, name: 'Balatro', game: '[data-balatro]' },
+    { x: 4, y: 15, tile: ARCADE, name: 'Tetris', game: '[data-tetris]' },
+    { x: 19, y: 15, tile: ARCADE, name: 'Hashi', game: '[data-hashi]' },
   ];
 
-  const grid = Array.from({ length: ROWS }, (_, y) => Array.from({ length: COLS }, (_, x) => (
-    x === 0 || y === 0 || x === COLS - 1 || y === ROWS - 1 || x === 12 || y === 9 ? WALL : FLOOR
-  )));
+  const grid = LAYOUT.map((row) => [...row].map((ch) => (ch === '#' ? WALL : FLOOR)));
   const put = (type, cells) => cells.forEach(([x, y]) => { grid[y][x] = type; });
   const rect = (x0, y0, w, h) => {
     const cells = [];
     for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) cells.push([x, y]);
     return cells;
   };
-  put(FLOOR, DOORS);
   put(CRACK, CRACKS);
   put(CARD, CARDS);
   put(POT, POTS);
-  put(STAIRS, [[1, 1]]);
-  put(RUG, rect(4, 4, 5, 3));
-  put(SHELF, [[3, 1], [4, 1]]);
-  put(DESK, [[10, 1]]);
-  put(CHAIR, [[5, 5], [7, 5]]);
-  put(PLANT, [[11, 1], [2, 7]]);
-  put(WATER, rect(15, 12, 7, 5));
-  put(BRIDGE_H, [[17, 13], [18, 13], [19, 13], [17, 15], [18, 15], [19, 15]]);
-  put(BRIDGE_V, [[16, 14], [20, 14]]);
+  put(COURT, rect(...COURT_AT));
+  put(STAIRS, [[12, 6]]);
+  put(RUG, rect(10, 10, 5, 3));
+  put(SHELF, [[14, 9], [15, 9]]);
+  put(DESK, [[10, 9]]);
+  put(CHAIR, [[11, 11], [13, 11]]);
+  put(PLANT, [[5, 13], [19, 13]]);
+  put(WATER, rect(13, 15, 3, 3));
+  put(BRIDGE_H, [[14, 15], [14, 17]]);
+  put(BRIDGE_V, [[13, 16], [15, 16]]);
   put(ISLAND, Object.keys(ISLANDS).map((k) => k.split(',').map(Number)));
   const blockColor = new Map();
   Object.entries(BLOCKS).forEach(([id, cells]) => {
@@ -134,7 +164,31 @@
     c.fillRect(px + TILE - 1, py, 1, TILE);
   };
 
-  const wall = (c, px, py) => {
+  // Walls show their bricks where they face a room; rock further in stays dark,
+  // so the shapes of the rooms stand out.
+  const facesRoom = (x, y) => {
+    for (let dy = -1; dy <= 1; dy++) {
+      for (let dx = -1; dx <= 1; dx++) {
+        const t = grid[y + dy]?.[x + dx];
+        if (t !== undefined && t !== WALL) return true;
+      }
+    }
+    return false;
+  };
+
+  const rock = (c, px, py, x, y) => {
+    c.fillStyle = '#1c1006';
+    c.fillRect(px, py, TILE, TILE);
+    c.fillStyle = '#2b1a08';
+    if ((x * 7 + y * 3) % 4 === 0) c.fillRect(px + 4, py + 5, 2, 1);
+    if ((x * 5 + y * 11) % 5 === 0) c.fillRect(px + 10, py + 11, 3, 1);
+  };
+
+  const wall = (c, px, py, x, y) => {
+    if (!facesRoom(x, y)) {
+      rock(c, px, py, x, y);
+      return;
+    }
     c.fillStyle = '#2b1a08';
     c.fillRect(px, py, TILE, TILE);
     const brick = (bx, by, bw) => {
@@ -217,6 +271,15 @@
       c.fillRect(px + 5, py + 4, 2, 3);
       c.fillRect(px + 10, py + 4, 2, 3);
     },
+    Pong: (c, px, py) => {
+      c.fillStyle = '#1a1030';
+      c.fillRect(px + 4, py + 3, 8, 6);
+      c.fillStyle = '#fffaf2';
+      c.fillRect(px + 4, py + 4, 1, 3); // paddles
+      c.fillRect(px + 11, py + 5, 1, 3);
+      c.fillStyle = '#f4c15d';
+      c.fillRect(px + 8, py + 5, 1, 1); // ball
+    },
   };
 
   const TILES = {
@@ -241,6 +304,10 @@
       if (!rugLike(grid[y + 1][x])) c.fillRect(px, py + TILE - 1, TILE, 1);
       if (!rugLike(grid[y][x - 1])) c.fillRect(px, py, 1, TILE);
       if (!rugLike(grid[y][x + 1])) c.fillRect(px + TILE - 1, py, 1, TILE);
+    },
+    [COURT]: (c, px, py) => {
+      c.fillStyle = '#34503c';
+      c.fillRect(px, py, TILE, TILE);
     },
     [STAIRS]: (c, px, py) => {
       c.fillStyle = '#1c1006';
@@ -430,10 +497,24 @@
     mctx.fillStyle = '#8b5a2b';
     mctx.fillRect(x * TILE + 7, y * TILE + 8, 2, 6);
   });
-  ROOMS.forEach((r) => {
+  // The court's lines, net, paddles and ball, painted over its floor.
+  {
+    const [x0, y0, w, h] = COURT_AT.map((n) => n * TILE);
+    mctx.fillStyle = 'rgba(255, 242, 225, .5)';
+    mctx.fillRect(x0 + 2, y0 + 2, w - 4, 1);
+    mctx.fillRect(x0 + 2, y0 + h - 3, w - 4, 1);
+    mctx.fillRect(x0 + 2, y0 + 2, 1, h - 4);
+    mctx.fillRect(x0 + w - 3, y0 + 2, 1, h - 4);
+    for (let y = y0 + 5; y < y0 + h - 4; y += 5) mctx.fillRect(x0 + w / 2, y, 1, 3);
+    mctx.fillStyle = '#fff2e1';
+    mctx.fillRect(x0 + 6, y0 + 12, 2, 12);
+    mctx.fillRect(x0 + w - 8, y0 + 22, 2, 12);
+    mctx.fillStyle = '#f4c15d';
+    mctx.fillRect(x0 + 34, y0 + 18, 3, 3);
+  }
+  Object.values(ROOMS).forEach((r) => {
     if (!r.label) return;
-    const cx = (r.x + r.w / 2) * TILE;
-    const cy = (r.y + r.h - 0.5) * TILE;
+    const [cx, cy] = r.at.map((n) => n * TILE);
     mctx.font = 'bold 8px "JetBrains Mono", monospace';
     mctx.textAlign = 'center';
     mctx.textBaseline = 'middle';
@@ -537,8 +618,8 @@
   ctx.imageSmoothingEnabled = false;
 
   // The hero's feet box is rows 8-13 and columns 2-13 of the 16 x 14 sprite.
-  const hero = { x: 2 * TILE, y: 6 * TILE - 8, dir: 'right', frame: 0, walked: 0 };
-  let room = ROOMS[0];
+  const hero = { x: 12 * TILE, y: 7 * TILE - 8, dir: 'down', frame: 0, walked: 0 }; // at the foot of the stairs
+  let room = ROOMS.e;
   let state = 'idle'; // idle | playing | reading | paused | leaving | away | returning
   let raf = 0;
   let lastTime = 0;
@@ -549,7 +630,7 @@
   let talk = null; // { thing, page } while reading
   const held = []; // directions currently held, most recent last
 
-  const roomAt = (tx, ty) => ROOMS.find((r) => tx >= r.x && tx < r.x + r.w && ty >= r.y && ty < r.y + r.h) || null;
+  const roomAt = (tx, ty) => ROOMS[LAYOUT[ty]?.[tx]] || null;
   const feetTile = () => [Math.floor((hero.x + 8) / TILE), Math.floor((hero.y + 11) / TILE)];
 
   // Only the hero's feet collide, so the head may overlap the wall above (Zelda-style).
@@ -852,5 +933,5 @@
 
   roomOut.textContent = room.name;
   draw(0);
-  showOverlay('Explore the hall, then find the arcade cabinets.', 'Enter the dungeon');
+  showOverlay('Explore the hall, then find the four game rooms.', 'Enter the dungeon');
 })();
