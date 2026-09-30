@@ -500,6 +500,9 @@
     if (document.hidden) pause();
   });
   window.addEventListener('blur', pause);
+  // The dungeon (dungeon.js) puts this window away and brings it back.
+  root.addEventListener('scene-exit', pause);
+  root.addEventListener('scene-enter', () => resize());
 
   const resize = () => players.forEach((p) => {
     fitCanvas(p.board, COLS, ROWS);

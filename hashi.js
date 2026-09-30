@@ -488,16 +488,20 @@
   root.querySelector('[data-restart]').addEventListener('click', restart);
   levelBtns.forEach((b) => b.addEventListener('click', () => setLevel(b.dataset.level)));
 
-  // The clock only runs while the page is visible.
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      hiddenStop = Boolean(since);
-      stopClock();
-    } else if (hiddenStop) {
-      hiddenStop = false;
-      startClock();
-    }
-  });
+  // The clock only runs while the puzzle is on screen: not while the page is
+  // hidden, and not while the dungeon (dungeon.js) has this window put away.
+  const sleep = () => {
+    hiddenStop = hiddenStop || Boolean(since);
+    stopClock();
+  };
+  const wake = () => {
+    if (!hiddenStop || document.hidden || root.hidden) return;
+    hiddenStop = false;
+    startClock();
+  };
+  document.addEventListener('visibilitychange', () => (document.hidden ? sleep() : wake()));
+  root.addEventListener('scene-exit', sleep);
+  root.addEventListener('scene-enter', wake);
 
   setLevel(level);
 })();

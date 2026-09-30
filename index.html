@@ -364,11 +364,44 @@
           <h2>Games</h2>
         </header>
 
-        <!-- Tetris (tetris.js) -->
-        <article class="tetris" data-tetris>
-          <div class="bench tetris__card">
+        <!-- Dungeon hub (dungeon.js): walk into a room to open its game -->
+        <article class="dungeon" data-dungeon>
+          <div class="bench dungeon__card">
             <div class="bench__bar">
               <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="bench__name">dungeon.js</span>
+              <span class="dungeon__room" data-room aria-live="polite">Entrance hall</span>
+            </div>
+            <div class="dungeon__body">
+              <div class="dungeon__stage" data-stage tabindex="0" aria-label="Dungeon map">
+                <canvas class="dungeon__view" data-view width="400" height="304" aria-hidden="true"></canvas>
+                <div class="tetris__overlay dungeon__overlay" data-overlay>
+                  <div class="tetris__dialog">
+                    <p data-msg aria-live="polite">Four rooms. Three of them hold a game.</p>
+                    <button class="btn btn--primary" type="button" data-start>Enter the dungeon</button>
+                  </div>
+                </div>
+              </div>
+              <div class="dungeon__keys">
+                <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk</span>
+                <span>Step into a room to play its game. The red button on the game window leads back here.</span>
+              </div>
+              <!-- Touch controls (shown on touch screens) -->
+              <div class="tetris__pad dungeon__pad">
+                <button type="button" data-dir="up" aria-label="Walk up">↑</button>
+                <button type="button" data-dir="left" aria-label="Walk left">←</button>
+                <button type="button" data-dir="down" aria-label="Walk down">↓</button>
+                <button type="button" data-dir="right" aria-label="Walk right">→</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tetris (tetris.js) -->
+        <article class="tetris" data-tetris hidden>
+          <div class="bench tetris__card">
+            <div class="bench__bar">
+              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
               <span class="bench__name">tetris.js</span>
               <div class="bench__engines tetris__modes" role="group" aria-label="Players">
                 <button class="bench__engine is-active" type="button" data-mode="1" aria-pressed="true">1 player</button>
@@ -460,11 +493,84 @@
           </div>
         </article>
 
+        <!-- Balatro-lite (balatro.js) -->
+        <article class="balatro" data-balatro hidden>
+          <div class="bench balatro__card">
+            <div class="bench__bar">
+              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
+              <span class="bench__name">balatro.js</span>
+              <span class="balatro__blind" data-out="blind">Ante 1 · Small Blind</span>
+            </div>
+            <div class="balatro__body">
+              <div class="balatro__side">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label">Score</span>
+                  <span class="bench__value" data-out="score">0</span>
+                  <span class="balatro__target">target <b data-out="target">300</b></span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Hand</span>
+                  <span class="bench__value balatro__handname" data-out="handname">-</span>
+                  <span class="balatro__formula" data-out="formula">Pick up to 5 cards</span>
+                </div>
+                <div class="balatro__pair">
+                  <div class="bench__stat">
+                    <span class="bench__label">Hands</span>
+                    <span class="bench__value" data-out="hands">4</span>
+                  </div>
+                  <div class="bench__stat">
+                    <span class="bench__label">Discards</span>
+                    <span class="bench__value" data-out="discards">3</span>
+                  </div>
+                </div>
+                <div class="balatro__pair">
+                  <div class="bench__stat">
+                    <span class="bench__label">Deck</span>
+                    <span class="bench__value" data-out="deck">44</span>
+                  </div>
+                  <div class="bench__stat">
+                    <span class="bench__label">Best</span>
+                    <span class="bench__value" data-out="best">-</span>
+                  </div>
+                </div>
+                <div class="bench__stat balatro__help">
+                  <span class="bench__label">How to play</span>
+                  <p>Pick up to five cards and play them as a poker hand. Its chips × mult is added to your score.</p>
+                  <p>Reach the target within four hands. Discards swap cards without scoring.</p>
+                  <p>After each blind, take a joker. Only the cards that make the hand score, and jokers act on those.</p>
+                </div>
+              </div>
+              <div class="balatro__table">
+                <div class="balatro__jokers" data-jokers aria-label="Jokers"></div>
+                <div class="balatro__stage">
+                  <p class="balatro__result" data-result aria-live="polite"></p>
+                  <div class="balatro__hand" data-hand role="group" aria-label="Your hand"></div>
+                  <div class="balatro__actions">
+                    <button class="btn btn--primary" type="button" data-play disabled>Play hand</button>
+                    <button class="balatro__discard" type="button" data-discard disabled>Discard</button>
+                    <span class="balatro__sort" role="group" aria-label="Sort hand">
+                      <button type="button" data-sort="rank" class="is-active">Rank</button>
+                      <button type="button" data-sort="suit">Suit</button>
+                    </span>
+                  </div>
+                  <div class="tetris__overlay balatro__overlay" data-overlay>
+                    <div class="tetris__dialog balatro__dialog">
+                      <p data-msg aria-live="polite">Play poker hands to beat each blind.</p>
+                      <div class="balatro__offer" data-offer hidden></div>
+                      <button class="btn btn--primary" type="button" data-start>Start run</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <!-- Hashi (hashi.js) -->
-        <article class="hashi" data-hashi>
+        <article class="hashi" data-hashi hidden>
           <div class="bench hashi__card">
             <div class="bench__bar">
-              <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
               <span class="bench__name">hashi.js</span>
               <div class="bench__engines" role="group" aria-label="Difficulty">
                 <button class="bench__engine is-active" type="button" data-level="easy" aria-pressed="true">Easy</button>
@@ -527,5 +633,7 @@
   <script src="main.js"></script>
   <script src="tetris.js"></script>
   <script src="hashi.js"></script>
+  <script src="balatro.js"></script>
+  <script src="dungeon.js"></script>
 </body>
 </html>

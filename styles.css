@@ -96,10 +96,19 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   padding: 10px 14px; background: #f2e3cb; border-bottom: 1px solid var(--line);
 }
 .bench__dots { display: inline-flex; gap: 6px; }
-.bench__dots i { width: 10px; height: 10px; border-radius: 50%; }
-.bench__dots i:nth-child(1) { background: #d98b6a; }
-.bench__dots i:nth-child(2) { background: var(--highlight); }
-.bench__dots i:nth-child(3) { background: var(--support); }
+.bench__dots > * { width: 10px; height: 10px; border-radius: 50%; }
+.bench__dots > :nth-child(1) { background: #d98b6a; }
+.bench__dots > :nth-child(2) { background: var(--highlight); }
+.bench__dots > :nth-child(3) { background: var(--support); }
+/* The red dot of a game window is its exit: it shows a cross on hover */
+.bench__exit {
+  display: grid; place-items: center; padding: 0; border: 0; cursor: pointer;
+  font: 700 9px/1 var(--font-mono); color: rgba(75, 46, 15, .8); transition: transform .15s ease;
+}
+.bench__exit::before { content: '\d7'; opacity: 0; transform: translateY(-.5px); }
+.bench__exit:hover, .bench__exit:focus-visible { transform: scale(1.2); }
+.bench__exit:hover::before, .bench__exit:focus-visible::before { opacity: 1; }
+.bench__exit:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
 .bench__name { font-family: var(--font-mono); font-size: .8rem; color: var(--ink-soft); white-space: nowrap; }
 .bench__engines { margin-left: auto; display: inline-flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 999px; }
 .bench__engine {
@@ -304,6 +313,36 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .contact__handle { font-family: var(--font-mono); font-size: .85rem; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; }
 
 /* ---------- Play ---------- */
+/* One window at a time: the dungeon, or the game the player walked into */
+.dungeon[hidden], .tetris[hidden], .hashi[hidden], .balatro[hidden] { display: none; }
+
+/* Dungeon: pixel map on a canvas (dungeon.js) */
+.dungeon { display: grid; grid-template-columns: minmax(0, 1fr); }
+.dungeon__card { width: min(100%, 640px); max-width: none; justify-self: center; }
+.dungeon__room {
+  margin-left: auto; padding: 4px 12px; border-radius: 999px; background: var(--bg);
+  font: 500 .76rem var(--font-mono); color: var(--primary); white-space: nowrap;
+}
+.dungeon__body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 16px; }
+.dungeon__stage { position: relative; min-width: 0; border-radius: 10px; overflow: hidden; background: #2b1a08; }
+.dungeon__stage:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; }
+.dungeon__view { display: block; width: 100%; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
+.dungeon__overlay { border-radius: 10px; }
+.dungeon__keys { display: grid; gap: 4px; font-size: .74rem; line-height: 1.5; color: var(--ink-soft); }
+.dungeon__keys kbd {
+  display: inline-block; min-width: 1.3rem; margin-right: 2px; padding: 0 4px; text-align: center;
+  font: 500 .64rem/1.4 var(--font-mono); color: var(--primary);
+  background: #fffaf2; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px;
+}
+.dungeon__pad {
+  grid-template-columns: repeat(3, 56px); grid-template-areas: ". up ." "left down right";
+  justify-content: center; touch-action: none;
+}
+.dungeon__pad [data-dir="up"] { grid-area: up; }
+.dungeon__pad [data-dir="left"] { grid-area: left; }
+.dungeon__pad [data-dir="down"] { grid-area: down; }
+.dungeon__pad [data-dir="right"] { grid-area: right; }
+
 /* Tetris: bench-style window holding the board(s) */
 .tetris { display: grid; }
 .tetris:not(.is-duo) [data-duo] { display: none; }
@@ -365,11 +404,11 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 /* Touch screens: on-screen pad, single player only */
 @media (pointer: coarse) {
   .tetris__pad { display: grid; }
-  .tetris__keys, .tetris__modes { display: none; }
+  .tetris__keys, .tetris__modes, .dungeon__keys { display: none; }
 }
 
 /* Hashi: SVG board (hashi.js) with stats and actions alongside */
-.hashi { display: grid; grid-template-columns: minmax(0, 1fr); margin-top: 36px; }
+.hashi { display: grid; grid-template-columns: minmax(0, 1fr); }
 .hashi__card { width: min(100%, 740px); max-width: none; justify-self: center; }
 .hashi__body { display: grid; grid-template-columns: minmax(0, 1fr) 168px; gap: 16px; padding: 16px; align-items: start; }
 .hashi__stage { position: relative; }
@@ -446,6 +485,9 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 @media (max-width: 480px) {
   .contacts { grid-template-columns: 1fr; }
+  .dungeon__card { justify-self: stretch; }
+  .dungeon__body { padding: 12px; }
+  .dungeon__room { display: none; }
   .tetris__card { justify-self: stretch; }
   .tetris__body { padding: 12px; }
   .tetris__stage { --side: 100px; --gap: 10px; }
@@ -454,8 +496,81 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .tetris__side .bench__stat--main .bench__value { font-size: 1.25rem; }
 }
 
+/* Balatro-lite: cards and jokers as DOM, stats alongside (balatro.js) */
+.balatro { display: grid; grid-template-columns: minmax(0, 1fr); }
+.balatro__card { width: min(100%, 820px); max-width: none; justify-self: center; }
+.balatro__blind { margin-left: auto; font: 500 .76rem var(--font-mono); color: var(--primary); white-space: nowrap; }
+.balatro__body { display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 16px; padding: 16px; align-items: start; }
+.balatro__side { display: grid; gap: 6px; align-content: start; }
+.balatro__side .bench__stat { padding: 7px 9px; }
+.balatro__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.balatro__target { font: 500 .72rem var(--font-mono); color: var(--sage); }
+.balatro__target b { color: var(--cream); }
+.is-beaten .balatro__target b { color: var(--highlight); }
+.balatro__handname { font-size: 1rem; }
+.balatro__formula { font: 500 .72rem var(--font-mono); color: var(--ink-soft); }
+.balatro__help p { margin: 2px 0 0; font-size: .74rem; line-height: 1.4; color: var(--ink-soft); }
+
+.balatro__table { display: grid; gap: 10px; min-width: 0; }
+.balatro__jokers { display: flex; flex-wrap: wrap; gap: 6px; min-height: 52px; }
+.balatro__empty { margin: 0; align-self: center; font-size: .78rem; color: var(--ink-soft); }
+.joker {
+  position: relative; display: grid; gap: 2px; width: 138px; padding: 6px 22px 6px 9px;
+  background: #fffaf2; border: 1px solid var(--line); border-radius: 9px; text-align: left;
+}
+.joker b { font: 600 .78rem var(--font-display); color: var(--primary); }
+.joker small { font-size: .66rem; line-height: 1.3; color: var(--ink-soft); }
+.joker [data-sell] {
+  position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; padding: 0;
+  border: 0; border-radius: 50%; cursor: pointer; background: var(--bg); color: var(--ink-soft);
+  font: 700 .72rem/16px var(--font-mono);
+}
+.joker [data-sell]:hover { background: #d98b6a; color: var(--cream); }
+.joker--offer { width: 150px; padding: 8px 10px; cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
+.joker--offer:hover { transform: translateY(-3px); border-color: var(--secondary); }
+
+.balatro__stage { position: relative; display: grid; gap: 10px; padding: 12px; border-radius: 12px; background: #3d250c; }
+.balatro__result { margin: 0; min-height: 1.3em; text-align: center; font: 600 .9rem var(--font-display); color: var(--highlight); }
+.balatro__hand { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; padding-top: 10px; }
+.pcard {
+  display: grid; align-content: space-between; aspect-ratio: 5 / 7; padding: 5px 6px; cursor: pointer;
+  background: #fffaf2; color: var(--ink); border: 2px solid #e8d6bd; border-radius: 8px;
+  font-family: var(--font-display); transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+.pcard--red { color: #c0392b; }
+.pcard__rank { font-size: clamp(.8rem, 2.4vw, 1.15rem); font-weight: 700; line-height: 1; text-align: left; }
+.pcard__suit { font-size: clamp(1rem, 3vw, 1.5rem); line-height: 1; text-align: right; }
+.pcard:hover { border-color: var(--secondary); }
+.pcard.is-selected { transform: translateY(-10px); border-color: var(--highlight); box-shadow: 0 8px 16px -8px rgba(0, 0, 0, .6); }
+.pcard.is-played { transform: translateY(-14px) scale(1.04); opacity: .55; }
+.pcard.is-played.is-scoring { opacity: 1; border-color: var(--highlight); box-shadow: 0 0 0 3px rgba(244, 193, 93, .45); }
+.pcard:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+.balatro__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.balatro__actions .btn { border: 0; cursor: pointer; padding: 9px 18px; }
+.balatro__actions .btn:disabled, .balatro__discard:disabled { opacity: .45; cursor: default; transform: none; box-shadow: none; }
+.balatro__discard, .balatro__sort button {
+  padding: 8px 14px; border: 0; border-radius: 999px; cursor: pointer;
+  font: 600 .8rem var(--font-body); color: var(--cream); background: #6e5536;
+}
+.balatro__discard:not(:disabled):hover { background: #d9745a; }
+.balatro__sort { margin-left: auto; display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; background: rgba(255, 242, 225, .12); }
+.balatro__sort button { padding: 4px 10px; font-size: .72rem; background: transparent; color: var(--cream); }
+.balatro__sort button.is-active { background: var(--highlight); color: var(--primary); }
+.balatro__overlay { border-radius: 12px; }
+.balatro__dialog { max-width: 520px; }
+.balatro__offer { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.balatro__offer[hidden] { display: none; }
+
 /* Hashi on narrow screens: board full width, stats in a row beneath */
 @media (max-width: 640px) {
+  .balatro__card { justify-self: stretch; }
+  .balatro__body { grid-template-columns: 1fr; padding: 12px; }
+  .balatro__side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .balatro__side > .bench__stat--main .bench__value { font-size: 1.25rem; }
+  .balatro__pair { grid-template-columns: 1fr 1fr; }
+  .balatro__help { display: none; }
+  .balatro__hand { gap: 4px; }
+  .balatro__blind { display: none; }
   .hashi__card { justify-self: stretch; }
   .hashi__body { grid-template-columns: 1fr; padding: 12px; }
   .hashi__side { grid-template-columns: repeat(3, minmax(0, 1fr)); }
