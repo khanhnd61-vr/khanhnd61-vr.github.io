@@ -61,6 +61,9 @@ if (bench && window.BENCH_DATA) {
     if (mem && mem.vram) {
       setVal(memEl, fmtMiB(mem.vram));
       out('memsub').textContent = mem.rss ? `VRAM · ${fmtMiB(mem.rss)} host` : 'VRAM';
+    } else if (mem && mem.shared) {
+      setVal(memEl, fmtMiB(mem.shared));
+      out('memsub').textContent = mem.rss ? `shared · ${fmtMiB(mem.rss)} RSS` : 'shared';
     } else if (mem && mem.rss) {
       setVal(memEl, fmtMiB(mem.rss));
       out('memsub').textContent = 'peak RSS';
