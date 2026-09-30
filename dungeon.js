@@ -453,14 +453,14 @@
     c.fillRect(px + 7 + (alt ? 1 : 0), py + (alt ? 5 : 4), 1, 2);
   };
 
-  // "Z" bubble over the thing the player can use.
-  const prompt = (c, px, py, bob) => {
+  // "Z" bubble over everything the player can use; the one in reach lights up.
+  const prompt = (c, px, py, bob, active) => {
     const bx = px + 4;
     const by = py - 10 - bob;
     c.fillStyle = '#2b1a08';
     c.fillRect(bx, by, 9, 9);
     c.fillRect(bx + 3, by + 9, 3, 1);
-    c.fillStyle = '#fffaf2';
+    c.fillStyle = active ? '#f4c15d' : '#fffaf2';
     c.fillRect(bx + 1, by + 1, 7, 7);
     c.fillStyle = '#2b1a08';
     c.fillRect(bx + 3, by + 2, 4, 1);
@@ -602,8 +602,11 @@
     ctx.drawImage(SPRITES[hero.dir][hero.frame], hx, hy - (hero.frame ? 1 : 0));
     POTS.forEach(([x, y]) => { if (y * TILE + TILE > hy + 14) pot(ctx, x * TILE, y * TILE); });
 
-    const near = state === 'playing' && nearThing();
-    if (near) prompt(ctx, near.x * TILE, near.y * TILE, Math.floor(t / 400) % 2);
+    const near = state === 'playing' ? nearThing() : null;
+    THINGS.forEach((thing) => {
+      const active = thing === near;
+      prompt(ctx, thing.x * TILE, thing.y * TILE, active ? Math.floor(t / 400) % 2 : 0, active);
+    });
 
     if (fade > 0) {
       ctx.fillStyle = `rgba(20, 12, 4, ${fade})`;
