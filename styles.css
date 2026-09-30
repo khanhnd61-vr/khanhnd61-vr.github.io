@@ -328,6 +328,21 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .dungeon__stage:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; }
 .dungeon__view { display: block; width: 100%; height: auto; image-rendering: pixelated; image-rendering: crisp-edges; }
 .dungeon__overlay { border-radius: 10px; }
+/* Text box that slides over the bottom of the map while reading */
+.dungeon__talk {
+  position: absolute; left: 3%; right: 3%; bottom: 3%; padding: 10px 14px 8px;
+  background: rgba(20, 12, 4, .93); border: 2px solid var(--secondary); border-radius: 8px;
+  color: var(--cream); box-shadow: var(--shadow); cursor: pointer;
+}
+.dungeon__talk[hidden] { display: none; }
+.dungeon__talk p { margin: 0; }
+.dungeon__talk-title { font: 700 .72rem var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--highlight); }
+.dungeon__talk-text { margin-top: 4px !important; min-height: 2.6em; font: 500 .84rem/1.45 var(--font-body); text-wrap: pretty; }
+.dungeon__talk-hint { margin-top: 6px !important; text-align: right; font: 500 .66rem var(--font-mono); color: var(--sage); }
+.dungeon__talk-hint kbd {
+  display: inline-block; min-width: 1.2rem; padding: 0 3px; text-align: center; border-radius: 4px;
+  font: 600 .6rem/1.4 var(--font-mono); color: var(--primary); background: var(--cream);
+}
 .dungeon__keys { display: grid; gap: 4px; font-size: .74rem; line-height: 1.5; color: var(--ink-soft); }
 .dungeon__keys kbd {
   display: inline-block; min-width: 1.3rem; margin-right: 2px; padding: 0 4px; text-align: center;
@@ -335,9 +350,11 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   background: #fffaf2; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px;
 }
 .dungeon__pad {
-  grid-template-columns: repeat(3, 56px); grid-template-areas: ". up ." "left down right";
+  grid-template-columns: repeat(3, 52px) 18px repeat(2, 52px); grid-template-areas: ". up . . z" "left down right . x";
   justify-content: center; touch-action: none;
 }
+.dungeon__pad-z { grid-area: z; background: var(--support) !important; }
+.dungeon__pad-x { grid-area: x; }
 .dungeon__pad [data-dir="up"] { grid-area: up; }
 .dungeon__pad [data-dir="left"] { grid-area: left; }
 .dungeon__pad [data-dir="down"] { grid-area: down; }

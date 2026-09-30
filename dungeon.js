@@ -1,7 +1,8 @@
 // Dungeon hub for the Play section: a top-down, Zelda-style map of four rooms
-// drawn on one small canvas and scaled up with crisp pixels. Walking into the
-// Tetris or Hashi room swaps this card for that game's window; the red button
-// in the game window's title bar brings the player back here.
+// drawn on one small canvas and scaled up with crisp pixels. The entrance hall
+// has a computer and a book to read; the other rooms each hold an arcade
+// cabinet. Press Z at one to swap this card for that game's window; the red
+// button in the game window's title bar brings the player back here.
 (() => {
   const root = document.querySelector('[data-dungeon]');
   if (!root) return;
@@ -15,7 +16,7 @@
   const FADE = 320; // ms for the scene fade
   const STEP = 150; // ms per walk frame
 
-  // Tile types. The pond tiles are all solid, so the pond is one block.
+  // Tile types. The pond tiles and the furniture are solid.
   const FLOOR = 0;
   const WALL = 1;
   const POT = 2;
@@ -28,14 +29,21 @@
   const BLOCK = 9;
   const CRACK = 10;
   const CARD = 11;
-  const SOLID = new Set([WALL, POT, WATER, ISLAND, BRIDGE_H, BRIDGE_V]);
+  const ARCADE = 12;
+  const COMPUTER = 13;
+  const DESK = 14;
+  const BOOK = 15;
+  const CHAIR = 16;
+  const SHELF = 17;
+  const PLANT = 18;
+  const SOLID = new Set([WALL, POT, WATER, ISLAND, BRIDGE_H, BRIDGE_V, ARCADE, COMPUTER, DESK, BOOK, CHAIR, SHELF, PLANT]);
 
   // The inner walls run along column 12 and row 9; each has two-tile doors.
   const ROOMS = [
     { name: 'Entrance hall', x: 1, y: 1, w: 11, h: 8 },
-    { name: 'Balatro room', x: 13, y: 1, w: 11, h: 8, game: '[data-balatro]', label: 'BALATRO' },
-    { name: 'Tetris room', x: 1, y: 10, w: 11, h: 8, game: '[data-tetris]', label: 'TETRIS' },
-    { name: 'Hashi room', x: 13, y: 10, w: 11, h: 8, game: '[data-hashi]', label: 'HASHI' },
+    { name: 'Balatro room', x: 13, y: 1, w: 11, h: 8, label: 'BALATRO' },
+    { name: 'Tetris room', x: 1, y: 10, w: 11, h: 8, label: 'TETRIS' },
+    { name: 'Hashi room', x: 13, y: 10, w: 11, h: 8, label: 'HASHI' },
   ];
   const DOORS = [[12, 4], [12, 5], [12, 13], [12, 14], [5, 9], [6, 9], [17, 9], [18, 9]];
   const TORCHES = [[3, 0], [9, 0], [15, 0], [21, 0], [0, 4], [24, 4], [0, 14], [24, 14], [3, 18], [9, 18], [15, 18], [21, 18]];
@@ -56,6 +64,35 @@
   const CRACKS = [[19, 6], [21, 3], [3, 7], [8, 2], [22, 11], [14, 16]];
   const CARDS = [[16, 3], [18, 4], [20, 3], [15, 6], [19, 7]]; // playing cards strewn on the floor
 
+  // What the book on the table and the computer on the desk say, a page at a time.
+  const PROFILE = [
+    'Khanh D. Nguyen, AI Software Engineer. I make capable AI models run fast on real hardware.',
+    'I work on inference engineering, model optimization and edge AI for robotics: lean C/C++ engines that bring VLMs, VLAs and LLMs to CPUs, accelerators and robots.',
+    'Inspired by llama.cpp: a few lines of simple code, big results on your own hardware.',
+    'Research: M.S. in AI Convergence, on multimodal learning and affective behavior analysis, with 6 peer-reviewed papers (CVPRW, ECCVW, RSSW).',
+    'Mentor: An Thai Le, Assistant Professor at VinUniversity and Director of Foundation AI at VinRobotics, working on robots that plan, learn and act with limited compute and data.',
+    'Interests: edge AI, model optimization, robotics, VLA, C and C++. Me as a happy vicuna.',
+  ];
+  const PROJECTS = [
+    '> ls ~/projects\nSix pinned repositories. Press Z to page through them.',
+    'vla.cpp: Vision-Language-Action models on local hardware, in the spirit of llama.cpp for robotics. The open-source project I lead at VinRobotics. C++ and ggml.',
+    'vla.simd: efficient CPU inference for language-conditioned manipulation. Shared SIMD micro-kernels (AVX2 and NEON) plus IMPACT, a policy that supplies 30+ actions per second on a Raspberry Pi 5.',
+    'Model Optimization 101: hands-on notebooks for edge deployment. Quantization, distillation, pruning, NAS and GPU kernels, each measuring size, latency and accuracy before and after.',
+    'REX, neural network Representation EXchange: a hands-on study of how different frameworks represent and serialize neural networks.',
+    'FaceGen: multiple appropriate facial reaction generation from a speaker\'s audio-visual cues. 3rd place at REACT 2024.',
+    'ReadItDown: a native markdown viewer and editor for Linux, Windows and macOS.',
+    'All of them live at github.com/khanhnd61-vr. The Projects section above has the links and the latency explorer.',
+  ];
+
+  // Things the player can face and press Z at.
+  const THINGS = [
+    { x: 9, y: 1, tile: COMPUTER, name: 'Computer', pages: PROJECTS },
+    { x: 6, y: 5, tile: BOOK, name: 'Book', pages: PROFILE },
+    { x: 9, y: 10, tile: ARCADE, name: 'Tetris', game: '[data-tetris]' },
+    { x: 18, y: 1, tile: ARCADE, name: 'Balatro', game: '[data-balatro]' },
+    { x: 21, y: 10, tile: ARCADE, name: 'Hashi', game: '[data-hashi]' },
+  ];
+
   const grid = Array.from({ length: ROWS }, (_, y) => Array.from({ length: COLS }, (_, x) => (
     x === 0 || y === 0 || x === COLS - 1 || y === ROWS - 1 || x === 12 || y === 9 ? WALL : FLOOR
   )));
@@ -71,6 +108,10 @@
   put(POT, POTS);
   put(STAIRS, [[1, 1]]);
   put(RUG, rect(4, 4, 5, 3));
+  put(SHELF, [[3, 1], [4, 1]]);
+  put(DESK, [[10, 1]]);
+  put(CHAIR, [[5, 5], [7, 5]]);
+  put(PLANT, [[11, 1], [2, 7]]);
   put(WATER, rect(15, 12, 7, 5));
   put(BRIDGE_H, [[17, 13], [18, 13], [19, 13], [17, 15], [18, 15], [19, 15]]);
   put(BRIDGE_V, [[16, 14], [20, 14]]);
@@ -80,6 +121,8 @@
     put(BLOCK, cells);
     cells.forEach(([x, y]) => blockColor.set(`${x},${y}`, BLOCK_COLORS[id]));
   });
+  THINGS.forEach((t) => { grid[t.y][t.x] = t.tile; });
+  const thingAt = (x, y) => THINGS.find((t) => t.x === x && t.y === y);
 
   /* ---------- Tile art ---------- */
 
@@ -134,6 +177,48 @@
     c.fillRect(px + 5, py + 7, 2, 4);
   };
 
+  // A wooden desk top with its front edge; the computer and papers sit on it.
+  const desk = (c, px, py) => {
+    c.fillStyle = 'rgba(0, 0, 0, .2)';
+    c.fillRect(px + 1, py + 14, 14, 2);
+    c.fillStyle = '#8b5a2b';
+    c.fillRect(px, py + 5, TILE, 8);
+    c.fillStyle = '#6b4420';
+    c.fillRect(px, py + 13, TILE, 2);
+    c.fillStyle = '#a06a35';
+    c.fillRect(px, py + 5, TILE, 1);
+  };
+
+  // Each arcade cabinet shows a different screen.
+  const SCREENS = {
+    Tetris: (c, px, py) => {
+      c.fillStyle = '#1a1030';
+      c.fillRect(px + 4, py + 3, 8, 6);
+      [['#D9745A', 4, 7], ['#D9745A', 5, 7], ['#F4C15D', 7, 7], ['#F4C15D', 8, 7], ['#8FB8C4', 10, 4], ['#8FB8C4', 10, 5], ['#8FB8C4', 10, 6], ['#8FB8C4', 10, 7], ['#B48CB0', 6, 5], ['#B48CB0', 5, 6], ['#B48CB0', 6, 6], ['#B48CB0', 7, 6]]
+        .forEach(([col, x, y]) => { c.fillStyle = col; c.fillRect(px + x, py + y, 1, 1); });
+    },
+    Balatro: (c, px, py) => {
+      c.fillStyle = '#2f6b45';
+      c.fillRect(px + 4, py + 3, 8, 6);
+      c.fillStyle = '#fffaf2';
+      c.fillRect(px + 5, py + 4, 3, 4);
+      c.fillRect(px + 9, py + 4, 3, 4);
+      c.fillStyle = '#c0392b';
+      c.fillRect(px + 6, py + 5, 1, 2);
+      c.fillStyle = '#2b1a08';
+      c.fillRect(px + 10, py + 5, 1, 2);
+    },
+    Hashi: (c, px, py) => {
+      c.fillStyle = '#4f6f8a';
+      c.fillRect(px + 4, py + 3, 8, 6);
+      c.fillStyle = '#e2a963';
+      c.fillRect(px + 6, py + 5, 5, 1);
+      c.fillStyle = '#a8b89c';
+      c.fillRect(px + 5, py + 4, 2, 3);
+      c.fillRect(px + 10, py + 4, 2, 3);
+    },
+  };
+
   const TILES = {
     [FLOOR]: floor,
     [WALL]: wall,
@@ -151,10 +236,11 @@
       c.fillStyle = '#c96a52';
       c.fillRect(px + 6, py + 6, 4, 4);
       c.fillStyle = '#f4c15d';
-      if (grid[y - 1][x] !== RUG) c.fillRect(px, py, TILE, 1);
-      if (grid[y + 1][x] !== RUG) c.fillRect(px, py + TILE - 1, TILE, 1);
-      if (grid[y][x - 1] !== RUG) c.fillRect(px, py, 1, TILE);
-      if (grid[y][x + 1] !== RUG) c.fillRect(px + TILE - 1, py, 1, TILE);
+      const rugLike = (t) => t === RUG || t === BOOK || t === CHAIR;
+      if (!rugLike(grid[y - 1][x])) c.fillRect(px, py, TILE, 1);
+      if (!rugLike(grid[y + 1][x])) c.fillRect(px, py + TILE - 1, TILE, 1);
+      if (!rugLike(grid[y][x - 1])) c.fillRect(px, py, 1, TILE);
+      if (!rugLike(grid[y][x + 1])) c.fillRect(px + TILE - 1, py, 1, TILE);
     },
     [STAIRS]: (c, px, py) => {
       c.fillStyle = '#1c1006';
@@ -220,6 +306,114 @@
       c.fillStyle = 'rgba(0, 0, 0, .18)';
       c.fillRect(px + 1, py + 13, 14, 2);
     },
+    [ARCADE]: (c, px, py, x, y) => {
+      floor(c, px, py, x, y);
+      c.fillStyle = 'rgba(0, 0, 0, .22)';
+      c.fillRect(px + 2, py + 14, 12, 2);
+      c.fillStyle = '#2b1a08';
+      c.fillRect(px + 2, py, 12, 15);
+      c.fillStyle = '#3b2f5e';
+      c.fillRect(px + 3, py + 1, 10, 13);
+      c.fillStyle = '#e2a963';
+      c.fillRect(px + 3, py + 1, 10, 1); // marquee
+      SCREENS[thingAt(x, y).name](c, px, py);
+      c.fillStyle = '#5e4a86';
+      c.fillRect(px + 3, py + 10, 10, 3); // control panel
+      c.fillStyle = '#2b1a08';
+      c.fillRect(px + 5, py + 10, 1, 2); // joystick
+      c.fillStyle = '#d9745a';
+      c.fillRect(px + 8, py + 11, 2, 1);
+      c.fillStyle = '#f4c15d';
+      c.fillRect(px + 11, py + 11, 2, 1);
+    },
+    [COMPUTER]: (c, px, py, x, y) => {
+      floor(c, px, py, x, y);
+      desk(c, px, py);
+      c.fillStyle = '#3d3d3d';
+      c.fillRect(px + 3, py, 10, 8); // monitor
+      c.fillStyle = '#5b8ac7';
+      c.fillRect(px + 4, py + 1, 8, 6);
+      c.fillStyle = '#cfe3ff';
+      c.fillRect(px + 5, py + 2, 5, 1);
+      c.fillRect(px + 5, py + 4, 3, 1);
+      c.fillStyle = '#3d3d3d';
+      c.fillRect(px + 7, py + 8, 2, 1); // stand
+      c.fillStyle = '#d8d0c0';
+      c.fillRect(px + 4, py + 10, 8, 2); // keyboard
+    },
+    [DESK]: (c, px, py, x, y) => {
+      floor(c, px, py, x, y);
+      desk(c, px, py);
+      c.fillStyle = '#fffaf2';
+      c.fillRect(px + 2, py + 6, 6, 6); // papers
+      c.fillStyle = '#9a8a78';
+      c.fillRect(px + 3, py + 7, 4, 1);
+      c.fillRect(px + 3, py + 9, 3, 1);
+      c.fillStyle = '#c0392b';
+      c.fillRect(px + 10, py + 7, 4, 4); // mug
+      c.fillStyle = '#e06a5a';
+      c.fillRect(px + 14, py + 8, 1, 2);
+    },
+    [BOOK]: (c, px, py, x, y) => {
+      TILES[RUG](c, px, py, x, y);
+      c.fillStyle = 'rgba(0, 0, 0, .2)';
+      c.fillRect(px + 2, py + 13, 12, 2);
+      c.fillStyle = '#a8743f';
+      c.fillRect(px + 1, py + 3, 14, 10); // table top
+      c.fillStyle = '#7c5228';
+      c.fillRect(px + 1, py + 12, 14, 1);
+      c.fillStyle = '#c0392b';
+      c.fillRect(px + 3, py + 4, 10, 7); // book cover
+      c.fillStyle = '#fffaf2';
+      c.fillRect(px + 4, py + 5, 4, 5); // open pages
+      c.fillRect(px + 9, py + 5, 3, 5);
+      c.fillStyle = '#9a8a78';
+      c.fillRect(px + 5, py + 6, 2, 1);
+      c.fillRect(px + 5, py + 8, 2, 1);
+      c.fillRect(px + 10, py + 6, 1, 1);
+      c.fillRect(px + 10, py + 8, 1, 1);
+    },
+    [CHAIR]: (c, px, py, x, y) => {
+      TILES[RUG](c, px, py, x, y);
+      c.fillStyle = '#6b4420';
+      c.fillRect(px + 4, py + 2, 8, 4); // back
+      c.fillStyle = '#8b5a2b';
+      c.fillRect(px + 4, py + 6, 8, 6); // seat
+      c.fillStyle = '#4b2e0f';
+      c.fillRect(px + 4, py + 12, 2, 2); // legs
+      c.fillRect(px + 10, py + 12, 2, 2);
+    },
+    [SHELF]: (c, px, py) => {
+      c.fillStyle = '#4b2e0f';
+      c.fillRect(px, py, TILE, TILE);
+      c.fillStyle = '#3a230b';
+      c.fillRect(px + 1, py + 1, 14, 6);
+      c.fillRect(px + 1, py + 9, 14, 6);
+      const spines = ['#c0392b', '#5c7a5e', '#e2a963', '#6f8fc0', '#b48cb0', '#f4c15d', '#8db07e'];
+      for (let i = 0; i < 6; i++) {
+        c.fillStyle = spines[i % spines.length];
+        c.fillRect(px + 2 + i * 2, py + 2 + (i % 2), 2, 5 - (i % 2));
+        c.fillStyle = spines[(i + 3) % spines.length];
+        c.fillRect(px + 2 + i * 2, py + 10 + ((i + 1) % 2), 2, 5 - ((i + 1) % 2));
+      }
+    },
+    [PLANT]: (c, px, py, x, y) => {
+      floor(c, px, py, x, y);
+      c.fillStyle = 'rgba(0, 0, 0, .2)';
+      c.fillRect(px + 4, py + 14, 8, 2);
+      c.fillStyle = '#b48c6a';
+      c.fillRect(px + 5, py + 10, 6, 5); // pot
+      c.fillStyle = '#4b2e0f';
+      c.fillRect(px + 4, py + 9, 8, 1);
+      c.fillStyle = '#5c7a5e';
+      c.fillRect(px + 6, py + 3, 4, 7);
+      c.fillRect(px + 3, py + 5, 4, 3);
+      c.fillRect(px + 9, py + 4, 4, 3);
+      c.fillStyle = '#8db07e';
+      c.fillRect(px + 7, py + 2, 2, 3);
+      c.fillRect(px + 4, py + 5, 2, 1);
+      c.fillRect(px + 10, py + 4, 2, 1);
+    },
   };
 
   // Everything that never changes is drawn once, then copied each frame.
@@ -257,6 +451,23 @@
     c.fillRect(px + 7, py + (alt ? 3 : 2), 2, 5);
     c.fillStyle = '#fff2e1';
     c.fillRect(px + 7 + (alt ? 1 : 0), py + (alt ? 5 : 4), 1, 2);
+  };
+
+  // "Z" bubble over the thing the player can use.
+  const prompt = (c, px, py, bob) => {
+    const bx = px + 4;
+    const by = py - 10 - bob;
+    c.fillStyle = '#2b1a08';
+    c.fillRect(bx, by, 9, 9);
+    c.fillRect(bx + 3, by + 9, 3, 1);
+    c.fillStyle = '#fffaf2';
+    c.fillRect(bx + 1, by + 1, 7, 7);
+    c.fillStyle = '#2b1a08';
+    c.fillRect(bx + 3, by + 2, 4, 1);
+    c.fillRect(bx + 5, by + 3, 1, 1);
+    c.fillRect(bx + 4, by + 4, 1, 1);
+    c.fillRect(bx + 3, by + 5, 1, 1);
+    c.fillRect(bx + 3, by + 6, 4, 1);
   };
 
   /* ---------- Hero sprite ---------- */
@@ -316,23 +527,30 @@
   const msg = root.querySelector('[data-msg]');
   const startBtn = root.querySelector('[data-start]');
   const roomOut = root.querySelector('[data-room]');
+  const talkEl = root.querySelector('[data-talk]');
+  const talkTitle = root.querySelector('[data-talk-title]');
+  const talkText = root.querySelector('[data-talk-text]');
+  const talkMore = root.querySelector('[data-talk-more]');
   const ctx = view.getContext('2d');
   view.width = W;
   view.height = H;
   ctx.imageSmoothingEnabled = false;
 
-  const hero = { x: 6 * TILE, y: 5 * TILE, dir: 'down', frame: 0, walked: 0 };
+  // The hero's feet box is rows 8-13 and columns 2-13 of the 16 x 14 sprite.
+  const hero = { x: 2 * TILE, y: 6 * TILE - 8, dir: 'right', frame: 0, walked: 0 };
   let room = ROOMS[0];
-  let state = 'idle'; // idle | playing | paused | leaving | away | returning
+  let state = 'idle'; // idle | playing | reading | paused | leaving | away | returning
   let raf = 0;
   let lastTime = 0;
   let fade = 0;
   let fadeFrom = 0;
   let fadeAt = 0;
-  let target = null; // room whose game is being entered
+  let target = null; // arcade whose game is being entered
+  let talk = null; // { thing, page } while reading
   const held = []; // directions currently held, most recent last
 
   const roomAt = (tx, ty) => ROOMS.find((r) => tx >= r.x && tx < r.x + r.w && ty >= r.y && ty < r.y + r.h) || null;
+  const feetTile = () => [Math.floor((hero.x + 8) / TILE), Math.floor((hero.y + 11) / TILE)];
 
   // Only the hero's feet collide, so the head may overlap the wall above (Zelda-style).
   const blocked = (x, y) => {
@@ -358,6 +576,16 @@
     }
   };
 
+  // The thing in front of the hero, or else any one beside it.
+  const DIRS = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
+  const nearThing = () => {
+    const [tx, ty] = feetTile();
+    const [fx, fy] = DIRS[hero.dir];
+    return thingAt(tx + fx, ty + fy)
+      || Object.values(DIRS).map(([dx, dy]) => thingAt(tx + dx, ty + dy)).find(Boolean)
+      || null;
+  };
+
   /* ---------- Drawing ---------- */
 
   const draw = (t) => {
@@ -373,6 +601,9 @@
     POTS.forEach(([x, y]) => { if (y * TILE + TILE <= hy + 14) pot(ctx, x * TILE, y * TILE); });
     ctx.drawImage(SPRITES[hero.dir][hero.frame], hx, hy - (hero.frame ? 1 : 0));
     POTS.forEach(([x, y]) => { if (y * TILE + TILE > hy + 14) pot(ctx, x * TILE, y * TILE); });
+
+    const near = state === 'playing' && nearThing();
+    if (near) prompt(ctx, near.x * TILE, near.y * TILE, Math.floor(t / 400) % 2);
 
     if (fade > 0) {
       ctx.fillStyle = `rgba(20, 12, 4, ${fade})`;
@@ -394,24 +625,24 @@
     raf = requestAnimationFrame(tick);
   };
 
-  const switchTo = (r) => {
+  const switchTo = (thing) => {
     cancelAnimationFrame(raf);
     state = 'away';
-    const game = document.querySelector(r.game);
+    const game = document.querySelector(thing.game);
     root.hidden = true;
     game.hidden = false;
     game.dispatchEvent(new CustomEvent('scene-enter'));
     game.scrollIntoView({ block: 'nearest' });
   };
 
-  const enterGame = (r) => {
+  const enterGame = (thing) => {
     state = 'leaving';
-    target = r;
+    target = thing;
     held.length = 0;
     hero.frame = 0;
     fadeFrom = fade;
     fadeAt = performance.now();
-    roomOut.textContent = `Entering the ${r.name.toLowerCase()}…`;
+    roomOut.textContent = `Starting ${thing.name}…`;
   };
 
   const leaveGame = (game) => {
@@ -429,8 +660,53 @@
     run();
   };
 
-  const pause = () => {
+  /* ---------- Reading ---------- */
+
+  const showPage = () => {
+    const { thing, page } = talk;
+    talkTitle.textContent = `${thing.name} · ${page + 1} / ${thing.pages.length}`;
+    talkText.textContent = thing.pages[page];
+    talkMore.textContent = page + 1 < thing.pages.length ? 'next' : 'done';
+    talkEl.hidden = false;
+  };
+
+  const startReading = (thing) => {
+    state = 'reading';
+    held.length = 0;
+    hero.frame = 0;
+    talk = { thing, page: 0 };
+    showPage();
+  };
+
+  const stopReading = () => {
+    talk = null;
+    talkEl.hidden = true;
+    if (state === 'reading') state = 'playing';
+  };
+
+  const nextPage = () => {
+    if (talk.page + 1 < talk.thing.pages.length) {
+      talk.page++;
+      showPage();
+    } else stopReading();
+  };
+
+  // Z: use the thing in front of the hero, or turn the page while reading.
+  const interact = () => {
+    if (state === 'reading') {
+      nextPage();
+      return;
+    }
     if (state !== 'playing') return;
+    const thing = nearThing();
+    if (!thing) return;
+    if (thing.game) enterGame(thing);
+    else startReading(thing);
+  };
+
+  const pause = () => {
+    if (state !== 'playing' && state !== 'reading') return;
+    stopReading();
     state = 'paused';
     cancelAnimationFrame(raf);
     held.length = 0;
@@ -462,9 +738,9 @@
       }
       return;
     }
-    if (state !== 'playing') return;
+    if (state !== 'playing' && state !== 'reading') return;
 
-    const dir = held[held.length - 1];
+    const dir = state === 'playing' && held[held.length - 1];
     if (dir) {
       hero.dir = dir;
       const step = (SPEED * dt) / 1000;
@@ -480,11 +756,10 @@
       hero.frame = 0;
     }
 
-    const r = roomAt(Math.floor((hero.x + 8) / TILE), Math.floor((hero.y + 11) / TILE));
+    const r = roomAt(...feetTile());
     if (r && r !== room) {
       room = r;
       roomOut.textContent = r.name;
-      if (r.game) enterGame(r);
     }
 
     draw(t);
@@ -508,24 +783,32 @@
 
   root.addEventListener('keydown', (e) => {
     if (e.target.closest('button') && (e.code === 'Enter' || e.code === 'Space')) return;
-    if (state !== 'playing') {
-      if ((state === 'idle' || state === 'paused') && e.code === 'Enter' && !e.repeat) {
+    if (state === 'idle' || state === 'paused') {
+      if (e.code === 'Enter' && !e.repeat) {
         e.preventDefault();
         resume();
       }
       return;
     }
-    const dir = KEYS[e.code];
-    if (!dir) return;
-    e.preventDefault();
-    if (!e.repeat) hold(dir);
+    if (state !== 'playing' && state !== 'reading') return;
+    if (e.code === 'KeyZ') {
+      e.preventDefault();
+      if (!e.repeat) interact();
+    } else if (e.code === 'KeyX' || e.code === 'Escape') {
+      if (state !== 'reading') return;
+      e.preventDefault();
+      stopReading();
+    } else if (KEYS[e.code]) {
+      e.preventDefault();
+      if (!e.repeat && state === 'playing') hold(KEYS[e.code]);
+    }
   });
   root.addEventListener('keyup', (e) => {
     const dir = KEYS[e.code];
     if (dir) unhold(dir);
   });
 
-  // Touch pad: hold a button to keep walking.
+  // Touch pad: hold a direction to keep walking; Z and X act like the keys.
   root.querySelectorAll('[data-dir]').forEach((b) => {
     const dir = b.dataset.dir;
     b.addEventListener('pointerdown', (e) => {
@@ -535,18 +818,24 @@
     });
     ['pointerup', 'pointerleave', 'pointercancel'].forEach((type) => b.addEventListener(type, () => unhold(dir)));
   });
+  root.querySelectorAll('[data-act]').forEach((b) => b.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (b.dataset.act === 'z') interact();
+    else if (state === 'reading') stopReading();
+  }));
+  talkEl.addEventListener('click', () => { if (state === 'reading') nextPage(); });
   startBtn.addEventListener('click', resume);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) resume();
   });
 
   // The red window button of each game window leads back to the dungeon.
-  ROOMS.filter((r) => r.game).forEach((r) => {
-    const game = document.querySelector(r.game);
+  THINGS.filter((t) => t.game).forEach((t) => {
+    const game = document.querySelector(t.game);
     game?.querySelectorAll('[data-exit]').forEach((b) => b.addEventListener('click', () => leaveGame(game)));
   });
 
-  // Stop walking whenever attention goes elsewhere.
+  // Stop whenever attention goes elsewhere.
   root.addEventListener('focusout', (e) => {
     if (!e.relatedTarget || !root.contains(e.relatedTarget)) pause();
   });
@@ -560,5 +849,5 @@
 
   roomOut.textContent = room.name;
   draw(0);
-  showOverlay('Four rooms. Three of them hold a game.', 'Enter the dungeon');
+  showOverlay('Explore the hall, then find the arcade cabinets.', 'Enter the dungeon');
 })();

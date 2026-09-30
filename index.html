@@ -388,14 +388,20 @@
                 <canvas class="dungeon__view" data-view width="400" height="304" aria-hidden="true"></canvas>
                 <div class="tetris__overlay dungeon__overlay" data-overlay>
                   <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">Four rooms. Three of them hold a game.</p>
+                    <p data-msg aria-live="polite">Explore the hall, then find the arcade cabinets.</p>
                     <button class="btn btn--primary" type="button" data-start>Enter the dungeon</button>
                   </div>
                 </div>
+                <!-- RPG-style text box for the computer, the book and the arcades -->
+                <div class="dungeon__talk" data-talk hidden role="dialog" aria-live="polite">
+                  <p class="dungeon__talk-title" data-talk-title></p>
+                  <p class="dungeon__talk-text" data-talk-text></p>
+                  <p class="dungeon__talk-hint"><kbd>Z</kbd> <span data-talk-more>next</span> · <kbd>X</kbd> close</p>
+                </div>
               </div>
               <div class="dungeon__keys">
-                <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk</span>
-                <span>Step into a room to play its game. The red button on the game window leads back here.</span>
+                <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk · <kbd>Z</kbd> to interact · <kbd>X</kbd> to close</span>
+                <span>Read the computer and the book in the hall. Press Z at an arcade cabinet to play; the red button on the game window leads back here.</span>
               </div>
               <!-- Touch controls (shown on touch screens) -->
               <div class="tetris__pad dungeon__pad">
@@ -403,6 +409,8 @@
                 <button type="button" data-dir="left" aria-label="Walk left">←</button>
                 <button type="button" data-dir="down" aria-label="Walk down">↓</button>
                 <button type="button" data-dir="right" aria-label="Walk right">→</button>
+                <button type="button" class="dungeon__pad-z" data-act="z" aria-label="Interact">Z</button>
+                <button type="button" class="dungeon__pad-x" data-act="x" aria-label="Close">X</button>
               </div>
             </div>
           </div>
