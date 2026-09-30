@@ -22,45 +22,59 @@
   };
   const BEST_KEY = 'balatro-best';
   const SCORE_MS = 1000; // how long the played hand stays up with its score
+  const SHEET_COLS = 9; // assets/jokers.png holds the 36 cards in a 9 x 4 grid, in JOKERS order
 
   /* ---------- Jokers ---------- */
+  // Hooks: card(c, ctx, j) and hand(ctx, j) return { chips, mult, xmult } while
+  // scoring; play(cards, ctx, j) returns extra cards for the hand; start(j)
+  // returns extra discards for a new blind; round(j) runs after a blind is
+  // beaten and returns false when the joker is used up. `copy` makes a joker
+  // score as its neighbour (+1 right, -1 left). `n` is per-joker state.
 
   const isFace = (c) => c.r >= 9 && c.r <= 11;
   const label = (eff) => (eff.xmult ? `×${eff.xmult} Mult` : eff.mult ? `+${eff.mult} Mult` : `+${eff.chips} Chips`);
-  const suitJoker = (name, s) => ({ name, desc: `Scored ${SUITS[s]} cards give +3 Mult`, card: (c) => c.s === s && { mult: 3 } });
-  const typeJoker = (name, type, what, eff) => ({ name, desc: `${label(eff)} if the hand contains a ${what}`, hand: (ctx) => ctx.has[type] && eff });
+  const suit = (name, s) => ({ name, desc: `Scored ${SUITS[s]} cards give +3 Mult`, card: (c) => c.s === s && { mult: 3 } });
+  const type = (name, kind, what, eff) => ({ name, desc: `${label(eff)} if the hand contains a ${what}`, hand: (ctx) => ctx.has[kind] && eff });
   const JOKERS = [
     { name: 'Joker', desc: '+4 Mult', hand: () => ({ mult: 4 }) },
-    suitJoker('Greedy Joker', 3), suitJoker('Lusty Joker', 1), suitJoker('Wrathful Joker', 0), suitJoker('Gluttonous Joker', 2),
-    typeJoker('Jolly Joker', 'pair', 'Pair', { mult: 8 }),
-    typeJoker('Zany Joker', 'three', 'Three of a Kind', { mult: 12 }),
-    typeJoker('Mad Joker', 'twoPair', 'Two Pair', { mult: 10 }),
-    typeJoker('Crazy Joker', 'straight', 'Straight', { mult: 12 }),
-    typeJoker('Droll Joker', 'flush', 'Flush', { mult: 10 }),
-    typeJoker('Sly Joker', 'pair', 'Pair', { chips: 50 }),
-    typeJoker('Wily Joker', 'three', 'Three of a Kind', { chips: 100 }),
-    typeJoker('Clever Joker', 'twoPair', 'Two Pair', { chips: 80 }),
-    typeJoker('Devious Joker', 'straight', 'Straight', { chips: 100 }),
-    typeJoker('Crafty Joker', 'flush', 'Flush', { chips: 80 }),
-    typeJoker('The Duo', 'pair', 'Pair', { xmult: 2 }),
-    typeJoker('The Trio', 'three', 'Three of a Kind', { xmult: 3 }),
-    typeJoker('The Family', 'four', 'Four of a Kind', { xmult: 4 }),
-    typeJoker('The Order', 'straight', 'Straight', { xmult: 3 }),
-    typeJoker('The Tribe', 'flush', 'Flush', { xmult: 2 }),
     { name: 'Half Joker', desc: '+20 Mult if the hand has 3 or fewer cards', hand: (ctx) => ctx.cards.length <= 3 && { mult: 20 } },
-    { name: 'Scary Face', desc: 'Scored face cards give +30 Chips', card: (c) => isFace(c) && { chips: 30 } },
-    { name: 'Smiley Face', desc: 'Scored face cards give +5 Mult', card: (c) => isFace(c) && { mult: 5 } },
-    { name: 'Even Steven', desc: 'Scored even cards give +4 Mult', card: (c) => c.r <= 8 && c.r % 2 === 0 && { mult: 4 } },
-    { name: 'Odd Todd', desc: 'Scored odd cards give +31 Chips', card: (c) => ((c.r <= 7 && c.r % 2 === 1) || c.r === 12) && { chips: 31 } },
-    { name: 'Fibonacci', desc: 'Scored A, 2, 3, 5, 8 give +8 Mult', card: (c) => [12, 0, 1, 3, 6].includes(c.r) && { mult: 8 } },
-    { name: 'Walkie Talkie', desc: 'Scored 10s and 4s give +10 Chips and +4 Mult', card: (c) => (c.r === 8 || c.r === 2) && { chips: 10, mult: 4 } },
-    { name: 'Photograph', desc: 'First scored face card gives ×2 Mult', card: (c, ctx) => ctx.scoring.find(isFace) === c && { xmult: 2 } },
-    { name: 'Banner', desc: '+30 Chips per remaining discard', hand: (ctx) => ({ chips: 30 * ctx.discards }) },
-    { name: 'Mystic Summit', desc: '+15 Mult when no discards remain', hand: (ctx) => ctx.discards === 0 && { mult: 15 } },
     { name: 'Abstract Joker', desc: '+3 Mult per joker held', hand: (ctx) => ({ mult: 3 * ctx.jokers }) },
-    { name: 'Blue Joker', desc: '+2 Chips per card left in the deck', hand: (ctx) => ({ chips: 2 * ctx.deck }) },
     { name: 'Misprint', desc: '+0 to +23 Mult, at random', hand: () => ({ mult: Math.floor(Math.random() * 24) }) },
+    { name: 'Lucky Joker', desc: 'Each scored card has a 1 in 4 chance of +20 Mult', card: () => Math.random() < 0.25 && { mult: 20 } },
+    { name: 'Money Tree', desc: '+4 Mult per hand left after this one', hand: (ctx) => ({ mult: 4 * ctx.hands }) },
+    { name: 'Popcorn', desc: (j) => `+${j.n} Mult, loses 4 Mult each blind beaten`, n: 20, hand: (ctx, j) => ({ mult: j.n }), round: (j) => (j.n -= 4) > 0 },
+    type('Jolly Joker', 'pair', 'Pair', { mult: 8 }),
+    { name: 'Blueprint', desc: 'Scores as a copy of the joker to its right', copy: 1 },
+    { name: 'DNA', desc: 'First hand of a blind: play exactly 1 card and a copy of it joins your hand', play: (cards, ctx) => (ctx.first && cards.length === 1 ? [{ ...cards[0] }] : []) },
+    { name: 'Stone Joker', desc: '+25 Chips per card played, scoring or not', hand: (ctx) => ({ chips: 25 * ctx.cards.length }) },
+    { name: 'Banana', desc: '+15 Mult. 1 in 6 chance of going bad after each blind', hand: () => ({ mult: 15 }), round: () => Math.random() >= 1 / 6 },
+    type('The Duo', 'pair', 'Pair', { xmult: 2 }),
+    type('The Trio', 'three', 'Three of a Kind', { xmult: 3 }),
+    type('The Family', 'four', 'Four of a Kind', { xmult: 4 }),
+    { name: 'Constellation', desc: (j) => `×${j.n} Mult, grows by ×0.1 each blind beaten`, n: 1, hand: (ctx, j) => j.n > 1 && { xmult: j.n }, round: (j) => { j.n = Math.round(j.n * 10 + 1) / 10; return true; } },
+    { name: 'Crystal Ball', desc: '+1 discard every blind', start: () => 1 },
+    type('Magician', 'three', 'Three of a Kind', { mult: 12 }),
+    { name: 'Hanged Man', desc: '+4 Mult per discard used this blind', hand: (ctx) => ({ mult: 4 * ctx.used }) },
+    suit('Death', 0),
+    suit('The Sun', 1),
+    suit('The Moon', 2),
+    { name: 'Wheel of Fortune', desc: '1 in 4 chance of ×3 Mult', hand: () => Math.random() < 0.25 && { xmult: 3 } },
+    type('Justice', 'twoPair', 'Two Pair', { mult: 10 }),
+    { name: 'The Fool', desc: 'Scores as a copy of the joker to its left', copy: -1 },
+    { name: 'Devil', desc: 'Scored face cards give +30 Chips', card: (c) => isFace(c) && { chips: 30 } },
+    type('The Tower', 'straight', 'Straight', { mult: 12 }),
+    suit('Star', 3),
+    { name: 'Planet X', desc: '×1.5 Mult if you play 5 cards', hand: (ctx) => ctx.cards.length === 5 && { xmult: 1.5 } },
+    type('Mercury', 'pair', 'Pair', { chips: 50 }),
+    type('Venus', 'three', 'Three of a Kind', { chips: 100 }),
+    type('Mars', 'twoPair', 'Two Pair', { chips: 80 }),
+    type('Jupiter', 'flush', 'Flush', { chips: 80 }),
+    type('Saturn', 'straight', 'Straight', { chips: 100 }),
+    type('Uranus', 'flush', 'Flush', { xmult: 2 }),
+    type('Neptune', 'straight', 'Straight', { xmult: 3 }),
   ];
+  JOKERS.forEach((j, i) => { j.art = i; });
+  const describe = (j) => (typeof j.desc === 'function' ? j.desc(j) : j.desc);
 
   /* ---------- Hand evaluation ---------- */
 
@@ -120,10 +134,12 @@
   let deck = [];
   let hand = [];
   let jokers = [];
+  let offer = [];
   let selected = new Set();
   let score = 0;
   let hands = HANDS;
   let discards = DISCARDS;
+  let used = 0; // discards used this blind
   let sortBy = 'rank';
   let best = loadBest();
   let timer = 0;
@@ -149,12 +165,26 @@
     sortHand();
   };
 
+  // The joker whose scoring hooks slot i uses: itself, or for Blueprint and
+  // The Fool the neighbour they copy (a copy of a copy follows the chain).
+  const source = (i, seen = new Set()) => {
+    const j = jokers[i];
+    if (!j || seen.has(i)) return null;
+    if (!j.copy) return j;
+    seen.add(i);
+    return source(i + j.copy, seen);
+  };
+  const each = (hook, fn) => jokers.forEach((_, i) => {
+    const j = source(i);
+    if (j?.[hook]) fn(j);
+  });
+
   // Chips and mult: the hand's base, then each scoring card's chips with any
   // per-card joker effects, then the jokers' hand-wide effects, left to right.
   const scoreHand = (cards) => {
     const { name, scoring, has } = evaluate(cards);
     let [chips, mult] = BASE[name];
-    const ctx = { cards, scoring, has, discards, jokers: jokers.length, deck: deck.length };
+    const ctx = { cards, scoring, has, hands: hands - 1, discards, used, jokers: jokers.length, deck: deck.length, first: hands === HANDS };
     const apply = (eff) => {
       if (!eff) return;
       chips += eff.chips || 0;
@@ -163,10 +193,12 @@
     };
     scoring.forEach((c) => {
       chips += CHIPS[c.r];
-      jokers.forEach((j) => j.card && apply(j.card(c, ctx)));
+      each('card', (j) => apply(j.card(c, ctx, j)));
     });
-    jokers.forEach((j) => j.hand && apply(j.hand(ctx)));
-    return { name, scoring, chips, mult, total: Math.floor(chips * mult) };
+    each('hand', (j) => apply(j.hand(ctx, j)));
+    const extra = [];
+    each('play', (j) => extra.push(...j.play(cards, ctx, j)));
+    return { name, scoring, chips, mult: Math.round(mult * 10) / 10, total: Math.floor(chips * mult), extra };
   };
 
   /* ---------- Rendering ---------- */
@@ -212,31 +244,38 @@
     renderPreview();
   };
 
+  // A joker card: its art from the sprite sheet, its text underneath.
+  const jokerEl = (j, tag, attr) => {
+    const el = document.createElement(tag);
+    el.className = 'joker';
+    el.setAttribute('aria-label', `${j.name}: ${describe(j)}`);
+    el.title = j.name;
+    el.innerHTML = `<span class="joker__art" style="--col:${j.art % SHEET_COLS};--row:${Math.floor(j.art / SHEET_COLS)}"></span><small>${describe(j)}</small>`;
+    Object.entries(attr).forEach(([k, v]) => el.setAttribute(k, v));
+    return el;
+  };
+
   const renderJokers = () => {
     if (!jokers.length) {
       jokersEl.innerHTML = '<p class="balatro__empty">No jokers yet. Beat a blind to pick one.</p>';
       return;
     }
     jokersEl.replaceChildren(...jokers.map((j, i) => {
-      const el = document.createElement('div');
-      el.className = 'joker';
-      el.innerHTML = `<b>${j.name}</b><small>${j.desc}</small><button type="button" data-sell="${i}" aria-label="Sell ${j.name}" title="Sell">×</button>`;
+      const el = jokerEl(j, 'div', {});
+      el.insertAdjacentHTML('beforeend', `<button type="button" data-sell="${i}" aria-label="Sell ${j.name}" title="Sell">×</button>`);
       return el;
     }));
   };
 
-  const showOverlay = (text, btnLabel, offer = []) => {
+  const showOverlay = (text, btnLabel, cards = []) => {
     msg.textContent = text;
     startBtn.textContent = btnLabel;
-    offerEl.replaceChildren(...offer.map((j, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'joker joker--offer';
-      b.dataset.pick = i;
-      b.innerHTML = `<b>${j.name}</b><small>${j.desc}</small>`;
+    offerEl.replaceChildren(...cards.map((j, i) => {
+      const b = jokerEl(j, 'button', { type: 'button', 'data-pick': i });
+      b.classList.add('joker--offer');
       return b;
     }));
-    offerEl.hidden = !offer.length;
+    offerEl.hidden = !cards.length;
     overlay.hidden = false;
   };
 
@@ -249,6 +288,8 @@
     score = 0;
     hands = HANDS;
     discards = DISCARDS;
+    used = 0;
+    each('start', (j) => { discards += j.start(j); });
     drawCards();
     state = 'playing';
     overlay.hidden = true;
@@ -270,7 +311,6 @@
     showOverlay(text, 'New run');
   };
 
-  let offer = [];
   // The beaten blind stays on the scoreboard while the joker offer is up; the
   // next one shows once it starts.
   const winBlind = () => {
@@ -285,11 +325,16 @@
       finish(`You beat every blind. Ante ${ANTES.length} is yours!`);
       return;
     }
+    // End-of-blind joker effects: some wear out or go bad.
+    const gone = jokers.filter((j) => j.round && !j.round(j)).map((j) => j.name);
+    jokers = jokers.filter((j) => !gone.includes(j.name));
+    renderJokers();
     state = 'shop';
     renderPreview();
     const held = new Set(jokers.map((j) => j.name));
-    offer = shuffle(JOKERS.filter((j) => !held.has(j.name))).slice(0, 3);
-    showOverlay(`Blind beaten with ${fmt(spare)} to spare. Take a joker?`, 'Skip', offer);
+    offer = shuffle(JOKERS.filter((j) => !held.has(j.name))).slice(0, 3).map((j) => ({ ...j }));
+    const note = gone.length ? ` ${gone.join(' and ')} ${gone.length > 1 ? 'are' : 'is'} gone.` : '';
+    showOverlay(`Blind beaten with ${fmt(spare)} to spare.${note} Take a joker?`, 'Skip', offer);
   };
 
   const removePicked = () => {
@@ -314,6 +359,7 @@
     clearTimeout(timer);
     timer = setTimeout(() => {
       removePicked();
+      hand.push(...res.extra);
       if (score >= target()) {
         renderHand();
         winBlind();
@@ -332,6 +378,7 @@
   const discard = () => {
     if (state !== 'playing' || !selected.size || !discards) return;
     discards--;
+    used++;
     removePicked();
     drawCards();
     resultEl.textContent = '';

@@ -515,18 +515,24 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .balatro__jokers { display: flex; flex-wrap: wrap; gap: 6px; min-height: 52px; }
 .balatro__empty { margin: 0; align-self: center; font-size: .78rem; color: var(--ink-soft); }
 .joker {
-  position: relative; display: grid; gap: 2px; width: 138px; padding: 6px 22px 6px 9px;
-  background: #fffaf2; border: 1px solid var(--line); border-radius: 9px; text-align: left;
+  position: relative; display: grid; gap: 4px; width: 98px; padding: 6px 5px;
+  background: #fffaf2; border: 1px solid var(--line); border-radius: 9px; text-align: center;
 }
-.joker b { font: 600 .78rem var(--font-display); color: var(--primary); }
-.joker small { font-size: .66rem; line-height: 1.3; color: var(--ink-soft); }
+/* Card art from assets/jokers.png: a 9 x 4 grid of equal cards, picked by --col / --row */
+.joker__art {
+  display: block; width: 72px; height: 90px; margin: 0 auto; border-radius: 5px;
+  background: url("assets/jokers.png") no-repeat; background-size: 900% 400%;
+  background-position: calc(var(--col) * 100% / 8) calc(var(--row) * 100% / 3);
+}
+.joker small { font-size: .62rem; line-height: 1.3; color: var(--ink-soft); }
 .joker [data-sell] {
-  position: absolute; top: 4px; right: 4px; width: 16px; height: 16px; padding: 0;
+  position: absolute; top: 3px; right: 3px; width: 16px; height: 16px; padding: 0;
   border: 0; border-radius: 50%; cursor: pointer; background: var(--bg); color: var(--ink-soft);
-  font: 700 .72rem/16px var(--font-mono);
+  font: 700 .72rem/16px var(--font-mono); box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
 }
 .joker [data-sell]:hover { background: #d98b6a; color: var(--cream); }
-.joker--offer { width: 150px; padding: 8px 10px; cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
+.joker--offer { width: 128px; padding: 8px 6px; cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
+.joker--offer .joker__art { width: 104px; height: 130px; }
 .joker--offer:hover { transform: translateY(-3px); border-color: var(--secondary); }
 
 .balatro__stage { position: relative; display: grid; gap: 10px; padding: 12px; border-radius: 12px; background: #3d250c; }
@@ -560,6 +566,45 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .balatro__dialog { max-width: 520px; }
 .balatro__offer { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .balatro__offer[hidden] { display: none; }
+
+/* Music control above the game windows (music.js) */
+.play__music {
+  display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+  margin: -18px auto 26px; width: fit-content; padding: 5px 6px 5px 5px;
+  background: #fffaf2; border: 1px solid var(--line); border-radius: 999px;
+}
+.play__music-btn {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px 6px 10px; border: 0;
+  border-radius: 999px; cursor: pointer; background: var(--bg); color: var(--ink-soft);
+  font: 500 .78rem var(--font-mono); transition: background .18s ease, color .18s ease;
+}
+.play__music-btn:hover { color: var(--primary); }
+.is-on .play__music-btn { background: var(--primary); color: var(--cream); }
+.play__music-icon { font-size: 1rem; line-height: 1; }
+.play__music-btn:focus-visible, .play__music-vol input:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+.play__music-vol { display: flex; align-items: center; padding-right: 6px; }
+.play__music-vol input {
+  width: 120px; height: 4px; margin: 0; border-radius: 999px; cursor: pointer;
+  appearance: none; -webkit-appearance: none; background: var(--line); accent-color: var(--support);
+}
+.play__music-vol input::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--support); border: 2px solid #fffaf2; box-shadow: 0 1px 3px rgba(75, 46, 15, .35);
+}
+.play__music-vol input::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--support); border: 2px solid #fffaf2; box-shadow: 0 1px 3px rgba(75, 46, 15, .35);
+}
+.play__music-vol input::-moz-range-track { height: 4px; border-radius: 999px; background: var(--line); }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Feedback line under whichever game window is showing */
+.play__issue { margin: 22px 0 0; text-align: center; font-size: .82rem; color: var(--ink-soft); }
+.play__issue a { color: var(--support); font-weight: 600; border-bottom: 1px solid transparent; transition: border-color .15s ease; }
+.play__issue a:hover { border-color: var(--support); }
 
 /* Hashi on narrow screens: board full width, stats in a row beneath */
 @media (max-width: 640px) {

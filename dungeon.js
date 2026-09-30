@@ -261,38 +261,37 @@
 
   /* ---------- Hero sprite ---------- */
 
-  const PAL = { t: '#5c7a5e', d: '#3f5a41', h: '#e2a963', s: '#f2c9a0', e: '#2b1a08', b: '#4b2e0f' };
+  // A shiba inu, 16 x 14 pixels: o coat, d ear tips, c cream muzzle, belly
+  // and paws, k eyes and nose. The side view shows the curled tail.
+  const PAL = { o: '#e2a963', d: '#b8743a', c: '#fff2e1', k: '#2b1a08' };
   const BODY = {
     down: [
-      '....tttt....', '...tttttt...', '..tttttttt..', '..hhhhhhhh..',
-      '.hssssssssh.', '.hsessssesh.', '..ssssssss..', '...ssssss...',
-      '..tttttttt..', '.stttttttts.', '.stttttttts.', '..tbbbbbbt..',
-      '..dddddddd..', '..dddddddd..',
+      '....d......d....', '...dod....dod...', '...oooooooooo...', '..oooooooooooo..',
+      '..oookooookooo..', '..ooccccccccoo..', '..occccckkcccco.', '...occcccccco...',
+      '...oooccccooo...', '...oooccccooo...', '...oooooooooo...',
     ],
     up: [
-      '....tttt....', '...tttttt...', '..tttttttt..', '..hhhhhhhh..',
-      '.hhhhhhhhhh.', '.hhhhhhhhhh.', '..hhhhhhhh..', '...ssssss...',
-      '..tttttttt..', '.stttttttts.', '.stttttttts.', '..tbbbbbbt..',
-      '..dddddddd..', '..dddddddd..',
+      '....d......d....', '...dod....dod...', '...oooooooooo...', '..oooooooooooo..',
+      '..oooooooooooo..', '..oooooooooooo..', '...oooooooooo...', '...oooooooooo...',
+      '...oooooooooo...', '...ooooccoooo...', '...oooccccooo...',
     ],
     right: [
-      '....tttt....', '...tttttt...', '..tttttttt..', '..hhhhhhhh..',
-      '..hhhssssss.', '..hhhsssses.', '..hhssssss..', '...ssssss...',
-      '..tttttttt..', '..tttttttt..', '..tttsstt...', '..tbbbbbbt..',
-      '..dddddddd..', '..dddddddd..',
+      '..........d..d..', '..........dood..', '...oo.....oooooo', '..o..o...ooookoo',
+      '..o..o..oooooooo', '...ooooooooccckk', '..oooooooooocccc', '..ooooooooooocc.',
+      '..ooooooooooooo.', '..oocccccccccoo.', '..ooo.....ooo...',
     ],
   };
   const LEGS = {
-    front: [['..bbb..bbb..', '..bbb..bbb..'], ['.bbb....bbb.', '.bbb....bbb.']],
-    side: [['...bbbbbb...', '...bbbbbb...'], ['..bbb..bbb..', '..bbb..bbb..']],
+    front: [['...ooo....ooo...', '...ccc....ccc...'], ['..ooo......ooo..', '..ccc......ccc..']],
+    side: [['..ooo.....ooo...', '..ccc.....ccc...'], ['.oo..o...oo..o..', '.cc..c...cc..c..']],
   };
   const render = (rows, flip) => {
     const c = document.createElement('canvas');
-    c.width = 12;
-    c.height = 16;
+    c.width = 16;
+    c.height = 14;
     const g = c.getContext('2d');
     if (flip) {
-      g.translate(12, 0);
+      g.translate(16, 0);
       g.scale(-1, 1);
     }
     rows.forEach((row, y) => [...row].forEach((ch, x) => {
@@ -322,7 +321,7 @@
   view.height = H;
   ctx.imageSmoothingEnabled = false;
 
-  const hero = { x: 6 * TILE + 2, y: 5 * TILE, dir: 'down', frame: 0, walked: 0 };
+  const hero = { x: 6 * TILE, y: 5 * TILE, dir: 'down', frame: 0, walked: 0 };
   let room = ROOMS[0];
   let state = 'idle'; // idle | playing | paused | leaving | away | returning
   let raf = 0;
@@ -337,7 +336,7 @@
 
   // Only the hero's feet collide, so the head may overlap the wall above (Zelda-style).
   const blocked = (x, y) => {
-    const corners = [[x + 1, y + 9], [x + 10, y + 9], [x + 1, y + 15], [x + 10, y + 15]];
+    const corners = [[x + 2, y + 8], [x + 13, y + 8], [x + 2, y + 13], [x + 13, y + 13]];
     return corners.some(([cx, cy]) => {
       const t = grid[Math.floor(cy / TILE)]?.[Math.floor(cx / TILE)];
       return t === undefined || SOLID.has(t);
@@ -369,11 +368,11 @@
     const hy = Math.round(hero.y);
     ctx.fillStyle = 'rgba(0, 0, 0, .25)';
     ctx.beginPath();
-    ctx.ellipse(hx + 6, hy + 15.5, 5, 2, 0, 0, Math.PI * 2);
+    ctx.ellipse(hx + 8, hy + 13.5, 6, 2, 0, 0, Math.PI * 2);
     ctx.fill();
-    POTS.forEach(([x, y]) => { if (y * TILE + TILE <= hy + 16) pot(ctx, x * TILE, y * TILE); });
+    POTS.forEach(([x, y]) => { if (y * TILE + TILE <= hy + 14) pot(ctx, x * TILE, y * TILE); });
     ctx.drawImage(SPRITES[hero.dir][hero.frame], hx, hy - (hero.frame ? 1 : 0));
-    POTS.forEach(([x, y]) => { if (y * TILE + TILE > hy + 16) pot(ctx, x * TILE, y * TILE); });
+    POTS.forEach(([x, y]) => { if (y * TILE + TILE > hy + 14) pot(ctx, x * TILE, y * TILE); });
 
     if (fade > 0) {
       ctx.fillStyle = `rgba(20, 12, 4, ${fade})`;
@@ -481,7 +480,7 @@
       hero.frame = 0;
     }
 
-    const r = roomAt(Math.floor((hero.x + 6) / TILE), Math.floor((hero.y + 12) / TILE));
+    const r = roomAt(Math.floor((hero.x + 8) / TILE), Math.floor((hero.y + 11) / TILE));
     if (r && r !== room) {
       room = r;
       roomOut.textContent = r.name;

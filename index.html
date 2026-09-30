@@ -364,6 +364,17 @@
           <h2>Games</h2>
         </header>
 
+        <!-- Music (music.js): off until switched on, one track for every window -->
+        <div class="play__music" data-music="assets/music.mp3">
+          <button class="play__music-btn" type="button" data-toggle aria-pressed="false">
+            <span class="play__music-icon" aria-hidden="true">&#9835;</span><span data-label>Music off</span>
+          </button>
+          <label class="play__music-vol">
+            <span class="visually-hidden">Volume</span>
+            <input type="range" min="0" max="100" value="50" data-volume />
+          </label>
+        </div>
+
         <!-- Dungeon hub (dungeon.js): walk into a room to open its game -->
         <article class="dungeon" data-dungeon>
           <div class="bench dungeon__card">
@@ -617,6 +628,8 @@
             </div>
           </div>
         </article>
+
+        <p class="play__issue">Found a bug, or have an idea for a game? <a href="https://github.com/khanhnd61-vr/khanhnd61-vr.github.io/issues/new" target="_blank" rel="noopener">Open an issue on GitHub &#8599;</a></p>
       </div>
     </section>
   </main>
@@ -635,5 +648,6 @@
   <script src="hashi.js"></script>
   <script src="balatro.js"></script>
   <script src="dungeon.js"></script>
+  <script src="music.js"></script>
 </body>
 </html>
