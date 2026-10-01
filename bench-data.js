@@ -18,8 +18,9 @@
 //            latency and peak memory from each report's "Fastest configuration" table.
 //            RTX 5090 is the PR #32 author's min at defaults. M5 Max is not in that
 //            round, so it is kept from an earlier build: docs/backend/metal.md.
-//   vla.simd docs/benchmark/*.md, one round at commit 7636baa: median latency and
-//            peak RSS of the faster of FP32 and INT8 at the fastest measured threads.
+//   vla.simd docs/benchmark/*.md, one round at commit 7636baa (the Core Ultra X7 358H at
+//            c60b286, the same code merged into main): median latency and peak RSS of
+//            the faster of FP32 and INT8 at the fastest measured threads.
 
 window.BENCH_DATA = {
   'vla.cpp': {
@@ -320,12 +321,14 @@ window.BENCH_DATA = {
       i5:     { name: 'Intel Core i5-12400F',  note: '6 P-cores / 12 threads, AVX2 (+AVX-VNNI for INT8). Median of 50 queries after 5 warmups. Memory: peak RSS.' },
       i7:     { name: 'Intel Core i7-14700F',  note: '8P + 12E cores, 28 threads, AVX2 (+AVX-VNNI for INT8). Median of 50 queries after 5 warmups. Memory: peak RSS.' },
       i9:     { name: 'Intel Core i9-14900HX', note: 'Laptop, 8P + 16E cores, AVX2 (+AVX-VNNI for INT8); power- and heat-limited under sustained load. Median of 50 queries after 5 warmups. Memory: peak RSS.' },
+      x7:     { name: 'Intel Core Ultra X7 358H', note: 'AAEON CEXD-INTRBL board: 4P + 8E + 4 low-power E-cores, 16 threads, AVX2 (+AVX-VNNI for INT8); performance power profile, measured at sustained power. Median of 50 queries after 5 warmups. Memory: peak RSS.' },
     },
     results: [
       ['impact', 'i9',     48.2, { rss: 765 }, null, 'int8 · 8 threads'],
       ['impact', 'i7',     52.6, { rss: 764 }, null, 'int8 · 8 threads'],
       ['impact', 'i5',     60.5, { rss: 765 }, null, 'int8 · 12 threads'],
       ['impact', 'm4',     70.5, { rss: 801 }, null, 'int8 · 10 threads'],
+      ['impact', 'x7',     72.5, { rss: 768 }, null, 'int8 · 16 threads'],
       ['impact', 'snapx',  77.8, { rss: 765 }, null, 'int8 · 8 threads'],
       ['impact', 'ryzen5', 170.8, { rss: 766 }, null, 'fp32 · 6 threads'],
       ['impact', 'pi5',    497.4, { rss: 767 }, null, 'int8 · 4 threads'],
@@ -333,6 +336,7 @@ window.BENCH_DATA = {
       ['act', 'i9',     49.1, { rss: 556 }, null, 'int8 · 8 threads'],
       ['act', 'i7',     53.3, { rss: 482 }, null, 'int8 · 8 threads'],
       ['act', 'i5',     59.2, { rss: 483 }, null, 'int8 · 12 threads'],
+      ['act', 'x7',     65.3, { rss: 607 }, null, 'int8 · 16 threads'],
       ['act', 'm4',     69.1, { rss: 661 }, null, 'int8 · 10 threads'],
       ['act', 'snapx',  74.7, { rss: 483 }, null, 'int8 · 8 threads'],
       ['act', 'ryzen5', 170.3, { rss: 590 }, null, 'fp32 · 6 threads'],
@@ -350,6 +354,7 @@ window.BENCH_DATA = {
       ['turbovla', 'i9',     116.0, { rss: 1771 }, null, 'fp32 · 32 threads'],
       ['turbovla', 'i7',     132.7, { rss: 1771 }, null, 'fp32 · 28 threads'],
       ['turbovla', 'i5',     155.4, { rss: 1771 }, null, 'fp32 · 12 threads'],
+      ['turbovla', 'x7',     162.2, { rss: 1775 }, null, 'fp32 · 16 threads'],
       ['turbovla', 'ryzen5', 187.6, { rss: 1771 }, null, 'fp32 · 6 threads'],
       ['turbovla', 'snapx',  217.0, { rss: 1770 }, null, 'fp32 · 8 threads'],
       ['turbovla', 'pi5',    1590, { rss: 1773 }, null, 'fp32 · 4 threads'],
