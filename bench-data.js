@@ -344,6 +344,7 @@ window.BENCH_DATA = {
 
       ['octo', 'i7',     29.8, { rss: 1078 }, null, 'int8 · 8 threads'],
       ['octo', 'i5',     35.0, { rss: 1078 }, null, 'int8 · 6 threads'],
+      ['octo', 'x7',     42.4, { rss: 1081 }, null, 'int8 · 16 threads'],
       ['octo', 'snapx',  44.4, { rss: 1078 }, null, 'int8 · 8 threads'],
       ['octo', 'i9',     44.8, { rss: 1078 }, null, 'int8 · 4 threads'],
       ['octo', 'm4',     47.9, { rss: 1103 }, null, 'fp32 · 4 threads'],
@@ -363,6 +364,7 @@ window.BENCH_DATA = {
       ['smolvla', 'i7',     402.6, { rss: 2249 }, null, 'int8 · 8 threads'],
       ['smolvla', 'i5',     462.6, { rss: 2250 }, null, 'int8 · 12 threads'],
       ['smolvla', 'm4',     494.4, { rss: 3027 }, null, 'int8 · 10 threads'],
+      ['smolvla', 'x7',     566.4, { rss: 2253 }, null, 'int8 · 16 threads'],
       ['smolvla', 'snapx',  660.4, { rss: 1957 }, null, 'int8 · 8 threads'],
       ['smolvla', 'ryzen5', 1162, { rss: 2250 }, null, 'fp32 · 6 threads'],
       ['smolvla', 'pi5',    3961, { rss: 1959 }, null, 'int8 · 4 threads'],
@@ -371,6 +373,7 @@ window.BENCH_DATA = {
       ['dp', 'i7',     165.7, { rss: 2152 }, null, 'int8 · 8 threads'],
       ['dp', 'snapx',  169.6, { rss: 2152 }, null, 'int8 · 8 threads'],
       ['dp', 'i5',     178.1, { rss: 2152 }, null, 'int8 · 12 threads'],
+      ['dp', 'x7',     179.9, { rss: 2156 }, null, 'int8 · 16 threads'],
       ['dp', 'm4',     180.2, { rss: 2380 }, null, 'int8 · 10 threads'],
       ['dp', 'ryzen5', 738.0, { rss: 2166 }, null, 'fp32 · 6 threads'],
       ['dp', 'pi5',    1078, { rss: 2154 }, null, 'int8 · 4 threads'],
