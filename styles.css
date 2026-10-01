@@ -503,7 +503,10 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .about__cards { grid-template-columns: 1fr; }
   .project { grid-template-columns: 1fr; }
   .contacts { grid-template-columns: repeat(2, 1fr); }
+}
 
+/* The nav collapses earlier than the layout: its eight links need about 1000px */
+@media (max-width: 1000px) {
   .nav__toggle { display: flex; }
   .nav__links {
     position: absolute; top: 68px; left: 0; right: 0;
