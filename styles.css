@@ -61,6 +61,9 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .nav__links { list-style: none; display: flex; align-items: center; gap: 28px; margin: 0; padding: 0; font-weight: 500; }
 .nav__links a { color: var(--ink-soft); transition: color .18s ease; }
 .nav__links a:hover { color: var(--primary); }
+/* Star marking the companion pages (VLA Hub, VLA Arch) */
+.nav__star { color: var(--secondary); margin-right: 5px; transition: color .18s ease; }
+.nav__links a:hover .nav__star { color: var(--highlight); }
 .nav__cta {
   background: var(--primary); color: var(--cream) !important;
   padding: 8px 16px; border-radius: 999px; font-weight: 600;
@@ -509,7 +512,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
     padding: 8px 6%; max-height: 0; overflow: hidden;
     transition: max-height .3s ease, padding .3s ease;
   }
-  .nav__links.is-open { max-height: 340px; padding: 16px 6% 22px; }
+  .nav__links.is-open { max-height: 440px; padding: 16px 6% 22px; }
   .nav__links li { width: 100%; padding: 8px 0; }
 }
 
