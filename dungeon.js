@@ -1,32 +1,34 @@
-// Dungeon hub for the Play section: a top-down, Zelda-style map of five rooms
-// drawn on one small canvas and scaled up with crisp pixels. The triangular
-// entrance hall has a computer and a book to read; the four L-shaped rooms
-// around it each hold an arcade cabinet. Press Z at one to swap this card for
-// that game's window; the red button in the game window's title bar brings the
-// player back here.
+// Dungeon hub for the Play section: a top-down, Zelda-style map of six rooms
+// drawn on one small canvas and scaled up with crisp pixels. The lobby has a
+// computer and a book to read; the Pikachu room beside it and the four
+// L-shaped rooms around them each hold an arcade cabinet. Press Z at one to
+// swap this card for that game's window; the red button in the game window's
+// title bar brings the player back here.
 (() => {
   const root = document.querySelector('[data-dungeon]');
   if (!root) return;
 
   // The map, one character per tile: # is rock or wall, + a door, and each
-  // letter is a room's floor. The hall (e) is a triangle; the game rooms are
-  // L-shaped: Pong (p), Balatro (b), Tetris (t) and Hashi (h). The hall opens
-  // onto the two bottom rooms, and the four game rooms join up in a ring.
+  // letter is a room's floor. The middle is split into the lobby (l) and the
+  // Pikachu room (k); the L-shaped rooms around them are Pong (p), Balatro
+  // (b), Tetris (t) and Hashi (h). The two middle rooms open onto each other
+  // and onto the rooms above and below them, and the four L-shaped rooms join
+  // up in a ring.
   const LAYOUT = [
     '#########################',
     '#ppppppppppp#bbbbbbbbbbb#',
     '#ppppppppppp+bbbbbbbbbbb#',
     '#ppppppppppp+bbbbbbbbbbb#',
-    '#ppp#################bbb#',
-    '#ppp#################bbb#',
-    '#ppp########e########bbb#',
-    '#ppp#######eee#######bbb#',
-    '#ppp######eeeee######bbb#',
-    '##++#####eeeeeee#####++##',
-    '#ttt####eeeeeeeee####hhh#',
-    '#ttt###eeeeeeeeeee###hhh#',
-    '#ttt##eeeeeeeeeeeee##hhh#',
-    '#ttt#eeeeeeeeeeeeeee#hhh#',
+    '#ppp###++#######++###bbb#',
+    '#ppp#lllllll#kkkkkkk#bbb#',
+    '#ppp#lllllll#kkkkkkk#bbb#',
+    '#ppp#lllllll#kkkkkkk#bbb#',
+    '#ppp#lllllll+kkkkkkk#bbb#',
+    '##++#lllllll+kkkkkkk#++##',
+    '#ttt#lllllll#kkkkkkk#hhh#',
+    '#ttt#lllllll#kkkkkkk#hhh#',
+    '#ttt#lllllll#kkkkkkk#hhh#',
+    '#ttt#lllllll#kkkkkkk#hhh#',
     '#ttt###++#######++###hhh#',
     '#ttttttttttt#hhhhhhhhhhh#',
     '#ttttttttttt#hhhhhhhhhhh#',
@@ -68,7 +70,8 @@
 
   // Room floors by letter; each game room's name is painted on its floor at `at` (tiles).
   const ROOMS = {
-    e: { name: 'Entrance hall' },
+    l: { name: 'Lobby', label: 'LOBBY', at: [8.5, 12.5] },
+    k: { name: 'Pikachu room', label: 'PIKACHU', at: [16.5, 12.5] },
     p: { name: 'Pong room', label: 'PONG', at: [2.5, 6.5] },
     b: { name: 'Balatro room', label: 'BALATRO', at: [22.5, 6.5] },
     t: { name: 'Tetris room', label: 'TETRIS', at: [2.5, 12.5] },
@@ -76,8 +79,8 @@
   };
   const DOORS = [];
   LAYOUT.forEach((row, y) => [...row].forEach((ch, x) => { if (ch === '+') DOORS.push([x, y]); }));
-  const TORCHES = [[6, 0], [18, 0], [0, 6], [24, 6], [0, 12], [24, 12], [6, 18], [18, 18], [11, 6], [13, 6], [12, 14]];
-  const POTS = [[11, 1], [1, 8], [13, 1], [23, 8], [11, 17], [23, 17]];
+  const TORCHES = [[6, 0], [18, 0], [0, 6], [24, 6], [0, 12], [24, 12], [6, 18], [18, 18], [12, 4], [12, 6], [12, 12], [12, 14]];
+  const POTS = [[11, 1], [1, 8], [13, 1], [23, 8], [11, 17], [23, 17], [13, 5]];
   // A small Hashi pond at the far end of the Hashi room: four islands joined in a ring.
   const ISLANDS = { '13,15': 2, '15,15': 2, '13,17': 2, '15,17': 2 };
   const BLOCK_COLORS = {
@@ -91,9 +94,16 @@
     I: [[5, 17], [6, 17], [7, 17], [8, 17]],
     O: [[9, 15], [10, 15], [9, 16], [10, 16]],
   };
-  const CRACKS = [[3, 7], [4, 2], [6, 12], [17, 12], [23, 11], [18, 17]];
+  const CRACKS = [[3, 7], [4, 2], [6, 12], [14, 7], [23, 11], [18, 17]];
   const CARDS = [[15, 2], [17, 1], [19, 3], [16, 3], [23, 5], [21, 7]]; // playing cards strewn on the floor
   const COURT_AT = [5, 1, 6, 3]; // Pong court painted on the Pong room floor: x, y, w, h in tiles
+  // A few Pikachu tiles painted on the Pikachu room floor, one pair of them joined: x, y, then a colour per tile.
+  const BOARD_AT = [15, 8];
+  const BOARD = [
+    ['#8db07e', '#f4c15d', '#8fb8c4', '#f4c15d'],
+    ['#d9745a', '#6f8fc0', '#b48cb0', '#8db07e'],
+    ['#8fb8c4', '#e2a963', '#d9745a', '#b48cb0'],
+  ];
 
   // What the book on the table and the computer on the desk say, a page at a time.
   const PROFILE = [
@@ -117,10 +127,11 @@
 
   // Things the player can face and press Z at.
   const THINGS = [
-    { x: 9, y: 9, tile: COMPUTER, name: 'Computer', pages: PROJECTS },
-    { x: 12, y: 11, tile: BOOK, name: 'Book', pages: PROFILE },
+    { x: 9, y: 5, tile: COMPUTER, name: 'Computer', pages: PROJECTS },
+    { x: 8, y: 9, tile: BOOK, name: 'Book', pages: PROFILE },
     { x: 2, y: 1, tile: ARCADE, name: 'Pong', game: '[data-pong]' },
     { x: 22, y: 1, tile: ARCADE, name: 'Balatro', game: '[data-balatro]' },
+    { x: 19, y: 5, tile: ARCADE, name: 'Pikachu', game: '[data-pika]' },
     { x: 4, y: 15, tile: ARCADE, name: 'Tetris', game: '[data-tetris]' },
     { x: 19, y: 15, tile: ARCADE, name: 'Hashi', game: '[data-hashi]' },
   ];
@@ -136,12 +147,12 @@
   put(CARD, CARDS);
   put(POT, POTS);
   put(COURT, rect(...COURT_AT));
-  put(STAIRS, [[12, 6]]);
-  put(RUG, rect(10, 10, 5, 3));
-  put(SHELF, [[14, 9], [15, 9]]);
-  put(DESK, [[10, 9]]);
-  put(CHAIR, [[11, 11], [13, 11]]);
-  put(PLANT, [[5, 13], [19, 13]]);
+  put(STAIRS, [[5, 5]]);
+  put(RUG, rect(6, 8, 5, 3));
+  put(SHELF, [[6, 5], [11, 5]]);
+  put(DESK, [[10, 5]]);
+  put(CHAIR, [[7, 9], [9, 9]]);
+  put(PLANT, [[5, 13], [11, 13], [13, 13], [19, 13]]);
   put(WATER, rect(13, 15, 3, 3));
   put(BRIDGE_H, [[14, 15], [14, 17]]);
   put(BRIDGE_V, [[13, 16], [15, 16]]);
@@ -279,6 +290,16 @@
       c.fillRect(px + 11, py + 5, 1, 3);
       c.fillStyle = '#f4c15d';
       c.fillRect(px + 8, py + 5, 1, 1); // ball
+    },
+    Pikachu: (c, px, py) => {
+      c.fillStyle = '#1a1030';
+      c.fillRect(px + 4, py + 3, 8, 6);
+      [['#8db07e', 5, 4], ['#f4c15d', 8, 4], ['#d9745a', 5, 7], ['#8db07e', 8, 7]]
+        .forEach(([col, x, y]) => { c.fillStyle = col; c.fillRect(px + x, py + y, 2, 1); });
+      c.fillStyle = '#fffaf2';
+      c.fillRect(px + 10, py + 4, 1, 4); // the line joining the two green tiles
+      c.fillRect(px + 7, py + 4, 3, 1);
+      c.fillRect(px + 10, py + 7, 1, 1);
     },
   };
 
@@ -512,6 +533,27 @@
     mctx.fillStyle = '#f4c15d';
     mctx.fillRect(x0 + 34, y0 + 18, 3, 3);
   }
+  // The Pikachu tiles, and the path over the top of the board joining the two yellow ones.
+  {
+    const [x0, y0] = BOARD_AT.map((n) => n * TILE);
+    BOARD.forEach((row, j) => row.forEach((col, i) => {
+      const tx = x0 + i * TILE;
+      const ty = y0 + j * TILE;
+      mctx.fillStyle = 'rgba(0, 0, 0, .2)';
+      mctx.fillRect(tx + 3, ty + 3, 12, 12);
+      mctx.fillStyle = '#fffaf2';
+      mctx.fillRect(tx + 2, ty + 2, 12, 12);
+      mctx.fillStyle = col;
+      mctx.fillRect(tx + 4, ty + 4, 8, 8);
+      mctx.fillStyle = '#2b1a08';
+      mctx.fillRect(tx + 6, ty + 7, 1, 1); // eyes
+      mctx.fillRect(tx + 9, ty + 7, 1, 1);
+    }));
+    mctx.fillStyle = '#f4c15d';
+    mctx.fillRect(x0 + TILE + 7, y0 - 4, 2, 6);
+    mctx.fillRect(x0 + TILE + 7, y0 - 4, 2 * TILE + 2, 2);
+    mctx.fillRect(x0 + 3 * TILE + 7, y0 - 4, 2, 6);
+  }
   Object.values(ROOMS).forEach((r) => {
     if (!r.label) return;
     const [cx, cy] = r.at.map((n) => n * TILE);
@@ -618,8 +660,8 @@
   ctx.imageSmoothingEnabled = false;
 
   // The hero's feet box is rows 8-13 and columns 2-13 of the 16 x 14 sprite.
-  const hero = { x: 12 * TILE, y: 7 * TILE - 8, dir: 'down', frame: 0, walked: 0 }; // at the foot of the stairs
-  let room = ROOMS.e;
+  const hero = { x: 5 * TILE, y: 6 * TILE - 8, dir: 'down', frame: 0, walked: 0 }; // at the foot of the stairs
+  let room = ROOMS.l;
   let state = 'idle'; // idle | playing | reading | paused | leaving | away | returning
   let raf = 0;
   let lastTime = 0;
@@ -933,5 +975,5 @@
 
   roomOut.textContent = room.name;
   draw(0);
-  showOverlay('Explore the hall, then find the four game rooms.', 'Enter the dungeon');
+  showOverlay('Explore the lobby, then find the five game rooms.', 'Enter the dungeon');
 })();

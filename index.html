@@ -386,14 +386,14 @@
             <div class="bench__bar">
               <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
               <span class="bench__name">dungeon.js</span>
-              <span class="dungeon__room" data-room aria-live="polite">Entrance hall</span>
+              <span class="dungeon__room" data-room aria-live="polite">Lobby</span>
             </div>
             <div class="dungeon__body">
               <div class="dungeon__stage" data-stage tabindex="0" aria-label="Dungeon map">
                 <canvas class="dungeon__view" data-view width="400" height="304" aria-hidden="true"></canvas>
                 <div class="tetris__overlay dungeon__overlay" data-overlay>
                   <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">Explore the hall, then find the four game rooms.</p>
+                    <p data-msg aria-live="polite">Explore the lobby, then find the five game rooms.</p>
                     <button class="btn btn--primary" type="button" data-start>Enter the dungeon</button>
                   </div>
                 </div>
@@ -406,7 +406,7 @@
               </div>
               <div class="dungeon__keys">
                 <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk · <kbd>Z</kbd> to interact · <kbd>X</kbd> to close</span>
-                <span>Read the computer and the book in the hall. Press Z at an arcade cabinet to play; the red button on the game window leads back here.</span>
+                <span>Read the computer and the book in the lobby. Press Z at an arcade cabinet to play; the red button on the game window leads back here.</span>
               </div>
               <!-- Touch controls (shown on touch screens) -->
               <div class="tetris__pad dungeon__pad">
@@ -705,6 +705,71 @@
           </div>
         </article>
 
+        <!-- Pikachu (pikachu.js): join pairs of matching aliens to clear the board; each level moves the tiles differently -->
+        <article class="pika" data-pika hidden>
+          <div class="bench pika__card">
+            <div class="bench__bar">
+              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
+              <span class="bench__name">pikachu.js</span>
+              <div class="bench__engines pika__levels" role="group" aria-label="Level">
+                <button class="bench__engine" type="button" data-level-prev aria-label="Previous level">&lsaquo;</button>
+                <span class="pika__levelname" data-out="levelname" aria-live="polite">Level 1 · Still</span>
+                <button class="bench__engine" type="button" data-level-next aria-label="Next level">&rsaquo;</button>
+              </div>
+            </div>
+            <div class="pika__body">
+              <div class="pika__stage" data-stage tabindex="0" aria-label="Pikachu board">
+                <canvas class="pika__board" data-board width="648" height="456" aria-hidden="true"></canvas>
+                <div class="tetris__overlay pika__overlay" data-overlay>
+                  <div class="tetris__dialog pika__dialog">
+                    <p data-msg aria-live="polite">Join pairs of matching aliens to clear the board.</p>
+                    <button class="btn btn--primary" type="button" data-start>Start level</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pika__side">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label">Score</span>
+                  <span class="bench__value" data-out="score">0</span>
+                </div>
+                <div class="pika__pair">
+                  <div class="bench__stat">
+                    <span class="bench__label">Best</span>
+                    <span class="bench__value" data-out="best">-</span>
+                  </div>
+                  <div class="bench__stat">
+                    <span class="bench__label">Pairs</span>
+                    <span class="bench__value" data-out="pairs">0</span>
+                  </div>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Level</span>
+                  <span class="bench__value" data-out="level">1 / 13</span>
+                  <span class="pika__gravity" data-out="gravity">Still</span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Time</span>
+                  <span class="bench__value" data-out="time">4:00</span>
+                  <div class="pika__timebar" data-timebar><i data-time-fill></i></div>
+                </div>
+                <div class="pika__actions">
+                  <button type="button" data-hint>Hint (5)</button>
+                  <button type="button" data-shuffle>Shuffle (3)</button>
+                  <button type="button" data-new>Restart</button>
+                </div>
+                <div class="bench__stat pika__help">
+                  <span class="bench__label">How to play</span>
+                  <p>Tap two matching aliens to clear them. The line between them bends at most twice and only crosses empty space, the gap around the board included.</p>
+                  <p>Clear every pair before the time runs out. Quick matches in a row score a combo.</p>
+                  <p>Each level sets a gravity: after a match the other tiles stay put, fall, rise, slide, or split two ways.</p>
+                  <p>Arrows and <kbd>Z</kbd> work too; <kbd>H</kbd> hints, <kbd>P</kbd> pauses.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
         <p class="play__issue">Found a bug, or have an idea for a game? <a href="https://github.com/khanhnd61-vr/khanhnd61-vr.github.io/issues/new" target="_blank" rel="noopener">Open an issue on GitHub &#8599;</a></p>
       </div>
     </section>
@@ -724,6 +789,7 @@
   <script src="hashi.js"></script>
   <script src="balatro.js"></script>
   <script src="pong.js"></script>
+  <script src="pikachu.js"></script>
   <script src="dungeon.js"></script>
   <script src="music.js"></script>
 </body>

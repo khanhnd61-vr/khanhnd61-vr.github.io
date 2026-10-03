@@ -317,7 +317,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 
 /* ---------- Play ---------- */
 /* One window at a time: the dungeon, or the game the player walked into */
-.dungeon[hidden], .tetris[hidden], .hashi[hidden], .balatro[hidden], .pong[hidden] { display: none; }
+.dungeon[hidden], .tetris[hidden], .hashi[hidden], .balatro[hidden], .pong[hidden], .pika[hidden] { display: none; }
 
 /* Dungeon: pixel map on a canvas (dungeon.js) */
 .dungeon { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -486,6 +486,51 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .pong__side .bench__stat { padding: 7px 9px; }
 .pong__pad { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
 
+/* Pikachu: canvas board of alien tiles (pikachu.js) with the score alongside */
+.pika { display: grid; grid-template-columns: minmax(0, 1fr); }
+.pika__card { width: min(100%, 860px); max-width: none; justify-self: center; }
+.pika__levels { align-items: center; gap: 2px; }
+.pika__levels .bench__engine { padding: 2px 9px; font-size: 1rem; line-height: 1.2; }
+.pika__levels .bench__engine:disabled { opacity: .35; cursor: default; }
+.pika__levelname { min-width: 9.5rem; text-align: center; font: 500 .76rem var(--font-mono); color: var(--primary); white-space: nowrap; }
+.pika__body { display: grid; grid-template-columns: minmax(0, 1fr) 160px; gap: 14px; padding: 16px; align-items: start; }
+.pika__stage { position: relative; min-width: 0; border-radius: 10px; overflow: hidden; background: #3d250c; }
+.pika__stage:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; }
+.pika__board {
+  display: block; width: 100%; height: auto; cursor: pointer;
+  touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.pika__overlay { border-radius: 10px; }
+.pika__dialog { max-width: 340px; }
+.pika__side { display: grid; gap: 6px; align-content: start; }
+.pika__side .bench__stat { padding: 7px 9px; }
+.pika__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pika__gravity { font: 500 .72rem var(--font-mono); color: var(--ink-soft); }
+.pika__timebar { height: 7px; margin-top: 4px; border-radius: 999px; background: rgba(168, 184, 156, .3); overflow: hidden; }
+.pika__timebar i { display: block; height: 100%; width: 100%; border-radius: 999px; background: var(--support); transition: width .25s linear; }
+.pika__timebar.is-low i { background: #D9745A; }
+.pika__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pika__actions [data-new] { grid-column: 1 / -1; }
+.pika__actions button {
+  height: 38px; padding: 0 4px; border: 0; border-radius: 10px; cursor: pointer;
+  font: 600 .78rem var(--font-display); color: var(--cream); background: var(--primary);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.pika__actions button:not(:disabled):hover, .pika__actions button:not(:disabled):active { background: var(--support); }
+.pika__actions button:disabled { opacity: .45; cursor: default; }
+.pika__actions button:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+.pika__help p { margin: 2px 0 0; font-size: .74rem; line-height: 1.4; color: var(--ink-soft); }
+.pika__help kbd {
+  display: inline-block; min-width: 1.2rem; padding: 0 4px; text-align: center;
+  font: 500 .62rem/1.4 var(--font-mono); color: var(--primary);
+  background: #fffaf2; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 5px;
+}
+@media (max-width: 640px) {
+  .pika__body { grid-template-columns: minmax(0, 1fr); }
+  .pika__side { grid-template-columns: 1fr 1fr; }
+  .pika__side .bench__stat--main, .pika__pair, .pika__actions, .pika__help { grid-column: 1 / -1; }
+}
+
 /* ---------- Footer ---------- */
 .site-footer { border-top: 1px solid var(--line); padding: 28px 0; background: var(--cream); }
 .footer__inner { display: flex; align-items: center; gap: 14px; justify-content: center; text-align: center; flex-wrap: wrap; }
@@ -524,6 +569,9 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .dungeon__card { justify-self: stretch; }
   .dungeon__body { padding: 12px; }
   .dungeon__room { display: none; }
+  .pika__card { justify-self: stretch; }
+  .pika__body { padding: 12px; }
+  .pika__levelname { min-width: 0; }
   .tetris__card { justify-self: stretch; }
   .tetris__body { padding: 12px; }
   .tetris__stage { --side: 100px; --gap: 10px; }
