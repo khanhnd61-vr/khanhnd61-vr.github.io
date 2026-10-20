@@ -274,9 +274,8 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 }
 .thumb__mono { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 500; color: var(--cream); letter-spacing: -.02em; }
 .thumb--vla    { background: linear-gradient(135deg, var(--primary), var(--support)); }
-.thumb--rex    { background: linear-gradient(135deg, var(--support), var(--sage)); }
-.thumb--facegen { background: linear-gradient(135deg, var(--highlight), var(--support)); }
 .thumb--simd   { background: linear-gradient(135deg, var(--support), var(--primary)); }
+.thumb--ggml   { background: linear-gradient(135deg, var(--support), var(--sage)); }
 .thumb--modelopt { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
 .thumb--cpu { background: linear-gradient(135deg, var(--secondary), var(--highlight)); }
 .thumb--cpu .thumb__mono { color: var(--primary); }

@@ -115,12 +115,11 @@
     'Interests: edge AI, model optimization, robotics, VLA, C and C++. Me as a happy vicuna.',
   ];
   const PROJECTS = [
-    '> ls ~/projects\nSix pinned repositories. Press Z to page through them.',
+    '> ls ~/projects\nFive pinned repositories. Press Z to page through them.',
     'vla.cpp: Vision-Language-Action models on local hardware, in the spirit of llama.cpp for robotics. The open-source project I lead at VinRobotics. C++ and ggml.',
     'vla.simd: efficient CPU inference for language-conditioned manipulation. Shared SIMD micro-kernels (AVX2 and NEON) plus IMPACT, a policy that supplies 30+ actions per second on a Raspberry Pi 5.',
+    'ggml-compiler: compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python. LLMs, VLMs and the robot policies built on them, each checked against llama.cpp and vla.cpp.',
     'Model Optimization 101: hands-on notebooks for edge deployment. Quantization, distillation, pruning, NAS and GPU kernels, each measuring size, latency and accuracy before and after.',
-    'REX, neural network Representation EXchange: a hands-on study of how different frameworks represent and serialize neural networks.',
-    'FaceGen: multiple appropriate facial reaction generation from a speaker\'s audio-visual cues. 3rd place at REACT 2024.',
     'ReadItDown: a native markdown viewer and editor for Linux, Windows and macOS.',
     'All of them live at github.com/khanhnd61-vr. The Projects section above has the links and the latency explorer.',
   ];
