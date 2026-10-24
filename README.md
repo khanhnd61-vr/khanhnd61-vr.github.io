@@ -14,9 +14,9 @@
 
 Topics: Edge AI, Model optimization, Robotics, VLA, C / C++
 
-### Now
+### Domain
 
-AI Software Engineer: inference engineering · model optimization · edge AI for robotics · AI SDK development
+AI Software Engineer: inference engineering · model optimization · edge AI for robotics · AI SDK development · efficient VLA inference
 
 ### Research
 
@@ -30,7 +30,7 @@ M.S. in AI Convergence: multimodal learning & affective behavior analysis - 6 pe
 
 Making capable AI models run fast on real hardware.
 
-I work on inference engineering, model optimization, and edge AI for robotics - building lean C/C++ inference engines that bring VLMs, VLAs, and LLMs to CPUs, accelerators, and robots. Inspired by [llama.cpp](https://github.com/ggml-org/llama.cpp): a few lines of simple code, big results on your own hardware. The two projects I'm proudest of are [vla.cpp](https://github.com/VinRobotics/vla.cpp) and [vla.simd](https://github.com/cair-vinuni/vla.simd). Two companion pages go deeper: [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/) benchmarks every model they serve on every device, and [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/) illustrates each model's architecture as block diagrams.
+I build lean C/C++ inference engines that bring VLMs, VLAs, and LLMs to CPUs, accelerators, and robots. Inspired by [llama.cpp](https://github.com/ggml-org/llama.cpp): a few lines of simple code, big results on your own hardware. The two projects I'm proudest of are [vla.cpp](https://github.com/VinRobotics/vla.cpp) and [vla.simd](https://github.com/cair-vinuni/vla.simd). Three companion pages go deeper: [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/) benchmarks every model they serve on every device, [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/) illustrates each model's architecture as block diagrams, and [XPU Arch](https://khanhnd61-vr.github.io/xpu-arch/) diagrams the CPUs, GPUs, NPUs and systems on chip behind VLA Hub.
 
 ## Projects
 
@@ -71,11 +71,3 @@ Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA wit
 - [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/): each model's architecture as block diagrams
 - [XPU Arch](https://khanhnd61-vr.github.io/xpu-arch/): block diagrams of the CPUs, GPUs, NPUs and systems on chip behind VLA Hub
 - [ReadItDown](https://khanhnd61-vr.github.io/readitdown/): a minimal, fast Markdown viewer - try it online, or download the desktop app for Linux, macOS and Windows
-
-## Contact
-
-- LinkedIn: https://www.linkedin.com/in/khanhnd185/
-- GitHub: https://github.com/khanhnd61-vr
-- Google Scholar: https://scholar.google.com/citations?user=5AdBep8AAAAJ
-- Hugging Face: https://huggingface.co/khanhnd61
-- Website: https://khanhnd61-vr.github.io/
