@@ -50,6 +50,14 @@ Efficient CPU inference for language-conditioned manipulation - shared SIMD micr
 - Tags: C++, SIMD, CPU inference, VLA
 - Authors: K.D. Nguyen, [H.M. Truong](https://tmhoanggg.github.io/), [A.T. Le](https://anindex.github.io/)
 
+### FoldQuantVLA
+
+Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the INT8 / INT4 tensor cores through custom TensorRT plugins, 1.20-1.33× faster than float TensorRT on Jetson AGX Orin across GR00T and π0.5.
+
+- GitHub: https://github.com/cair-vinuni/FoldQuantVLA
+- Tags: Quantization, TensorRT, INT4, VLA
+- Authors: H.T. Ho, K.D. Nguyen, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
+
 ### ggml-compiler
 
 Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python - LLMs, VLMs and the robot policies built on them, each checked against llama.cpp and vla.cpp.
