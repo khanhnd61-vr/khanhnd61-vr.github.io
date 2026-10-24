@@ -28,9 +28,8 @@
   <!-- ===== Header / Nav ===== -->
   <header class="site-header" id="top">
     <nav class="nav container">
-      <a class="brand" href="#top" aria-label="Havilab home">
+      <a class="brand" href="#top" aria-label="Home">
         <img class="brand__icon" src="assets/havi-pixel.png" alt="" width="40" height="40" />
-        <span class="brand__name">Havilab</span>
       </a>
       <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -39,7 +38,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="#play">Play</a></li>
+        <li><a href="https://khanhnd61-vr.github.io/arcade">Relax</a></li>
         <li><a href="/vla-hub/"><span class="nav__star" aria-hidden="true">★</span>VLA Hub</a></li>
         <li><a href="/vla-arch/"><span class="nav__star" aria-hidden="true">★</span>VLA Arch</a></li>
         <li><a href="/xpu-arch/"><span class="nav__star" aria-hidden="true">★</span>XPU Arch</a></li>
@@ -189,14 +188,13 @@
         <header class="section__head">
           <span class="section__kicker">// projects</span>
           <h2>Pinned projects</h2>
-          <p class="section__sub">A few things I'm proud of - small in code, big in scope.</p>
         </header>
 
         <div class="projects">
           <!-- vla.cpp -->
           <article class="project">
-            <div class="project__thumb thumb--vla" aria-hidden="true">
-              <span class="thumb__mono">vla.cpp</span>
+            <div class="project__thumb">
+              <img src="assets/vla-cpp.png" alt="vla.cpp architecture: a Python robot client sends requests over Protobuf and ZeroMQ to the C++ runtime, which runs on llama.cpp with CUDA and CPU backends and loads a GGUF model bundle" width="1645" height="498" loading="lazy" />
             </div>
             <div class="project__body">
               <h3 class="project__title">vla.cpp</h3>
@@ -217,8 +215,8 @@
 
           <!-- vla.simd -->
           <article class="project">
-            <div class="project__thumb thumb--simd" aria-hidden="true">
-              <span class="thumb__mono">vla.simd</span>
+            <div class="project__thumb">
+              <img src="assets/vla-simd.png" alt="vla.simd kernels: matmul, convolution and softmax built from tiling and a SIMD micro-kernel, with its tile layout and register budget" width="1903" height="639" loading="lazy" />
             </div>
             <div class="project__body">
               <h3 class="project__title">vla.simd</h3>
@@ -241,8 +239,8 @@
 
           <!-- ggml-compiler -->
           <article class="project">
-            <div class="project__thumb thumb--ggml" aria-hidden="true">
-              <span class="thumb__mono">ggml-compiler</span>
+            <div class="project__thumb">
+              <img src="assets/ggml-compiler.png" alt="A PyTorch Linear and ReLU model beside the ggml C++ graph builder that ggml-compiler generates for it" width="1672" height="941" loading="lazy" />
             </div>
             <div class="project__body">
               <h3 class="project__title">ggml-compiler</h3>
@@ -260,8 +258,8 @@
 
           <!-- modelopt101 -->
           <article class="project">
-            <div class="project__thumb thumb--modelopt" aria-hidden="true">
-              <span class="thumb__mono">modelopt101</span>
+            <div class="project__thumb">
+              <img src="assets/modelopt101.png" alt="Slide of four edge AI optimization techniques: quantization, pruning, knowledge distillation and kernel optimization" width="2001" height="1125" loading="lazy" />
             </div>
             <div class="project__body">
               <h3 class="project__title">Model Optimization 101</h3>
@@ -274,23 +272,6 @@
                 <span class="tag">Quantization</span><span class="tag">Distillation</span><span class="tag">Pruning</span><span class="tag">NAS</span><span class="tag">Kernels</span>
               </div>
               <a class="project__link" href="https://github.com/khanhnd61-vr/modelopt101" target="_blank" rel="noopener">View on GitHub ↗</a>
-            </div>
-          </article>
-
-          <!-- ReadItDown-->
-          <article class="project">
-            <div class="project__thumb thumb--cpu" aria-hidden="true">
-              <span class="thumb__mono">readitdown.md</span>
-            </div>
-            <div class="project__body">
-              <h3 class="project__title">ReadItDown</h3>
-              <p class="project__desc">
-                Native markdown viewer and editor in Linux/Windows/macOS
-              </p>
-              <div class="tags tags--sm">
-                <span class="tag">Markdown</span><span class="tag">Editor</span><span class="tag">Terminal</span>
-              </div>
-              <a class="project__link" href="https://github.com/khanhnd61-vr/readitdown" target="_blank" rel="noopener">View on GitHub ↗</a>
             </div>
           </article>
         </div>
@@ -343,419 +324,6 @@
         </div>
       </div>
     </section>
-
-    <!-- ===== Game ===== -->
-    <section class="section section--alt" id="play">
-      <div class="container">
-        <header class="section__head section__head--center">
-          <span class="section__kicker">// play</span>
-          <h2>Games</h2>
-        </header>
-
-        <!-- Music (music.js): off until switched on, one track for every window -->
-        <div class="play__music" data-music="assets/music.mp3">
-          <button class="play__music-btn" type="button" data-toggle aria-pressed="false">
-            <span class="play__music-icon" aria-hidden="true">&#9835;</span><span data-label>Music off</span>
-          </button>
-          <label class="play__music-vol">
-            <span class="visually-hidden">Volume</span>
-            <input type="range" min="0" max="100" value="50" data-volume />
-          </label>
-        </div>
-
-        <!-- Dungeon hub (dungeon.js): walk into a room to open its game -->
-        <article class="dungeon" data-dungeon>
-          <div class="bench dungeon__card">
-            <div class="bench__bar">
-              <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="bench__name">dungeon.js</span>
-              <span class="dungeon__room" data-room aria-live="polite">Lobby</span>
-            </div>
-            <div class="dungeon__body">
-              <div class="dungeon__stage" data-stage tabindex="0" aria-label="Dungeon map">
-                <canvas class="dungeon__view" data-view width="400" height="304" aria-hidden="true"></canvas>
-                <div class="tetris__overlay dungeon__overlay" data-overlay>
-                  <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">Explore the lobby, then find the five game rooms.</p>
-                    <button class="btn btn--primary" type="button" data-start>Enter the dungeon</button>
-                  </div>
-                </div>
-                <!-- RPG-style text box for the computer, the book and the arcades -->
-                <div class="dungeon__talk" data-talk hidden role="dialog" aria-live="polite">
-                  <p class="dungeon__talk-title" data-talk-title></p>
-                  <p class="dungeon__talk-text" data-talk-text></p>
-                  <p class="dungeon__talk-hint"><kbd>Z</kbd> <span data-talk-more>next</span> · <kbd>X</kbd> close</p>
-                </div>
-              </div>
-              <div class="dungeon__keys">
-                <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> to walk · <kbd>Z</kbd> to interact · <kbd>X</kbd> to close</span>
-                <span>Read the computer and the book in the lobby. Press Z at an arcade cabinet to play; the red button on the game window leads back here.</span>
-              </div>
-              <!-- Touch controls (shown on touch screens) -->
-              <div class="tetris__pad dungeon__pad">
-                <button type="button" data-dir="up" aria-label="Walk up">↑</button>
-                <button type="button" data-dir="left" aria-label="Walk left">←</button>
-                <button type="button" data-dir="down" aria-label="Walk down">↓</button>
-                <button type="button" data-dir="right" aria-label="Walk right">→</button>
-                <button type="button" class="dungeon__pad-z" data-act="z" aria-label="Interact">Z</button>
-                <button type="button" class="dungeon__pad-x" data-act="x" aria-label="Close">X</button>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Tetris (tetris.js) -->
-        <article class="tetris" data-tetris hidden>
-          <div class="bench tetris__card">
-            <div class="bench__bar">
-              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
-              <span class="bench__name">tetris.js</span>
-              <div class="bench__engines tetris__modes" role="group" aria-label="Players">
-                <button class="bench__engine is-active" type="button" data-mode="1" aria-pressed="true">1 player</button>
-                <button class="bench__engine" type="button" data-mode="2" aria-pressed="false">2 players</button>
-              </div>
-            </div>
-            <div class="tetris__body">
-              <div class="tetris__stage" data-stage tabindex="0" aria-label="Tetris">
-                <!-- One player panel; tetris.js clones it for the right player -->
-                <div class="tetris__player" data-player>
-                  <div class="tetris__screen">
-                    <canvas class="tetris__board" data-board width="280" height="560" aria-hidden="true"></canvas>
-                  </div>
-                  <div class="tetris__side">
-                    <p class="tetris__who" data-who>Left player</p>
-                    <div class="bench__stat bench__stat--main">
-                      <span class="bench__label">Score</span>
-                      <span class="bench__value" data-out="score">0</span>
-                    </div>
-                    <div class="bench__stat" data-solo>
-                      <span class="bench__label">Best</span>
-                      <span class="bench__value" data-out="best">0</span>
-                    </div>
-                    <div class="bench__stat">
-                      <span class="bench__label">Lines</span>
-                      <span class="bench__value" data-out="lines">0</span>
-                    </div>
-                    <div class="bench__stat">
-                      <span class="bench__label">Level</span>
-                      <span class="bench__value" data-out="level">1</span>
-                    </div>
-                    <div class="bench__stat">
-                      <span class="bench__label">Next</span>
-                      <canvas class="tetris__next" data-next width="120" height="60" aria-hidden="true"></canvas>
-                    </div>
-                    <!-- Key lists: tetris.js keeps the right one in each player's panel -->
-                    <div class="bench__stat tetris__keys" data-keys="solo" data-solo>
-                      <span class="bench__label">Keys</span>
-                      <dl>
-                        <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
-                        <div><dt><kbd>↑</kbd><kbd>X</kbd></dt><dd>Rotate ↻</dd></div>
-                        <div><dt><kbd>Z</kbd></dt><dd>Rotate ↺</dd></div>
-                        <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
-                        <div><dt><kbd>Space</kbd></dt><dd>Hard drop</dd></div>
-                        <div><dt><kbd>P</kbd></dt><dd>Pause</dd></div>
-                      </dl>
-                    </div>
-                    <div class="bench__stat tetris__keys" data-keys="left" data-duo>
-                      <span class="bench__label">Keys</span>
-                      <dl>
-                        <div><dt><kbd>A</kbd><kbd>D</kbd></dt><dd>Move</dd></div>
-                        <div><dt><kbd>W</kbd></dt><dd>Rotate</dd></div>
-                        <div><dt><kbd>S</kbd></dt><dd>Soft drop</dd></div>
-                        <div><dt><kbd>F</kbd></dt><dd>Hard drop</dd></div>
-                        <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
-                      </dl>
-                    </div>
-                    <div class="bench__stat tetris__keys" data-keys="right" data-duo>
-                      <span class="bench__label">Keys</span>
-                      <dl>
-                        <div><dt><kbd>←</kbd><kbd>→</kbd></dt><dd>Move</dd></div>
-                        <div><dt><kbd>↑</kbd></dt><dd>Rotate</dd></div>
-                        <div><dt><kbd>↓</kbd></dt><dd>Soft drop</dd></div>
-                        <div><dt><kbd>Enter</kbd></dt><dd>Hard drop</dd></div>
-                        <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="tetris__overlay" data-overlay>
-                  <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">Stack the blocks, clear the lines.</p>
-                    <button class="btn btn--primary" type="button" data-start>Start game</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Touch controls (shown on touch screens, 1 player only) -->
-              <div class="tetris__pad">
-                <button type="button" data-act="left" aria-label="Move left">←</button>
-                <button type="button" data-act="rotate" aria-label="Rotate">↻</button>
-                <button type="button" data-act="right" aria-label="Move right">→</button>
-                <button type="button" data-act="down" aria-label="Soft drop">↓</button>
-                <button type="button" data-act="drop" aria-label="Hard drop">⤓</button>
-                <button type="button" data-act="pause" aria-label="Pause">❚❚</button>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Balatro-lite (balatro.js) -->
-        <article class="balatro" data-balatro hidden>
-          <div class="bench balatro__card">
-            <div class="bench__bar">
-              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
-              <span class="bench__name">balatro.js</span>
-              <span class="balatro__blind" data-out="blind">Ante 1 · Small Blind</span>
-            </div>
-            <div class="balatro__body">
-              <div class="balatro__side">
-                <div class="bench__stat bench__stat--main">
-                  <span class="bench__label">Score</span>
-                  <span class="bench__value" data-out="score">0</span>
-                  <span class="balatro__target">target <b data-out="target">300</b></span>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Hand</span>
-                  <span class="bench__value balatro__handname" data-out="handname">-</span>
-                  <span class="balatro__formula" data-out="formula">Pick up to 5 cards</span>
-                </div>
-                <div class="balatro__pair">
-                  <div class="bench__stat">
-                    <span class="bench__label">Hands</span>
-                    <span class="bench__value" data-out="hands">4</span>
-                  </div>
-                  <div class="bench__stat">
-                    <span class="bench__label">Discards</span>
-                    <span class="bench__value" data-out="discards">3</span>
-                  </div>
-                </div>
-                <div class="balatro__pair">
-                  <div class="bench__stat">
-                    <span class="bench__label">Deck</span>
-                    <span class="bench__value" data-out="deck">44</span>
-                  </div>
-                  <div class="bench__stat">
-                    <span class="bench__label">Best</span>
-                    <span class="bench__value" data-out="best">-</span>
-                  </div>
-                </div>
-                <div class="bench__stat balatro__help">
-                  <span class="bench__label">How to play</span>
-                  <p>Pick up to five cards and play them as a poker hand. Its chips × mult is added to your score.</p>
-                  <p>Reach the target within four hands. Discards swap cards without scoring.</p>
-                  <p>After each blind, take a joker. Only the cards that make the hand score, and jokers act on those.</p>
-                </div>
-              </div>
-              <div class="balatro__table">
-                <div class="balatro__jokers" data-jokers aria-label="Jokers"></div>
-                <div class="balatro__stage">
-                  <p class="balatro__result" data-result aria-live="polite"></p>
-                  <div class="balatro__hand" data-hand role="group" aria-label="Your hand"></div>
-                  <div class="balatro__actions">
-                    <button class="btn btn--primary" type="button" data-play disabled>Play hand</button>
-                    <button class="balatro__discard" type="button" data-discard disabled>Discard</button>
-                    <span class="balatro__sort" role="group" aria-label="Sort hand">
-                      <button type="button" data-sort="rank" class="is-active">Rank</button>
-                      <button type="button" data-sort="suit">Suit</button>
-                    </span>
-                  </div>
-                  <div class="tetris__overlay balatro__overlay" data-overlay>
-                    <div class="tetris__dialog balatro__dialog">
-                      <p data-msg aria-live="polite">Play poker hands to beat each blind.</p>
-                      <div class="balatro__offer" data-offer hidden></div>
-                      <button class="btn btn--primary" type="button" data-start>Start run</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Hashi (hashi.js) -->
-        <article class="hashi" data-hashi hidden>
-          <div class="bench hashi__card">
-            <div class="bench__bar">
-              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
-              <span class="bench__name">hashi.js</span>
-              <div class="bench__engines" role="group" aria-label="Difficulty">
-                <button class="bench__engine is-active" type="button" data-level="easy" aria-pressed="true">Easy</button>
-                <button class="bench__engine" type="button" data-level="medium" aria-pressed="false">Medium</button>
-                <button class="bench__engine" type="button" data-level="hard" aria-pressed="false">Hard</button>
-              </div>
-            </div>
-            <div class="hashi__body">
-              <div class="hashi__stage">
-                <!-- Filled in by hashi.js -->
-                <svg class="hashi__board" data-board role="img" aria-label="Hashi puzzle"></svg>
-                <div class="hashi__overlay" data-overlay hidden>
-                  <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">Solved!</p>
-                    <button class="btn btn--primary" type="button" data-new>New puzzle</button>
-                  </div>
-                </div>
-              </div>
-              <div class="hashi__side">
-                <div class="bench__stat bench__stat--main">
-                  <span class="bench__label">Time</span>
-                  <span class="bench__value" data-out="time">0:00</span>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Best</span>
-                  <span class="bench__value" data-out="best">-</span>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Done</span>
-                  <span class="bench__value" data-out="done">0 / 0</span>
-                </div>
-                <div class="hashi__actions">
-                  <button type="button" data-undo>Undo</button>
-                  <button type="button" data-restart>Clear</button>
-                  <button type="button" data-new>New</button>
-                </div>
-                <div class="bench__stat hashi__help">
-                  <span class="bench__label">How to play</span>
-                  <p>Join all islands into one group. Each number is how many bridges touch that island.</p>
-                  <p>Bridges run straight, never cross, and at most two join a pair.</p>
-                  <p>Tap between two islands, or drag from one to the other, to add a bridge. Tap again for a second one, a third time to remove them.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Pong (pong.js): you against the computer, or two players against each other on one keyboard -->
-        <article class="pong" data-pong hidden>
-          <div class="bench pong__card">
-            <div class="bench__bar">
-              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
-              <span class="bench__name">pong.js</span>
-              <div class="bench__engines tetris__modes" role="group" aria-label="Players">
-                <button class="bench__engine is-active" type="button" data-mode="1" aria-pressed="true">Single</button>
-                <button class="bench__engine" type="button" data-mode="2" aria-pressed="false">Duo</button>
-              </div>
-            </div>
-            <div class="pong__body">
-              <div class="pong__stage" data-stage tabindex="0" aria-label="Pong">
-                <canvas class="pong__court" data-court width="480" height="300" aria-hidden="true"></canvas>
-                <div class="tetris__overlay pong__overlay" data-overlay>
-                  <div class="tetris__dialog">
-                    <p data-msg aria-live="polite">First to 7 wins.</p>
-                    <button class="btn btn--primary" type="button" data-start>Start game</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pong__side">
-                <div class="bench__stat bench__stat--main">
-                  <span class="bench__label" data-out="sides">You : CPU</span>
-                  <span class="bench__value" data-out="score">0 : 0</span>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Rally</span>
-                  <span class="bench__value" data-out="rally">0</span>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Best rally</span>
-                  <span class="bench__value" data-out="best">0</span>
-                </div>
-                <div class="bench__stat tetris__keys" data-solo>
-                  <span class="bench__label">Keys</span>
-                  <dl>
-                    <div><dt><kbd>W</kbd><kbd>S</kbd></dt><dd>Move</dd></div>
-                    <div><dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Move</dd></div>
-                    <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
-                  </dl>
-                </div>
-                <div class="bench__stat tetris__keys" data-duo>
-                  <span class="bench__label">Keys</span>
-                  <dl>
-                    <div><dt><kbd>W</kbd><kbd>S</kbd></dt><dd>Left player</dd></div>
-                    <div><dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Right player</dd></div>
-                    <div><dt><kbd>Space</kbd></dt><dd>Pause</dd></div>
-                  </dl>
-                </div>
-              </div>
-
-              <!-- Touch controls (shown on touch screens, single only); dragging on the court works too -->
-              <div class="tetris__pad pong__pad">
-                <button type="button" data-act="up" aria-label="Move up">↑</button>
-                <button type="button" data-act="down" aria-label="Move down">↓</button>
-                <button type="button" data-act="pause" aria-label="Pause">❚❚</button>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <!-- Pikachu (pikachu.js): join pairs of matching aliens to clear the board; each level moves the tiles differently -->
-        <article class="pika" data-pika hidden>
-          <div class="bench pika__card">
-            <div class="bench__bar">
-              <span class="bench__dots"><button class="bench__exit" type="button" data-exit aria-label="Exit to the dungeon" title="Exit to the dungeon"></button><i></i><i></i></span>
-              <span class="bench__name">pikachu.js</span>
-              <div class="bench__engines pika__levels" role="group" aria-label="Level">
-                <button class="bench__engine" type="button" data-level-prev aria-label="Previous level">&lsaquo;</button>
-                <span class="pika__levelname" data-out="levelname" aria-live="polite">Level 1 · Still</span>
-                <button class="bench__engine" type="button" data-level-next aria-label="Next level">&rsaquo;</button>
-              </div>
-            </div>
-            <div class="pika__body">
-              <div class="pika__stage" data-stage tabindex="0" aria-label="Pikachu board">
-                <canvas class="pika__board" data-board width="648" height="456" aria-hidden="true"></canvas>
-                <div class="tetris__overlay pika__overlay" data-overlay>
-                  <div class="tetris__dialog pika__dialog">
-                    <p data-msg aria-live="polite">Join pairs of matching aliens to clear the board.</p>
-                    <button class="btn btn--primary" type="button" data-start>Start level</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pika__side">
-                <div class="bench__stat bench__stat--main">
-                  <span class="bench__label">Score</span>
-                  <span class="bench__value" data-out="score">0</span>
-                </div>
-                <div class="pika__pair">
-                  <div class="bench__stat">
-                    <span class="bench__label">Best</span>
-                    <span class="bench__value" data-out="best">-</span>
-                  </div>
-                  <div class="bench__stat">
-                    <span class="bench__label">Pairs</span>
-                    <span class="bench__value" data-out="pairs">0</span>
-                  </div>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Level</span>
-                  <span class="bench__value" data-out="level">1 / 13</span>
-                  <span class="pika__gravity" data-out="gravity">Still</span>
-                </div>
-                <div class="bench__stat">
-                  <span class="bench__label">Time</span>
-                  <span class="bench__value" data-out="time">4:00</span>
-                  <div class="pika__timebar" data-timebar><i data-time-fill></i></div>
-                </div>
-                <div class="pika__actions">
-                  <button type="button" data-hint>Hint (5)</button>
-                  <button type="button" data-shuffle>Shuffle (3)</button>
-                  <button type="button" data-new>Restart</button>
-                </div>
-                <div class="bench__stat pika__help">
-                  <span class="bench__label">How to play</span>
-                  <p>Tap two matching aliens to clear them. The line between them bends at most twice and only crosses empty space, the gap around the board included.</p>
-                  <p>Clear every pair before the time runs out. Quick matches in a row score a combo.</p>
-                  <p>Each level sets a gravity: after a match the other tiles stay put, fall, rise, slide, or split two ways.</p>
-                  <p>Arrows and <kbd>Z</kbd> work too; <kbd>H</kbd> hints, <kbd>P</kbd> pauses.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <p class="play__issue">Play the full game <a href="http://khanhnd61-vr.github.io/arcade" target="_blank" rel="noopener">here</a></p>
-      </div>
-    </section>
   </main>
 
   <!-- ===== Footer ===== -->
@@ -768,12 +336,5 @@
 
   <script src="bench-data.js"></script>
   <script src="main.js"></script>
-  <script src="tetris.js"></script>
-  <script src="hashi.js"></script>
-  <script src="balatro.js"></script>
-  <script src="pong.js"></script>
-  <script src="pikachu.js"></script>
-  <script src="dungeon.js"></script>
-  <script src="music.js"></script>
 </body>
 </html>
