@@ -124,6 +124,29 @@ if (bench && window.BENCH_DATA) {
   setEngine(engine);
 }
 
+// News carousel: the track scrolls natively (swipe, trackpad); the arrows step one card at a time
+// and disable themselves at either end.
+const news = document.querySelector('[data-news]');
+if (news) {
+  const track = news.querySelector('[data-news-track]');
+  const prev = news.querySelector('[data-news-prev]');
+  const next = news.querySelector('[data-news-next]');
+  const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  const step = () => {
+    const [a, b] = track.children;
+    return b ? b.offsetLeft - a.offsetLeft : track.clientWidth;
+  };
+  const update = () => {
+    prev.disabled = track.scrollLeft <= 1;
+    next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+  };
+  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior }));
+  next.addEventListener('click', () => track.scrollBy({ left: step(), behavior }));
+  track.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
+
 // Human / Agent toggle: the swap itself is CSS (styles.css); start each view at the top
 document.querySelector('.view-toggle__input').addEventListener('change', () => {
   window.scrollTo({ top: 0, behavior: 'instant' });

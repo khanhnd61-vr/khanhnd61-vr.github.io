@@ -2,7 +2,7 @@
 
 > AI Software Engineer - inference engineering, model optimization, and edge AI for robotics.
 
-[GitHub](https://github.com/khanhnd61-vr) · [LinkedIn](https://www.linkedin.com/in/khanhnd185/) · [Google Scholar](https://scholar.google.com/citations?user=5AdBep8AAAAJ) · [Website](https://khanhnd61-vr.github.io/)
+[GitHub](https://github.com/khanhnd61-vr) · [LinkedIn](https://www.linkedin.com/in/khanhnd185/) · [Google Scholar](https://scholar.google.com/citations?user=5AdBep8AAAAJ) · [Hugging Face](https://huggingface.co/khanhnd61) · [Website](https://khanhnd61-vr.github.io/)
 
 ## About
 
@@ -63,13 +63,6 @@ Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA wit
 - GitHub: https://github.com/khanhnd61-vr/ggml-compiler
 - Tags: Compiler, ggml, PyTorch, ONNX, GGUF
 
-### Model Optimization 101
-
-Hands-on notebooks for learning model optimization for edge deployment - quantization, distillation, pruning, NAS and GPU kernels, each measuring size, latency and accuracy before vs. after.
-
-- GitHub: https://github.com/khanhnd61-vr/modelopt101
-- Tags: Quantization, Distillation, Pruning, NAS, Kernels
-
 ## Companion pages
 
 - [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/): measured latency and memory for open VLA models on GPUs, NPUs and CPUs, run with vla.cpp and vla.simd
@@ -82,4 +75,5 @@ Hands-on notebooks for learning model optimization for edge deployment - quantiz
 - LinkedIn: https://www.linkedin.com/in/khanhnd185/
 - GitHub: https://github.com/khanhnd61-vr
 - Google Scholar: https://scholar.google.com/citations?user=5AdBep8AAAAJ
+- Hugging Face: https://huggingface.co/khanhnd61
 - Website: https://khanhnd61-vr.github.io/
