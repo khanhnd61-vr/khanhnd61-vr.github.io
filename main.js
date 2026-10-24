@@ -124,6 +124,11 @@ if (bench && window.BENCH_DATA) {
   setEngine(engine);
 }
 
+// Human / Agent toggle: the swap itself is CSS (styles.css); start each view at the top
+document.querySelector('.view-toggle__input').addEventListener('change', () => {
+  window.scrollTo({ top: 0, behavior: 'instant' });
+});
+
 // Reveal-on-scroll for sections
 const revealEls = document.querySelectorAll('.section, .hero__text, .hero__art');
 revealEls.forEach((el) => el.classList.add('reveal'));

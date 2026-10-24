@@ -23,6 +23,9 @@
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
   --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  --agent-bg:  #21160b;
+  --agent-ink: #efe3d0;
 }
 
 /* ---------- Reset ---------- */
@@ -60,6 +63,10 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .nav__links { list-style: none; display: flex; align-items: center; gap: 28px; margin: 0; padding: 0; font-weight: 500; }
 .nav__links a { color: var(--ink-soft); transition: color .18s ease; }
 .nav__links a:hover { color: var(--primary); }
+
+/* Hidden link to the arcade: invisible but still clickable, shown only while keyboard-focused */
+.nav__secret { opacity: 0; }
+.nav__secret:focus-visible { opacity: 1; }
 /* Star marking the companion pages (VLA Hub, VLA Arch) */
 .nav__star { color: var(--secondary); margin-right: 5px; transition: color .18s ease; }
 .nav__links a:hover .nav__star { color: var(--highlight); }
@@ -294,10 +301,54 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .contact__handle { font-family: var(--font-mono); font-size: .85rem; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; }
 
 /* ---------- Footer ---------- */
-.site-footer { border-top: 1px solid var(--line); padding: 28px 0; background: var(--cream); }
+/* The bottom padding keeps the footer clear of the fixed Human / Agent toggle */
+.site-footer { border-top: 1px solid var(--line); padding: 28px 0 92px; background: var(--cream); }
 .footer__inner { display: flex; align-items: center; gap: 14px; justify-content: center; text-align: center; flex-wrap: wrap; }
 .footer__icon { border-radius: 50%; }
 .site-footer p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+
+/* ---------- Human / Agent view ---------- */
+.view-toggle {
+  position: fixed; bottom: 24px; left: 50%; z-index: 60;
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 8px 16px;
+  border: 2px solid var(--cream); border-radius: 999px;
+  background: var(--primary); color: var(--cream);
+  font: 600 .9rem var(--font-display); cursor: pointer; user-select: none;
+  box-shadow: 0 8px 24px -6px rgba(75, 46, 15, .55);
+  transition: transform .18s ease, box-shadow .2s ease;
+}
+.view-toggle:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 12px 30px -6px rgba(75, 46, 15, .65); }
+.view-toggle:has(:focus-visible) { outline: 3px solid var(--highlight); outline-offset: 3px; }
+.view-toggle__input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.view-toggle__label { min-width: 3.3em; text-align: left; }
+.view-toggle__label::before { content: "Human"; }
+.view-toggle__input:checked ~ .view-toggle__label::before { content: "Agent"; }
+.view-toggle__switch {
+  position: relative; width: 46px; height: 24px; border-radius: 12px;
+  background: var(--ink-soft); transition: background .25s ease;
+}
+.view-toggle__switch::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--cream); transition: transform .25s ease;
+}
+.view-toggle__input:checked ~ .view-toggle__switch { background: var(--support); }
+.view-toggle__input:checked ~ .view-toggle__switch::after { transform: translateX(22px); }
+
+/* The agent view is plain Markdown text, wrapped */
+.agent-view { display: none; min-height: 100vh; background: var(--agent-bg); color: var(--agent-ink); }
+.agent-view__md {
+  width: min(900px, 92%); margin-inline: auto; padding: 40px 0 120px;
+  font: 14px/1.7 var(--font-mono);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+
+/* The checked toggle swaps the views in CSS alone, so it works even before (or without) main.js */
+body:has(.view-toggle__input:checked) { background: var(--agent-bg); }
+body:has(.view-toggle__input:checked) > :is(.site-header, main, .site-footer) { display: none; }
+body:has(.view-toggle__input:checked) > .agent-view { display: block; }
 
 /* ---------- Reveal animation ---------- */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
@@ -334,4 +385,5 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; transition: none; }
+  .view-toggle, .view-toggle__switch, .view-toggle__switch::after { transition: none; }
 }
