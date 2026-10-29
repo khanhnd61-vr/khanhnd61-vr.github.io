@@ -63,6 +63,14 @@ Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA wit
 - GitHub: https://github.com/khanhnd61-vr/ggml-compiler
 - Tags: Compiler, ggml, PyTorch, ONNX, GGUF
 
+## News
+
+- 2026-10-28: Reviewer for [ICRA 2027](https://2027.ieee-icra.org/), the IEEE International Conference on Robotics and Automation, held in Seoul on May 24-28, 2027.
+- 2026-09-16: Deployed VLA in real-time on Raspberry Pi with [vla.simd](https://vla-simd.github.io/).
+- 2026-08-11: Speaker at [SOICT Summer School 2026](https://soict.hust.edu.vn/summer-school) hosted by Hanoi University of Science and Technology, topic [Edge AI in Robotics](https://khanhnd61-vr.github.io/modelopt101/).
+- 2026-07-02: Released [ReadItDown](https://github.com/khanhnd61-vr/readitdown), a minimal Markdown viewer with a folder explorer and built-in terminal, on the web and on Linux, macOS and Windows.
+- 2024-05-31: 3rd place at the [REACT 2024 Challenge](https://sites.google.com/cam.ac.uk/react2024/) held with [IEEE FG 2024](https://fg2024.ieee-biometrics.org/), generating multiple appropriate facial reactions ([paper](https://brosdocs.net/fg2024/CT10.pdf)).
+
 ## Companion pages
 
 - [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/): measured latency and memory for open VLA models on GPUs, NPUs and CPUs, run with vla.cpp and vla.simd
