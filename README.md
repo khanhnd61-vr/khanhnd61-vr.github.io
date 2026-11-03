@@ -39,6 +39,8 @@ I build lean C/C++ inference engines that bring VLMs, VLAs, and LLMs to CPUs, ac
 The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action models to local hardware, in the spirit of llama.cpp for robotics.
 
 - GitHub: https://github.com/VinRobotics/vla.cpp
+- arXiv: https://arxiv.org/abs/2606.08094
+- Project page: https://vlacpp.github.io/
 - Tags: C++, ggml, Inference, VLA
 - Authors: K.D. Nguyen, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
@@ -47,6 +49,8 @@ The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-A
 Efficient CPU inference for language-conditioned manipulation - shared SIMD micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that supplies 30+ actions per second on a Raspberry Pi 5.
 
 - GitHub: https://github.com/cair-vinuni/vla.simd
+- arXiv: https://arxiv.org/abs/2609.24274
+- Project page: https://vla-simd.github.io/
 - Tags: C++, SIMD, CPU inference, VLA
 - Authors: K.D. Nguyen, [H.M. Truong](https://tmhoanggg.github.io/), [A.T. Le](https://anindex.github.io/)
 
@@ -55,6 +59,8 @@ Efficient CPU inference for language-conditioned manipulation - shared SIMD micr
 Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the INT8 / INT4 tensor cores through custom TensorRT plugins, 1.20-1.33× faster than float TensorRT on Jetson AGX Orin across GR00T and π0.5.
 
 - GitHub: https://github.com/cair-vinuni/FoldQuantVLA
+- arXiv: https://arxiv.org/abs/2609.24433
+- Project page: https://review-artifact-27f4.github.io/foldquantvla
 - Tags: Quantization, TensorRT, INT4, VLA
 - Authors: H.T. Ho, K.D. Nguyen, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 

@@ -274,10 +274,8 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .project__authors { margin: 12px 0 0; font-size: .85rem; color: var(--ink-soft); }
 .project__authors strong { color: var(--primary); }
 .project__authors a, .card__role a { color: inherit; text-decoration: underline; text-decoration-color: var(--secondary); text-underline-offset: 3px; }
-.project__link {
-  margin-top: 18px; font-family: var(--font-display); font-weight: 600;
-  color: var(--support); align-self: flex-start;
-}
+.project__links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 18px; }
+.project__link { font-family: var(--font-display); font-weight: 600; color: var(--support); }
 .project__link:hover { color: var(--primary); }
 
 /* ---------- News (carousel) ---------- */
