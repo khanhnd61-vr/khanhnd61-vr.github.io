@@ -26,12 +26,6 @@ M.S. in AI Convergence: multimodal learning & affective behavior analysis - 6 pe
 
 [An Thai Le](https://anindex.github.io/) - Assistant Professor at VinUniversity and Director of Foundation AI at VinRobotics, working on robots that plan, learn, and act reliably with limited compute and data.
 
-## Focus
-
-Making capable AI models run fast on real hardware.
-
-I build lean C/C++ inference engines that bring VLMs, VLAs, and LLMs to CPUs, accelerators, and robots. Inspired by [llama.cpp](https://github.com/ggml-org/llama.cpp): a few lines of simple code, big results on your own hardware. The two projects I'm proudest of are [vla.cpp](https://github.com/VinRobotics/vla.cpp) and [vla.simd](https://github.com/cair-vinuni/vla.simd). Three companion pages go deeper: [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/) benchmarks every model they serve on every device, [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/) illustrates each model's architecture as block diagrams, and [XPU Arch](https://khanhnd61-vr.github.io/xpu-arch/) diagrams the CPUs, GPUs, NPUs and systems on chip behind VLA Hub.
-
 ## Projects
 
 ### vla.cpp
@@ -71,9 +65,11 @@ Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA wit
 - GitHub: https://github.com/khanhnd61-vr/ggml-compiler
 - Tags: Compiler, ggml, PyTorch, ONNX, GGUF
 
-## Companion pages
+## Companion sites
 
-- [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/): measured latency and memory for open VLA models on GPUs, NPUs and CPUs, run with vla.cpp and vla.simd
-- [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/): each model's architecture as block diagrams
-- [XPU Arch](https://khanhnd61-vr.github.io/xpu-arch/): block diagrams of the CPUs, GPUs, NPUs and systems on chip behind VLA Hub
-- [ReadItDown](https://khanhnd61-vr.github.io/readitdown/): a minimal, fast Markdown viewer - try it online, or download the desktop app for Linux, macOS and Windows
+- [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/): Measured latency and memory of open VLAs on GPUs, NPUs and CPUs.
+- [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/): Block diagrams of every policy served by vla.cpp and vla.simd.
+- [XPU Arch](https://khanhnd61-vr.github.io/xpu-arch/): Block diagrams of the CPUs, GPUs, NPUs and SoCs behind VLA Hub.
+- [Small VLA Survey](https://khanhnd61-vr.github.io/small-vla-survey/): 27 robot policies under one billion parameters, compared.
+- [Efficient VLA Survey](https://khanhnd61-vr.github.io/efficientvla-survey/): A searchable taxonomy of efficient VLA research, with open gaps per area.
+- [VLA Bench](https://khanhnd61-vr.github.io/vla-bench/): What LIBERO, CALVIN and RoboTwin 2.0 test, and how each is scored.
