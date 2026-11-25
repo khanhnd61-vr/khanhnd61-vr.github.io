@@ -73,3 +73,4 @@ Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA wit
 - [Small VLA Survey](https://khanhnd61-vr.github.io/small-vla-survey/): 27 robot policies under one billion parameters, compared.
 - [Efficient VLA Survey](https://khanhnd61-vr.github.io/efficientvla-survey/): A searchable taxonomy of efficient VLA research, with open gaps per area.
 - [VLA Bench](https://khanhnd61-vr.github.io/vla-bench/): What LIBERO, CALVIN and RoboTwin 2.0 test, and how each is scored.
+- [Agent 101](https://khanhnd61-vr.github.io/agent101/): 53 animated slides on how an LLM becomes a chatbot, a retriever and a coding agent.
