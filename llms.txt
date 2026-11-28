@@ -24,7 +24,7 @@ M.S. in AI Convergence: multimodal learning & affective behavior analysis - 6 pe
 
 ### VIRGIL
 
-Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
+VIRGIL learns visual representations that understand language instructions, 3D space, and how scenes evolve over time, using only unlabeled video.
 
 - Paper: https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf
 - Project page: https://tmhoanggg.github.io/VIRGIL/
@@ -79,7 +79,7 @@ The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-A
 - [Small VLA Survey](https://khanhnd61-vr.github.io/small-vla-survey/): 27 robot policies under one billion parameters, compared.
 - [Efficient VLA Survey](https://khanhnd61-vr.github.io/efficientvla-survey/): A searchable taxonomy of efficient VLA research, with open gaps per area.
 - [VLA Bench](https://khanhnd61-vr.github.io/vla-bench/): What LIBERO, CALVIN and RoboTwin 2.0 test, and how each is scored.
+- [Arcade](https://khanhnd61-vr.github.io/arcade/): A pixel dungeon of sixteen small browser games.
 - [Agent 101](https://khanhnd61-vr.github.io/agent101/): How an LLM becomes a chatbot, a retriever and a coding agent.
 - [Robotics 101](https://khanhnd61-vr.github.io/robotics101/): Robot motion planning and learning, from kinematics to VLAs.
 - [Edge AI 101](https://khanhnd61-vr.github.io/edgeai101/): Model optimization for edge devices, from quantization to on-device VLAs.
-- [Arcade](https://khanhnd61-vr.github.io/arcade/): A pixel dungeon of sixteen small browser games.
