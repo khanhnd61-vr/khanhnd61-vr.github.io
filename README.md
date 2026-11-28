@@ -16,37 +16,22 @@ Topics: Edge AI, Model optimization, Robotics, VLA, C / C++
 
 ### Domain
 
-AI Software Engineer: inference engineering · model optimization · edge AI for robotics · AI SDK development · efficient VLA inference
+I am an AI software engineer and AI researcher, advised by [Dr. An Thai Le](https://anindex.github.io/). My interest is building inference engines and SDKs that make AI models, especially VLAs for robots, run efficiently on edge hardware.
 
 ### Research
 
 M.S. in AI Convergence: multimodal learning & affective behavior analysis - 6 peer-reviewed papers (CVPRW, ECCVW, RSSW)
 
-### Mentor
-
-[An Thai Le](https://anindex.github.io/) - Assistant Professor at VinUniversity and Director of Foundation AI at VinRobotics, working on robots that plan, learn, and act reliably with limited compute and data.
-
 ## Projects
 
-### vla.cpp
+### VIRGIL
 
-The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action models to local hardware, in the spirit of llama.cpp for robotics.
+Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
 
-- GitHub: https://github.com/VinRobotics/vla.cpp
-- arXiv: https://arxiv.org/abs/2606.08094
-- Project page: https://vlacpp.github.io/
-- Tags: C++, ggml, Inference, VLA
-- Authors: K.D. Nguyen, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
-
-### vla.simd
-
-Efficient CPU inference for language-conditioned manipulation - shared SIMD micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that supplies 30+ actions per second on a Raspberry Pi 5.
-
-- GitHub: https://github.com/cair-vinuni/vla.simd
-- arXiv: https://arxiv.org/abs/2609.24274
-- Project page: https://vla-simd.github.io/
-- Tags: C++, SIMD, CPU inference, VLA
-- Authors: K.D. Nguyen, [H.M. Truong](https://tmhoanggg.github.io/), [A.T. Le](https://anindex.github.io/)
+- Paper: https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf
+- Project page: https://tmhoanggg.github.io/VIRGIL/
+- Tags: Representation learning, Video, 3D, Manipulation
+- Authors: [H.M. Truong](https://tmhoanggg.github.io/), K.D. Nguyen, Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
 ### FoldQuantVLA
 
@@ -58,16 +43,27 @@ Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the
 - Tags: Quantization, TensorRT, INT4, VLA
 - Authors: H.T. Ho, K.D. Nguyen, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
-### VIRGIL
+### vla.simd
 
-Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
+Efficient CPU inference for language-conditioned manipulation - shared SIMD micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that supplies 30+ actions per second on a Raspberry Pi 5.
 
-- Paper: https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf
-- Project page: https://tmhoanggg.github.io/VIRGIL/
-- Tags: Representation learning, Video, 3D, Manipulation
-- Authors: [H.M. Truong](https://tmhoanggg.github.io/), K.D. Nguyen, Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
+- GitHub: https://github.com/cair-vinuni/vla.simd
+- arXiv: https://arxiv.org/abs/2609.24274
+- Project page: https://vla-simd.github.io/
+- Tags: C++, SIMD, CPU inference, VLA
+- Authors: K.D. Nguyen, [H.M. Truong](https://tmhoanggg.github.io/), [A.T. Le](https://anindex.github.io/)
 
-## Companion sites
+### vla.cpp
+
+The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action models to local hardware, in the spirit of llama.cpp for robotics.
+
+- GitHub: https://github.com/VinRobotics/vla.cpp
+- arXiv: https://arxiv.org/abs/2606.08094
+- Project page: https://vlacpp.github.io/
+- Tags: C++, ggml, Inference, VLA
+- Authors: K.D. Nguyen, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
+
+## Quick Access
 
 - [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/): Measured latency and memory of open VLAs on GPUs, NPUs and CPUs.
 - [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/): Block diagrams of every policy served by vla.cpp and vla.simd.
@@ -78,3 +74,4 @@ Geometry and language in visual representations from unlabeled video for robot m
 - [Agent 101](https://khanhnd61-vr.github.io/agent101/): How an LLM becomes a chatbot, a retriever and a coding agent.
 - [Robotics 101](https://khanhnd61-vr.github.io/robotics101/): Robot motion planning and learning, from kinematics to VLAs.
 - [Edge AI 101](https://khanhnd61-vr.github.io/edgeai101/): Model optimization for edge devices, from quantization to on-device VLAs.
+- [Arcade](https://khanhnd61-vr.github.io/arcade/): A pixel dungeon of sixteen small browser games.

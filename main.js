@@ -3,23 +3,6 @@
 // Current year in footer
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Mobile nav toggle
-const toggle = document.querySelector('.nav__toggle');
-const links = document.querySelector('.nav__links');
-
-toggle.addEventListener('click', () => {
-  const open = links.classList.toggle('is-open');
-  toggle.setAttribute('aria-expanded', String(open));
-});
-
-// Close the mobile menu after tapping a link
-links.querySelectorAll('a').forEach((a) => {
-  a.addEventListener('click', () => {
-    links.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded', 'false');
-  });
-});
-
 // Latency explorer: pick an engine, model and device; show that model's config
 // and the measured latency / memory from bench-data.js.
 const bench = document.querySelector('[data-bench]');
@@ -124,51 +107,63 @@ if (bench && window.BENCH_DATA) {
   setEngine(engine);
 }
 
-// News carousel: the track scrolls natively (swipe, trackpad); the arrows step one card at a time
-// and disable themselves at either end.
-const news = document.querySelector('[data-news]');
-if (news) {
-  const track = news.querySelector('[data-news-track]');
-  const prev = news.querySelector('[data-news-prev]');
-  const next = news.querySelector('[data-news-next]');
-  const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
-  const step = () => {
-    const [a, b] = track.children;
-    return b ? b.offsetLeft - a.offsetLeft : track.clientWidth;
+// Coding agent benchmark: pick a model; show how it did on the SDK build from agent-data.js,
+// with every model's time as bars (green success, red failed).
+const agent = document.querySelector('[data-agent]');
+if (agent && window.AGENT_DATA) {
+  const { models } = window.AGENT_DATA;
+  const out = (k) => agent.querySelector(`[data-agent-out="${k}"]`);
+  const modelSel = agent.querySelector('[data-agent-model]');
+  const pad = (n) => String(n).padStart(2, '0');
+  const dur = (s) => (s < 3600
+    ? `${Math.floor(s / 60)}m ${pad(s % 60)}s`
+    : `${Math.floor(s / 3600)}h ${pad(Math.round((s % 3600) / 60))}m`);
+  const byTime = [...models].sort((x, y) => x.modelTime - y.modelTime);
+  const max = byTime[byTime.length - 1].modelTime;
+
+  const label = (m) => (m.star ? `${m.name} ★` : m.name);
+  modelSel.replaceChildren(...models.map((m) => new Option(label(m), m.id)));
+  modelSel.value = 'qwen38';
+
+  const render = () => {
+    const m = models.find((x) => x.id === modelSel.value);
+    const result = out('result');
+    result.textContent = m.built ? 'Success' : 'Failed';
+    result.classList.toggle('is-fail', !m.built);
+    out('time').textContent = dur(m.modelTime);
+    out('toolsub').textContent = `+ ${dur(m.toolTime)} tools`;
+    out('hints').textContent = m.hints;
+    out('prompts').textContent = `${m.prompts} prompt${m.prompts === 1 ? '' : 's'}`;
+    out('backend').textContent = m.backend;
+    out('quant').textContent = m.quant;
+    out('context').textContent = m.context;
+    out('vram').textContent = m.vram;
+    out('size').textContent = m.size;
+
+    const bars = out('bars');
+    const scroll = bars.scrollTop;
+    bars.replaceChildren(...byTime.map((x) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = [x.id === m.id ? 'is-current' : '', x.built ? '' : 'is-fail'].join(' ').trim();
+      b.setAttribute('aria-label', `${x.name}: ${dur(x.modelTime)}, ${x.built ? 'success' : 'failed'}`);
+      b.innerHTML = '<span class="dev"></span><span class="track"><span class="fill"></span></span><span class="ms"></span>';
+      b.querySelector('.dev').textContent = label(x);
+      b.querySelector('.fill').style.width = `${Math.max(2, (x.modelTime / max) * 100)}%`;
+      b.querySelector('.ms').textContent = dur(x.modelTime);
+      b.addEventListener('click', () => { modelSel.value = x.id; render(); });
+      li.append(b);
+      return li;
+    }));
+    bars.scrollTop = scroll;
   };
-  const update = () => {
-    prev.disabled = track.scrollLeft <= 1;
-    next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
-  };
-  prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior }));
-  next.addEventListener('click', () => track.scrollBy({ left: step(), behavior }));
-  track.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+
+  modelSel.addEventListener('change', render);
+  render();
 }
 
 // Human / Agent toggle: the swap itself is CSS (styles.css); start each view at the top
 document.querySelector('.view-toggle__input').addEventListener('change', () => {
   window.scrollTo({ top: 0, behavior: 'instant' });
 });
-
-// Reveal-on-scroll for sections
-const revealEls = document.querySelectorAll('.section, .hero__text, .hero__art');
-revealEls.forEach((el) => el.classList.add('reveal'));
-
-if ('IntersectionObserver' in window) {
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12 }
-  );
-  revealEls.forEach((el) => io.observe(el));
-} else {
-  revealEls.forEach((el) => el.classList.add('is-visible'));
-}

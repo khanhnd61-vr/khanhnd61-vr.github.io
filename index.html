@@ -35,447 +35,240 @@
     <span class="view-toggle__switch" aria-hidden="true"></span>
   </label>
 
-  <!-- ===== Header / Nav ===== -->
-  <header class="site-header" id="top">
-    <nav class="nav container">
-      <a class="brand" href="#top" aria-label="Home">
-        <img class="brand__icon" src="assets/havi-pixel.png" alt="" width="40" height="40" />
-      </a>
-      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <ul class="nav__links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#news">News</a></li>
-        <li><a class="nav__secret" href="https://khanhnd61-vr.github.io/arcade">Relax</a></li>
-        <li><a class="nav__cta" href="https://github.com/khanhnd61-vr" target="_blank" rel="noopener">GitHub ↗</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
+  <main class="page">
     <!-- ===== About ===== -->
-    <section class="section" id="about">
-      <div class="container">
-        <header class="section__head">
-          <span class="section__kicker">// about</span>
-          <h2>Khanh Nguyen</h2>
-        </header>
-
-        <div class="about">
-          <div class="about__bio">
-            <ul class="about__points">
-              <li>Build efficient inference engines for neural nets across various devices.</li>
-              <li>Optimize VLAs, VLMs, and LLMs for edge deployment.</li>
-              <li>Interested in searching and studying efficient neural net architectures.</li>
-            </ul>
-
-            <div class="tags">
-              <span class="tag">Edge AI</span>
-              <span class="tag">Model optimization</span>
-              <span class="tag">Robotics</span>
-              <span class="tag">VLA</span>
-              <span class="tag">C / C++</span>
-            </div>
-
-            <div class="contacts" id="contact">
-              <a class="contact" href="https://www.linkedin.com/in/khanhnd185/" target="_blank" rel="noopener">
-                <span class="contact__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/>
-                  </svg>
-                </span>
-                <span class="contact__text">
-                  <span class="contact__label">LinkedIn</span>
-                </span>
-              </a>
-              <a class="contact" href="https://github.com/khanhnd61-vr" target="_blank" rel="noopener">
-                <span class="contact__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58l-.01-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.92 1.23 3.23 0 4.62-2.81 5.64-5.49 5.94.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/>
-                  </svg>
-                </span>
-                <span class="contact__text">
-                  <span class="contact__label">GitHub</span>
-                </span>
-              </a>
-              <a class="contact" href="https://scholar.google.com/citations?user=5AdBep8AAAAJ" target="_blank" rel="noopener" data-needs-id>
-                <span class="contact__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.84 3.77A8 8 0 0 1 12 9a8 8 0 0 1 7.16 4.27L24 9.5 12 0z"/>
-                  </svg>
-                </span>
-                <span class="contact__text">
-                  <span class="contact__label">Google Scholar</span>
-                </span>
-              </a>
-              <a class="contact" href="https://huggingface.co/khanhnd61" target="_blank" rel="noopener">
-                <span class="contact__icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" fill-rule="evenodd">
-                    <path d="M12 1.5a10.5 10.5 0 1 0 0 21 10.5 10.5 0 0 0 0-21zM8.6 7.4a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zm6.8 0a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2zM7 13h10a5 5 0 0 1-10 0z"/>
-                  </svg>
-                </span>
-                <span class="contact__text">
-                  <span class="contact__label">Hugging Face</span>
-                </span>
-              </a>
-            </div>
-          </div>
-
-          <aside class="about__side">
-            <figure class="about__photo">
-              <img src="assets/me.jpg" alt="Khanh D. Nguyen on a ski slope" width="440" height="440" loading="lazy" />
-              <figcaption>Me as a happy vicuna 🦙</figcaption>
-            </figure>
-          </aside>
-        </div>
-
-        <div class="about__cards">
-          <div class="card card--soft">
-            <h3 class="card__title">Mentor</h3>
-            <p class="card__role"><a href="https://anindex.github.io/" target="_blank" rel="noopener">An Thai Le</a></p>
-            <p class="card__meta">Assistant Professor at VinUniversity and Director of Foundation AI at VinRobotics, working on robots that plan, learn, and act reliably with limited compute and data.</p>
-          </div>
-          <div class="card card--soft">
-            <h3 class="card__title">Domain</h3>
-            <p class="card__role">AI Software Engineer</p>
-            <p class="card__meta">Inference engineering · Model optimization · Edge AI for robotics · AI SDK development · Efficient VLA inference</p>
-          </div>
-          <div class="card card--soft">
-            <h3 class="card__title">Research</h3>
-            <p class="card__role">M.S. in AI Convergence</p>
-            <p class="card__meta">Multimodal learning &amp; affective behavior analysis - 6 peer-reviewed papers (CVPRW, ECCVW, RSSW)</p>
-          </div>
+    <section class="intro" id="about">
+      <div class="intro__text">
+        <h1>Khanh Nguyen</h1>
+        <p class="intro__role">I am an AI software engineer and AI researcher, advised by <a href="https://anindex.github.io/" target="_blank" rel="noopener">Dr. An Thai Le</a>. My interest is building inference engines and SDKs that make AI models, especially VLAs for robots, run efficiently on edge hardware.</p>
+        <ul class="intro__points">
+          <li>Build efficient inference engines for neural nets across various devices.</li>
+          <li>Optimize VLAs, VLMs, and LLMs for edge deployment.</li>
+          <li>Interested in searching and studying efficient neural net architectures.</li>
+        </ul>
+        <p><b>Research.</b> M.S. in AI Convergence: multimodal learning &amp; affective behavior analysis - 6 peer-reviewed papers (CVPRW, ECCVW, RSSW).</p>
+        <p><b>Interests.</b> Edge AI · Model optimization · Robotics · VLA · C / C++</p>
+        <p class="intro__links" id="contact">
+          <a href="https://www.linkedin.com/in/khanhnd185/" target="_blank" rel="noopener">LinkedIn</a> /
+          <a href="https://github.com/khanhnd61-vr" target="_blank" rel="noopener">GitHub</a> /
+          <a href="https://scholar.google.com/citations?user=5AdBep8AAAAJ" target="_blank" rel="noopener">Google Scholar</a> /
+          <a href="https://huggingface.co/khanhnd61" target="_blank" rel="noopener">Hugging Face</a>
+        </p>
       </div>
-      </div>
+      <figure class="intro__photo">
+        <img src="assets/me.jpg" alt="Khanh D. Nguyen on a ski slope" width="440" height="440" />
+        <figcaption>Me as a happy vicuna 🦙</figcaption>
+      </figure>
     </section>
 
     <!-- ===== Projects ===== -->
-    <section class="section section--alt" id="projects">
-      <div class="container">
-        <header class="section__head">
-          <span class="section__kicker">// projects</span>
-          <h2>Pinned projects</h2>
-        </header>
-
-        <div class="projects">
-          <!-- vla.cpp -->
-          <article class="project">
-            <div class="project__thumb">
-              <img src="assets/vla-cpp.png" alt="vla.cpp architecture: a Python robot client sends requests over Protobuf and ZeroMQ to the C++ runtime, which runs on llama.cpp with CUDA and CPU backends and loads a GGUF model bundle" width="1645" height="498" loading="lazy" />
-            </div>
-            <div class="project__body">
-              <h3 class="project__title">vla.cpp</h3>
-              <p class="project__desc">
-                The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action
-                models to local hardware, in the spirit of llama.cpp for robotics.
-              </p>
-              <div class="tags tags--sm">
-                <span class="tag">C++</span><span class="tag">ggml</span><span class="tag">Inference</span><span class="tag">VLA</span>
-              </div>
-              <p class="project__authors">
-                <strong>K.D. Nguyen</strong>, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo,
-                <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a>
-              </p>
-              <div class="project__links">
-                <a class="project__link" href="https://github.com/VinRobotics/vla.cpp" target="_blank" rel="noopener">Code ↗</a>
-                <a class="project__link" href="https://arxiv.org/abs/2606.08094" target="_blank" rel="noopener">arXiv ↗</a>
-                <a class="project__link" href="https://vlacpp.github.io/" target="_blank" rel="noopener">Project Page ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- vla.simd -->
-          <article class="project">
-            <div class="project__thumb">
-              <img src="assets/vla-simd.png" alt="vla.simd kernels: matmul, convolution and softmax built from tiling and a SIMD micro-kernel, with its tile layout and register budget" width="1903" height="639" loading="lazy" />
-            </div>
-            <div class="project__body">
-              <h3 class="project__title">vla.simd</h3>
-              <p class="project__desc">
-                Efficient CPU inference for language-conditioned manipulation - shared SIMD
-                micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that
-                supplies 30+ actions per second on a Raspberry Pi 5.
-              </p>
-              <div class="tags tags--sm">
-                <span class="tag">C++</span><span class="tag">SIMD</span><span class="tag">CPU inference</span><span class="tag">VLA</span>
-              </div>
-              <p class="project__authors">
-                <strong>K.D. Nguyen</strong>,
-                <a href="https://tmhoanggg.github.io/" target="_blank" rel="noopener">H.M. Truong</a>,
-                <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a>
-              </p>
-              <div class="project__links">
-                <a class="project__link" href="https://github.com/cair-vinuni/vla.simd" target="_blank" rel="noopener">Code ↗</a>
-                <a class="project__link" href="https://arxiv.org/abs/2609.24274" target="_blank" rel="noopener">arXiv ↗</a>
-                <a class="project__link" href="https://vla-simd.github.io/" target="_blank" rel="noopener">Project Page ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- FoldQuantVLA -->
-          <article class="project">
-            <div class="project__thumb">
-              <img src="assets/foldquantvla.png" alt="FoldQuantVLA folding: channel scaling and an orthogonal rotation shrink activation outliers and are folded into the weights, so (WSRᵀ)(RS⁻¹X) = WX before rounding" width="1948" height="1266" loading="lazy" />
-            </div>
-            <div class="project__body">
-              <h3 class="project__title">FoldQuantVLA</h3>
-              <p class="project__desc">
-                Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the INT8 / INT4
-                tensor cores through custom TensorRT plugins, 1.20-1.33× faster than float TensorRT on
-                Jetson AGX Orin across GR00T and π0.5.
-              </p>
-              <div class="tags tags--sm">
-                <span class="tag">Quantization</span><span class="tag">TensorRT</span><span class="tag">INT4</span><span class="tag">VLA</span>
-              </div>
-              <p class="project__authors">
-                H.T. Ho, <strong>K.D. Nguyen</strong>, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo,
-                <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a>
-              </p>
-              <div class="project__links">
-                <a class="project__link" href="https://github.com/cair-vinuni/FoldQuantVLA" target="_blank" rel="noopener">Code ↗</a>
-                <a class="project__link" href="https://arxiv.org/abs/2609.24433" target="_blank" rel="noopener">arXiv ↗</a>
-                <a class="project__link" href="https://review-artifact-27f4.github.io/foldquantvla" target="_blank" rel="noopener">Project Page ↗</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- VIRGIL -->
-          <article class="project">
-            <div class="project__thumb">
-              <img src="assets/virgil.png" alt="VIRGIL pre-training: a frozen language teacher and a frozen geometry teacher give change targets between the current and future frame, which the VIRGIL encoder learns to predict; at deployment only the encoder feeds the downstream policy" width="1000" height="438" loading="lazy" />
-            </div>
-            <div class="project__body">
-              <h3 class="project__title">VIRGIL</h3>
-              <p class="project__desc">
-                Geometry and language in visual representations from unlabeled video for robot manipulation -
-                an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a
-                3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
-              </p>
-              <div class="tags tags--sm">
-                <span class="tag">Representation learning</span><span class="tag">Video</span><span class="tag">3D</span><span class="tag">Manipulation</span>
-              </div>
-              <p class="project__authors">
-                <a href="https://tmhoanggg.github.io/" target="_blank" rel="noopener">H.M. Truong</a>, <strong>K.D. Nguyen</strong>,
-                Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo,
-                <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a>
-              </p>
-              <div class="project__links">
-                <a class="project__link" href="https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf" target="_blank" rel="noopener">Paper ↗</a>
-                <a class="project__link" href="https://tmhoanggg.github.io/VIRGIL/" target="_blank" rel="noopener">Project Page ↗</a>
-              </div>
-            </div>
-          </article>        </div>
-      </div>
+    <section id="projects">
+      <h2>Projects</h2>
+      <ul class="pubs">
+        <li class="pub">
+          <img class="pub__thumb" src="assets/virgil.png" alt="VIRGIL pre-training: a frozen language teacher and a frozen geometry teacher give change targets between the current and future frame, which the VIRGIL encoder learns to predict; at deployment only the encoder feeds the downstream policy" width="1000" height="438" loading="lazy" />
+          <div>
+            <a class="pub__title" href="https://tmhoanggg.github.io/VIRGIL/" target="_blank" rel="noopener">VIRGIL</a>
+            <p class="pub__authors"><a href="https://tmhoanggg.github.io/" target="_blank" rel="noopener">H.M. Truong</a>, <strong>K.D. Nguyen</strong>, Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo, <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a></p>
+            <p class="pub__links">
+              <a href="https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf" target="_blank" rel="noopener">paper</a> /
+              <a href="https://tmhoanggg.github.io/VIRGIL/" target="_blank" rel="noopener">project page</a>
+            </p>
+            <p class="pub__desc">Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.</p>
+          </div>
+        </li>
+        <li class="pub">
+          <img class="pub__thumb" src="assets/foldquantvla.png" alt="FoldQuantVLA folding: channel scaling and an orthogonal rotation shrink activation outliers and are folded into the weights, so (WSRᵀ)(RS⁻¹X) = WX before rounding" width="1948" height="1266" loading="lazy" />
+          <div>
+            <a class="pub__title" href="https://review-artifact-27f4.github.io/foldquantvla" target="_blank" rel="noopener">FoldQuantVLA</a>
+            <p class="pub__authors">H.T. Ho, <strong>K.D. Nguyen</strong>, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo, <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a></p>
+            <p class="pub__links">
+              <a href="https://github.com/cair-vinuni/FoldQuantVLA" target="_blank" rel="noopener">code</a> /
+              <a href="https://arxiv.org/abs/2609.24433" target="_blank" rel="noopener">arXiv</a> /
+              <a href="https://review-artifact-27f4.github.io/foldquantvla" target="_blank" rel="noopener">project page</a>
+            </p>
+            <p class="pub__desc">Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the INT8 / INT4 tensor cores through custom TensorRT plugins, 1.20-1.33× faster than float TensorRT on Jetson AGX Orin across GR00T and π0.5.</p>
+          </div>
+        </li>
+        <li class="pub">
+          <img class="pub__thumb" src="assets/vla-simd.png" alt="vla.simd kernels: matmul, convolution and softmax built from tiling and a SIMD micro-kernel, with its tile layout and register budget" width="1903" height="639" loading="lazy" />
+          <div>
+            <a class="pub__title" href="https://vla-simd.github.io/" target="_blank" rel="noopener">vla.simd</a>
+            <p class="pub__authors"><strong>K.D. Nguyen</strong>, <a href="https://tmhoanggg.github.io/" target="_blank" rel="noopener">H.M. Truong</a>, <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a></p>
+            <p class="pub__links">
+              <a href="https://github.com/cair-vinuni/vla.simd" target="_blank" rel="noopener">code</a> /
+              <a href="https://arxiv.org/abs/2609.24274" target="_blank" rel="noopener">arXiv</a> /
+              <a href="https://vla-simd.github.io/" target="_blank" rel="noopener">project page</a>
+            </p>
+            <p class="pub__desc">Efficient CPU inference for language-conditioned manipulation - shared SIMD micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that supplies 30+ actions per second on a Raspberry Pi 5.</p>
+          </div>
+        </li>
+        <li class="pub">
+          <img class="pub__thumb" src="assets/vla-cpp.png" alt="vla.cpp architecture: a Python robot client sends requests over Protobuf and ZeroMQ to the C++ runtime, which runs on llama.cpp with CUDA and CPU backends and loads a GGUF model bundle" width="1645" height="498" loading="lazy" />
+          <div>
+            <a class="pub__title" href="https://vlacpp.github.io/" target="_blank" rel="noopener">vla.cpp</a>
+            <p class="pub__authors"><strong>K.D. Nguyen</strong>, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo, <a href="https://anindex.github.io/" target="_blank" rel="noopener">A.T. Le</a></p>
+            <p class="pub__links">
+              <a href="https://github.com/VinRobotics/vla.cpp" target="_blank" rel="noopener">code</a> /
+              <a href="https://arxiv.org/abs/2606.08094" target="_blank" rel="noopener">arXiv</a> /
+              <a href="https://vlacpp.github.io/" target="_blank" rel="noopener">project page</a>
+            </p>
+            <p class="pub__desc">The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action models to local hardware, in the spirit of llama.cpp for robotics.</p>
+          </div>
+        </li>
+      </ul>
     </section>
 
-    <!-- ===== Companion sites, beside the latency explorer ===== -->
-    <section class="section" id="sites">
-      <div class="container hero">
-        <div class="hero__text">
-          <header class="section__head">
-            <span class="section__kicker">// sites</span>
-            <h2>Companion sites</h2>
-          </header>
-          <ul class="sites">
-            <li>
-              <a class="site" href="/vla-hub/">
-                <span class="site__name">VLA Hub <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">Measured latency and memory of open VLAs on GPUs, NPUs and CPUs.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/vla-arch/">
-                <span class="site__name">VLA Arch <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">Block diagrams of every policy served by vla.cpp and vla.simd.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/xpu-arch/">
-                <span class="site__name">XPU Arch <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">Block diagrams of the CPUs, GPUs, NPUs and SoCs behind VLA Hub.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/small-vla-survey/">
-                <span class="site__name">Small VLA Survey <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">27 robot policies under one billion parameters, compared.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/efficientvla-survey/">
-                <span class="site__name">Efficient VLA Survey <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">A searchable taxonomy of efficient VLA research, with open gaps per area.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/vla-bench/">
-                <span class="site__name">VLA Bench <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">What LIBERO, CALVIN and RoboTwin 2.0 test, and how each is scored.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/agent101/">
-                <span class="site__name">Agent 101 <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">How an LLM becomes a chatbot, a retriever and a coding agent.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/robotics101/">
-                <span class="site__name">Robotics 101 <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">Robot motion planning and learning, from kinematics to VLAs.</span>
-              </a>
-            </li>
-            <li>
-              <a class="site" href="/edgeai101/">
-                <span class="site__name">Edge AI 101 <span aria-hidden="true">↗</span></span>
-                <span class="site__desc">Model optimization for edge devices, from quantization to on-device VLAs.</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="hero__art">
-          <div class="bench" data-bench>
-            <div class="bench__bar">
-              <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="bench__name">latency explorer</span>
-              <div class="bench__engines" role="group" aria-label="Engine">
-                <button class="bench__engine is-active" type="button" data-engine="vla.cpp" aria-pressed="true">vla.cpp</button>
-                <button class="bench__engine" type="button" data-engine="vla.simd" aria-pressed="false">vla.simd</button>
-              </div>
+    <!-- ===== Benchmarks: latency explorer on the left, coding agent benchmark on the right ===== -->
+    <section id="benchmarks">
+      <h2>Benchmarks</h2>
+      <p class="section__lede">My own measurements: how fast VLA policies run on real devices with vla.cpp and vla.simd, and how well local LLMs on two RTX 3090s handle a long coding-agent task.</p>
+      <div class="windows">
+        <div class="bench" data-bench>
+          <div class="bench__bar">
+            <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="bench__name">latency explorer</span>
+            <div class="bench__engines" role="group" aria-label="Engine">
+              <button class="bench__engine is-active" type="button" data-engine="vla.cpp" aria-pressed="true">vla.cpp</button>
+              <button class="bench__engine" type="button" data-engine="vla.simd" aria-pressed="false">vla.simd</button>
+            </div>
+          </div>
+
+          <div class="bench__body">
+            <div class="bench__inputs">
+              <label class="bench__field">
+                <span class="bench__label">Model</span>
+                <select data-model></select>
+              </label>
+              <label class="bench__field">
+                <span class="bench__label">Device</span>
+                <select data-device></select>
+              </label>
             </div>
 
-            <div class="bench__body">
-              <div class="bench__inputs">
-                <label class="bench__field">
-                  <span class="bench__label">Model</span>
-                  <select data-model></select>
-                </label>
-                <label class="bench__field">
-                  <span class="bench__label">Device</span>
-                  <select data-device></select>
-                </label>
-              </div>
-
-              <div class="bench__result" aria-live="polite">
-                <div class="bench__perf">
-                  <div class="bench__stat bench__stat--main">
-                    <span class="bench__label">Latency</span>
-                    <span class="bench__value"><span data-out="ms"></span> <small>ms / call</small></span>
-                  </div>
-                  <div class="bench__stat">
-                    <span class="bench__label">Actions / s</span>
-                    <span class="bench__value" data-out="rate"></span>
-                  </div>
-                  <div class="bench__stat">
-                    <span class="bench__label">Memory</span>
-                    <span class="bench__value" data-out="mem"></span>
-                    <span class="bench__sub" data-out="memsub"></span>
-                  </div>
+            <div class="bench__result" aria-live="polite">
+              <div class="bench__perf">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label">Latency</span>
+                  <span class="bench__value"><span data-out="ms"></span> <small>ms / call</small></span>
                 </div>
-
-                <dl class="bench__config">
-                  <div><dt>Image</dt><dd data-out="img"></dd></div>
-                  <div><dt>Views</dt><dd data-out="views"></dd></div>
-                  <div><dt>Action chunk</dt><dd data-out="chunk"></dd></div>
-                  <div><dt>Setup</dt><dd data-out="setup"></dd></div>
-                </dl>
+                <div class="bench__stat">
+                  <span class="bench__label">Actions / s</span>
+                  <span class="bench__value" data-out="rate"></span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Memory</span>
+                  <span class="bench__value" data-out="mem"></span>
+                  <span class="bench__sub" data-out="memsub"></span>
+                </div>
               </div>
 
-              <div class="bench__compare">
-                <span class="bench__label">Same model on other devices</span>
-                <ul class="bench__bars" data-out="bars"></ul>
-              </div>
-
-              <p class="bench__note" data-out="note"></p>
+              <dl class="bench__config">
+                <div><dt>Image</dt><dd data-out="img"></dd></div>
+                <div><dt>Views</dt><dd data-out="views"></dd></div>
+                <div><dt>Action chunk</dt><dd data-out="chunk"></dd></div>
+                <div><dt>Setup</dt><dd data-out="setup"></dd></div>
+              </dl>
             </div>
+
+            <div class="bench__compare">
+              <span class="bench__label">Same model on other devices</span>
+              <ul class="bench__bars" data-out="bars"></ul>
+            </div>
+
+            <p class="bench__note" data-out="note"></p>
+          </div>
+        </div>
+        <!-- Coding agent benchmark (agent-data.js): pick a model, see how it did on the SDK build -->
+        <div class="bench agent" data-agent>
+          <div class="bench__bar">
+            <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="bench__name">local AI coding agent</span>
+            <span class="agent__hw">2&times; RTX 3090</span>
+          </div>
+
+          <div class="bench__body">
+            <label class="bench__field">
+              <span class="bench__label">Model</span>
+              <select data-agent-model></select>
+            </label>
+
+            <div class="bench__result" aria-live="polite">
+              <div class="bench__perf">
+                <div class="bench__stat bench__stat--main">
+                  <span class="bench__label">Result</span>
+                  <span class="bench__value" data-agent-out="result"></span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Model time</span>
+                  <span class="bench__value" data-agent-out="time"></span>
+                  <span class="bench__sub" data-agent-out="toolsub"></span>
+                </div>
+                <div class="bench__stat">
+                  <span class="bench__label">Hints</span>
+                  <span class="bench__value" data-agent-out="hints"></span>
+                  <span class="bench__sub" data-agent-out="prompts"></span>
+                </div>
+              </div>
+
+              <dl class="bench__config agent__config">
+                <div><dt>Backend</dt><dd data-agent-out="backend"></dd></div>
+                <div><dt>Quant</dt><dd data-agent-out="quant"></dd></div>
+                <div><dt>Context</dt><dd data-agent-out="context"></dd></div>
+                <div><dt>VRAM</dt><dd data-agent-out="vram"></dd></div>
+                <div><dt>Size</dt><dd data-agent-out="size"></dd></div>
+              </dl>
+            </div>
+
+            <div class="bench__compare">
+              <span class="bench__label">Model time, every model &middot; <span class="agent__key">success</span> <span class="agent__key agent__key--fail">failed</span></span>
+              <ul class="bench__bars" data-agent-out="bars"></ul>
+            </div>
+
+            <p class="bench__note agent__task">Task: Builds a firmware of an embedded Linux SDK (MDM9607, Yocto, kernel 4.14) in at most 10 prompts.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== News: newest first; three show at once and the arrows step through the rest ===== -->
-    <section class="section section--alt" id="news" data-news>
-      <div class="container">
-        <div class="news__top">
-          <header class="section__head">
-            <span class="section__kicker">// news</span>
-            <h2>My updates</h2>
-          </header>
-          <div class="news__arrows">
-            <button class="news__arrow" type="button" aria-label="Previous news" data-news-prev>
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
-            </button>
-            <button class="news__arrow" type="button" aria-label="Next news" data-news-next>
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-        </div>
+    <!-- ===== News: newest first ===== -->
+    <section id="news">
+      <h2>News</h2>
+      <ul class="news">
+        <li><time datetime="2026-10-28">Oct 2026</time><span>Reviewer for <a href="https://2027.ieee-icra.org/" target="_blank" rel="noopener">ICRA 2027</a>, the IEEE International Conference on Robotics and Automation, held in Seoul on May 24-28, 2027.</span></li>
+        <li><time datetime="2026-10-18">Oct 2026</time><span>Released <a href="https://github.com/khanhnd61-vr/ggml-compiler" target="_blank" rel="noopener">ggml-compiler</a>, compiling PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python.</span></li>
+        <li><time datetime="2026-09-16">Sep 2026</time><span>Deployed VLA in real-time on Raspberry Pi with <a href="https://vla-simd.github.io/" target="_blank" rel="noopener">vla.simd</a>.</span></li>
+        <li><time datetime="2026-08-11">Aug 2026</time><span>Speaker at <a href="https://soict.hust.edu.vn/summer-school" target="_blank" rel="noopener">SOICT Summer School 2026</a> hosted by Hanoi University of Science and Technology, topic <a href="https://khanhnd61-vr.github.io/modelopt101/" target="_blank" rel="noopener">Edge AI in Robotics</a>.</span></li>
+        <li><time datetime="2026-04">Apr 2026</time><span>Edge AI Engineer at VinRobotics, developing an auto-compiling runtime engine for VLA models deployed on edge devices.</span></li>
+        <li><time datetime="2024-04">Apr 2024</time><span>AI Software Engineer at Aim Future, developing a neural network compiler for the LG NPU.</span></li>
+        <li><time datetime="2024-03">Mar 2024</time><span>Master of Science, Chonnam National University, South Korea, researching multimodal learning and multitask learning.</span></li>
+      </ul>
+    </section>
 
-        <div class="news__track" role="region" aria-label="News" tabindex="0" data-news-track>
-          <figure class="news__item">
-            <img class="news__media news__media--fit" src="assets/icra-2027.png" alt="ICRA 2027 logo: robots in front of Seoul landmarks above the words SEOUL 2027" width="619" height="405" loading="lazy" />
-            <figcaption>
-              <time class="news__date" datetime="2026-10-28">Oct 28, 2026</time>
-              Reviewer for <a href="https://2027.ieee-icra.org/" target="_blank" rel="noopener">ICRA 2027</a>,
-              the IEEE International Conference on Robotics and Automation, held in Seoul on May 24-28, 2027.
-            </figcaption>
-          </figure>
-          <figure class="news__item">
-            <img class="news__media news__media--fit news__media--flush" src="assets/news-ggml-compiler.jpg" alt="A PyTorch Linear and ReLU model beside the ggml C++ graph builder that ggml-compiler generates for it" width="720" height="405" loading="lazy" />
-            <figcaption>
-              <time class="news__date" datetime="2026-10-18">Oct 18, 2026</time>
-              Released <a href="https://github.com/khanhnd61-vr/ggml-compiler" target="_blank" rel="noopener">ggml-compiler</a>,
-              compiling PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python.
-            </figcaption>
-          </figure>
-          <figure class="news__item">
-            <img class="news__media" src="assets/vla-simd-drawer.gif" alt="An SO-101 robot arm putting a roll of tape into a drawer, driven by a VLA running on a Raspberry Pi" width="480" height="270" loading="lazy" />
-            <figcaption>
-              <time class="news__date" datetime="2026-09-16">Sep 16, 2026</time>
-              Deployed VLA in real-time on Raspberry Pi with
-              <a href="https://vla-simd.github.io/" target="_blank" rel="noopener">vla.simd</a>.
-            </figcaption>
-          </figure>
-          <figure class="news__item">
-            <img class="news__media news__media--photo" src="assets/soict.jpg" alt="Khanh D. Nguyen speaking to a full classroom at SOICT, Hanoi University of Science and Technology" width="800" height="602" loading="lazy" />
-            <figcaption>
-              <time class="news__date" datetime="2026-08-11">Aug 11, 2026</time>
-              Speaker at <a href="https://soict.hust.edu.vn/summer-school" target="_blank" rel="noopener">SOICT Summer School 2026</a>
-              hosted by Hanoi University of Science and Technology, topic
-              <a href="https://khanhnd61-vr.github.io/modelopt101/" target="_blank" rel="noopener">Edge AI in Robotics</a>.
-            </figcaption>
-          </figure>
-          <figure class="news__item">
-            <img class="news__media" src="assets/news-readitdown.jpg" alt="ReadItDown window with a Markdown file, its rendered preview and a terminal side by side" width="720" height="405" loading="lazy" />
-            <figcaption>
-              <time class="news__date" datetime="2026-07-02">Jul 2, 2026</time>
-              Released <a href="https://github.com/khanhnd61-vr/readitdown" target="_blank" rel="noopener">ReadItDown</a>,
-              a minimal Markdown viewer with a folder explorer and built-in terminal, on the web and on Linux, macOS and Windows.
-            </figcaption>
-          </figure>
-          <figure class="news__item">
-            <img class="news__media news__media--fit news__media--flush" src="assets/news-react2024.jpg" alt="Model diagram: a speaker behavior extractor with a Multimodal Bottleneck Transformer feeds a listener reaction generator, whose Transformer decoder samples a mixture of Gaussian models to produce multiple facial reactions" width="720" height="392" loading="lazy" />
-            <figcaption>
-              <time class="news__date" datetime="2024-05-31">May 31, 2024</time>
-              3rd place at the <a href="https://sites.google.com/cam.ac.uk/react2024/" target="_blank" rel="noopener">REACT 2024 Challenge</a>
-              held with <a href="https://fg2024.ieee-biometrics.org/" target="_blank" rel="noopener">IEEE FG 2024</a>,
-              generating multiple appropriate facial reactions
-              (<a href="https://brosdocs.net/fg2024/CT10.pdf" target="_blank" rel="noopener">paper</a>).
-            </figcaption>
-          </figure>
-        </div>
-      </div>
+    <!-- ===== Quick Access: companion sites, laid out like News ===== -->
+    <section id="quick-access">
+      <h2>Quick Access</h2>
+      <ul class="news news--links">
+        <li><a href="/vla-hub/">VLA Hub</a><span>Measured latency and memory of open VLAs on GPUs, NPUs and CPUs.</span></li>
+        <li><a href="/vla-arch/">VLA Arch</a><span>Block diagrams of every policy served by vla.cpp and vla.simd.</span></li>
+        <li><a href="/xpu-arch/">XPU Arch</a><span>Block diagrams of the CPUs, GPUs, NPUs and SoCs behind VLA Hub.</span></li>
+        <li><a href="/small-vla-survey/">Small VLA Survey</a><span>27 robot policies under one billion parameters, compared.</span></li>
+        <li><a href="/efficientvla-survey/">Efficient VLA Survey</a><span>A searchable taxonomy of efficient VLA research, with open gaps per area.</span></li>
+        <li><a href="/vla-bench/">VLA Bench</a><span>What LIBERO, CALVIN and RoboTwin 2.0 test, and how each is scored.</span></li>
+        <li><a href="/agent101/">Agent 101</a><span>How an LLM becomes a chatbot, a retriever and a coding agent.</span></li>
+        <li><a href="/robotics101/">Robotics 101</a><span>Robot motion planning and learning, from kinematics to VLAs.</span></li>
+        <li><a href="/edgeai101/">Edge AI 101</a><span>Model optimization for edge devices, from quantization to on-device VLAs.</span></li>
+        <li><a href="/arcade/">Arcade</a><span>A pixel dungeon of sixteen small browser games.</span></li>
+      </ul>
     </section>
   </main>
 
   <!-- ===== Footer ===== -->
   <footer class="site-footer">
-    <div class="container footer__inner">
-      <img class="footer__icon" src="assets/havi-pixel.png" alt="" width="32" height="32" />
-      <p>© <span id="year"></span> Khanh D. Nguyen. Keep committing and pushing.</p>
-    </div>
+    <p>© <span id="year"></span> Khanh D. Nguyen. Keep committing and pushing.
+      <!-- Hidden link to the arcade: invisible but still clickable, shown only while keyboard-focused -->
+      <a class="secret" href="https://khanhnd61-vr.github.io/arcade">Relax</a>
+    </p>
   </footer>
 
   <!-- ===== Agent view: the page as plain Markdown. Keep it in sync with the sections above,
@@ -497,37 +290,22 @@ Topics: Edge AI, Model optimization, Robotics, VLA, C / C++
 
 ### Domain
 
-AI Software Engineer: inference engineering · model optimization · edge AI for robotics · AI SDK development · efficient VLA inference
+I am an AI software engineer and AI researcher, advised by [Dr. An Thai Le](https://anindex.github.io/). My interest is building inference engines and SDKs that make AI models, especially VLAs for robots, run efficiently on edge hardware.
 
 ### Research
 
 M.S. in AI Convergence: multimodal learning &amp; affective behavior analysis - 6 peer-reviewed papers (CVPRW, ECCVW, RSSW)
 
-### Mentor
-
-[An Thai Le](https://anindex.github.io/) - Assistant Professor at VinUniversity and Director of Foundation AI at VinRobotics, working on robots that plan, learn, and act reliably with limited compute and data.
-
 ## Projects
 
-### vla.cpp
+### VIRGIL
 
-The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action models to local hardware, in the spirit of llama.cpp for robotics.
+Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
 
-- GitHub: https://github.com/VinRobotics/vla.cpp
-- arXiv: https://arxiv.org/abs/2606.08094
-- Project page: https://vlacpp.github.io/
-- Tags: C++, ggml, Inference, VLA
-- Authors: K.D. Nguyen, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
-
-### vla.simd
-
-Efficient CPU inference for language-conditioned manipulation - shared SIMD micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that supplies 30+ actions per second on a Raspberry Pi 5.
-
-- GitHub: https://github.com/cair-vinuni/vla.simd
-- arXiv: https://arxiv.org/abs/2609.24274
-- Project page: https://vla-simd.github.io/
-- Tags: C++, SIMD, CPU inference, VLA
-- Authors: K.D. Nguyen, [H.M. Truong](https://tmhoanggg.github.io/), [A.T. Le](https://anindex.github.io/)
+- Paper: https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf
+- Project page: https://tmhoanggg.github.io/VIRGIL/
+- Tags: Representation learning, Video, 3D, Manipulation
+- Authors: [H.M. Truong](https://tmhoanggg.github.io/), K.D. Nguyen, Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
 ### FoldQuantVLA
 
@@ -539,16 +317,37 @@ Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the
 - Tags: Quantization, TensorRT, INT4, VLA
 - Authors: H.T. Ho, K.D. Nguyen, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
-### VIRGIL
+### vla.simd
 
-Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
+Efficient CPU inference for language-conditioned manipulation - shared SIMD micro-kernels (AVX2 / NEON) plus IMPACT, a language-conditioned policy that supplies 30+ actions per second on a Raspberry Pi 5.
 
-- Paper: https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf
-- Project page: https://tmhoanggg.github.io/VIRGIL/
-- Tags: Representation learning, Video, 3D, Manipulation
-- Authors: [H.M. Truong](https://tmhoanggg.github.io/), K.D. Nguyen, Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
+- GitHub: https://github.com/cair-vinuni/vla.simd
+- arXiv: https://arxiv.org/abs/2609.24274
+- Project page: https://vla-simd.github.io/
+- Tags: C++, SIMD, CPU inference, VLA
+- Authors: K.D. Nguyen, [H.M. Truong](https://tmhoanggg.github.io/), [A.T. Le](https://anindex.github.io/)
 
-## Companion sites
+### vla.cpp
+
+The open-source project I'm P.I.C of at VinRobotics - bringing Vision-Language-Action models to local hardware, in the spirit of llama.cpp for robotics.
+
+- GitHub: https://github.com/VinRobotics/vla.cpp
+- arXiv: https://arxiv.org/abs/2606.08094
+- Project page: https://vlacpp.github.io/
+- Tags: C++, ggml, Inference, VLA
+- Authors: K.D. Nguyen, H.T. Ho, C.T. Nguyen, T.Q. Duong, L.D. Le, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
+
+## News
+
+- 2026-10-28: Reviewer for [ICRA 2027](https://2027.ieee-icra.org/), the IEEE International Conference on Robotics and Automation, held in Seoul on May 24-28, 2027.
+- 2026-10-18: Released [ggml-compiler](https://github.com/khanhnd61-vr/ggml-compiler), compiling PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python.
+- 2026-09-16: Deployed VLA in real-time on Raspberry Pi with [vla.simd](https://vla-simd.github.io/).
+- 2026-08-11: Speaker at [SOICT Summer School 2026](https://soict.hust.edu.vn/summer-school) hosted by Hanoi University of Science and Technology, topic [Edge AI in Robotics](https://khanhnd61-vr.github.io/modelopt101/).
+- 2026-04: Edge AI Engineer at VinRobotics, developing an auto-compiling runtime engine for VLA models deployed on edge devices.
+- 2024-04: AI Software Engineer at Aim Future, developing a neural network compiler for the LG NPU.
+- 2024-03: Master of Science, Chonnam National University, South Korea, researching multimodal learning and multitask learning.
+
+## Quick Access
 
 - [VLA Hub](https://khanhnd61-vr.github.io/vla-hub/): Measured latency and memory of open VLAs on GPUs, NPUs and CPUs.
 - [VLA Arch](https://khanhnd61-vr.github.io/vla-arch/): Block diagrams of every policy served by vla.cpp and vla.simd.
@@ -559,18 +358,11 @@ Geometry and language in visual representations from unlabeled video for robot m
 - [Agent 101](https://khanhnd61-vr.github.io/agent101/): How an LLM becomes a chatbot, a retriever and a coding agent.
 - [Robotics 101](https://khanhnd61-vr.github.io/robotics101/): Robot motion planning and learning, from kinematics to VLAs.
 - [Edge AI 101](https://khanhnd61-vr.github.io/edgeai101/): Model optimization for edge devices, from quantization to on-device VLAs.
-
-## News
-
-- 2026-10-28: Reviewer for [ICRA 2027](https://2027.ieee-icra.org/), the IEEE International Conference on Robotics and Automation, held in Seoul on May 24-28, 2027.
-- 2026-10-18: Released [ggml-compiler](https://github.com/khanhnd61-vr/ggml-compiler), compiling PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python.
-- 2026-09-16: Deployed VLA in real-time on Raspberry Pi with [vla.simd](https://vla-simd.github.io/).
-- 2026-08-11: Speaker at [SOICT Summer School 2026](https://soict.hust.edu.vn/summer-school) hosted by Hanoi University of Science and Technology, topic [Edge AI in Robotics](https://khanhnd61-vr.github.io/modelopt101/).
-- 2026-07-02: Released [ReadItDown](https://github.com/khanhnd61-vr/readitdown), a minimal Markdown viewer with a folder explorer and built-in terminal, on the web and on Linux, macOS and Windows.
-- 2024-05-31: 3rd place at the [REACT 2024 Challenge](https://sites.google.com/cam.ac.uk/react2024/) held with [IEEE FG 2024](https://fg2024.ieee-biometrics.org/), generating multiple appropriate facial reactions ([paper](https://brosdocs.net/fg2024/CT10.pdf)).</div>
+- [Arcade](https://khanhnd61-vr.github.io/arcade/): A pixel dungeon of sixteen small browser games.</div>
   </div>
 
   <script src="bench-data.js"></script>
+  <script src="agent-data.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

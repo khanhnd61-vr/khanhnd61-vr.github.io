@@ -1,5 +1,5 @@
 /* ============================================================
-   Khanh D. Nguyen - personal site
+   Khanh D. Nguyen - personal site (single column, researcher-homepage style)
    Palette: primary #4B2E0F · secondary #E2A963 · bg #FFF2E1
             support #5C7A5E · highlight #F4C15D · cream #FAF7F2 · sage #A8B89C
    ============================================================ */
@@ -17,8 +17,7 @@
   --ink-soft:  #6e5536;
   --line:      #e8d6bd;
   --shadow:    0 10px 30px -12px rgba(75, 46, 15, .25);
-  --radius:    18px;
-  --maxw:      1080px;
+  --maxw:      920px;
 
   --font-display: "Space Grotesk", system-ui, sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
@@ -28,78 +27,100 @@
   --agent-ink: #efe3d0;
 }
 
-/* ---------- Reset ---------- */
+/* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 68px; }
+/* 15px root: every rem size on the page scales down with it */
+html { font-size: 15px; scroll-behavior: smooth; }
 body {
   margin: 0;
-  font-family: var(--font-body);
+  font: 14.5px/1.55 var(--font-body);
   color: var(--ink);
   background: var(--bg);
-  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 img { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
+a { color: var(--support); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+p { margin: 0 0 8px; }
 
-.container { width: min(var(--maxw), 92%); margin-inline: auto; }
+.page { width: min(var(--maxw), 92%); margin: 0 auto; padding: 40px 0 8px; }
+section { margin-bottom: 36px; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; color: var(--primary); line-height: 1.2; }
+h1 { font-size: 2rem; margin: 0 0 6px; }
+.section__lede { margin: -4px 0 14px; color: var(--ink-soft); }
+h2 { font-size: 1.3rem; margin: 0 0 14px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 
-h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 600; letter-spacing: -.01em; }
+/* ---------- About ---------- */
+/* Text justified to both edges, with a wider gutter before the photo */
+/* Text on the left at its own width; the photo centred in the space that is left, level with the text's middle */
+.intro { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 40px; align-items: center; }
+/* The text column is exactly as wide as the first point, kept on one line; everything else wraps to it */
+.intro__text { width: min-content; text-align: justify; hyphens: auto; }
+.intro__points li:first-child { white-space: nowrap; }
+.intro__role { color: var(--ink-soft); margin-bottom: 10px; }
+.intro__points { margin: 0 0 12px; padding-left: 20px; }
+.intro__points li { margin-bottom: 2px; }
+.intro b { color: var(--primary); font-weight: 600; }
+.intro__links { margin-top: 12px; color: var(--ink-soft); }
+.intro__photo { margin: 0; text-align: center; }
+.intro__photo img { width: 220px; height: 220px; margin-inline: auto; object-fit: cover; border-radius: 50%; box-shadow: var(--shadow); }
+.intro__photo figcaption { margin-top: 6px; font: .78rem var(--font-mono); color: var(--ink-soft); }
 
-.accent { color: var(--support); white-space: nowrap; }
+/* ---------- Projects: thumbnail left, text right ---------- */
+.pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; }
+/* One square size for every project, centred on its text, so thumbnails and text each line up in a column */
+.pub { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 20px; align-items: center; }
+.pub__thumb { width: 190px; height: 190px; object-fit: contain; background: #fff; border: 1px solid var(--line); padding: 6px; }
+.pub__title { font-weight: 600; font-size: 1.02rem; color: var(--primary); }
+.pub__authors { margin: 2px 0 0; font-size: .92rem; color: var(--ink-soft); }
+.pub__authors strong { color: var(--primary); }
+.pub__authors a { color: inherit; text-decoration: underline; text-decoration-color: var(--secondary); text-underline-offset: 3px; }
+.pub__links { margin: 2px 0 4px; font-size: .92rem; color: var(--ink-soft); }
+.pub__desc { margin: 0; font-size: .94rem; }
 
-/* ---------- Header ---------- */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  background: rgba(255, 242, 225, .82);
-  backdrop-filter: saturate(140%) blur(10px);
-  border-bottom: 1px solid var(--line);
-}
-.nav { display: flex; align-items: center; justify-content: space-between; height: 56px; }
-.brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; }
-.brand__icon { border-radius: 50%; box-shadow: 0 2px 8px rgba(75,46,15,.2); }
+/* ---------- Benchmarks: latency explorer + coding agent window, side by side ---------- */
+/* Both windows share the parent's six rows through subgrid (title bar, picker, stats, setup, bars, footnote),
+   so each part of the latency explorer sits level with its counterpart in the coding agent window */
+.windows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); column-gap: 20px; row-gap: 0; }
+.windows .bench { max-width: none; display: grid; grid-row: span 6; grid-template-rows: subgrid; row-gap: 0; }
+.windows .bench__body { grid-row: span 5; grid-template-rows: subgrid; row-gap: 16px; }
+.windows .bench__result { display: contents; }
 
-.nav__links { list-style: none; display: flex; align-items: center; gap: 24px; margin: 0; padding: 0; font-weight: 500; }
-.nav__links a { color: var(--ink-soft); transition: color .18s ease; }
-.nav__links a:hover { color: var(--primary); }
+/* Coding agent window (agent-data.js): shares the explorer's stat, config and bar styles */
+.agent__hw { margin-left: auto; font: 500 .72rem var(--font-mono); color: var(--ink-soft); background: var(--bg); padding: 4px 10px; border-radius: 999px; }
+/* Setup on one line: five short values spread across the window */
+.bench__config.agent__config { grid-template-columns: repeat(5, auto); justify-content: space-between; }
+.agent__config dd { white-space: nowrap; }
+.bench__stat--main .bench__sub { color: var(--sage); }
+.bench__value.is-fail { color: #f0a98d; }
+.agent__key { font-weight: 600; color: var(--support); }
+.agent__key::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 4px; border-radius: 50%; background: var(--sage); }
+.agent__key--fail { color: #b8664a; }
+.agent__key--fail::before { background: #d98b6a; }
+.bench__bars .is-fail .fill { background: #d98b6a; }
+/* The chosen model keeps its green or red bar; a light yellow box marks its whole row instead */
+.agent .bench__bars .is-current { background: rgba(244, 193, 93, .28); }
+.agent .bench__bars .is-current .fill { background: var(--sage); }
+.agent .bench__bars .is-current.is-fail .fill { background: #d98b6a; }
 
-/* Hidden link to the arcade: invisible but still clickable, shown only while keyboard-focused */
-.nav__secret { opacity: 0; }
-.nav__secret:focus-visible { opacity: 1; }
-.nav__cta {
-  background: var(--primary); color: var(--cream) !important;
-  padding: 6px 14px; border-radius: 999px; font-weight: 600;
-}
-.nav__cta:hover { background: #38220a; }
+/* ---------- News: date column + text ---------- */
+.news { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+/* News and Quick Access share one left column (wide enough for "Efficient VLA Survey"), set in the same mono */
+.news li { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); gap: 12px; }
+.news time, .news--links a { font: 500 .85rem/1.85 var(--font-mono); color: var(--support); }
 
-.nav__toggle { display: none; flex-direction: column; gap: 5px; background: none; border: 0; cursor: pointer; padding: 8px; }
-.nav__toggle span { width: 24px; height: 2px; background: var(--primary); border-radius: 2px; transition: .25s; }
+/* ---------- Footer ---------- */
+/* The bottom padding keeps the footer clear of the fixed Human / Agent toggle */
+.site-footer { border-top: 1px solid var(--line); padding: 16px 0 80px; text-align: center; }
+.site-footer p { margin: 0; font-size: .88rem; color: var(--ink-soft); }
+.secret { opacity: 0; }
+.secret:focus-visible { opacity: 1; }
 
-/* ---------- Hero ---------- */
-.hero {
-  display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px;
-  align-items: center;
-}
-.hero__text .section__head { margin-bottom: 16px; }
-.sites { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.sites li { position: relative; padding-left: 26px; }
-.sites li::before {
-  content: ""; position: absolute; left: 4px; top: .62em;
-  width: 8px; height: 8px; border-radius: 2px; background: var(--secondary);
-}
-.site:hover .site__name { text-decoration: underline; text-decoration-color: var(--secondary); text-underline-offset: 3px; }
-.site:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; border-radius: 4px; }
-.site__name { font: 600 1rem/1.3 var(--font-display); color: var(--primary); margin-right: 6px; }
-.site__name span { color: var(--support); font-size: .9em; }
-.site__desc { font-size: .88rem; line-height: 1.4; color: var(--ink-soft); }
-
-.hero__art { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
 /* Latency explorer: engine / model / device -> config + measured performance */
 .bench {
   width: 100%; max-width: 480px;
   background: #fffaf2; border: 1px solid var(--line); border-radius: 14px;
-  box-shadow: var(--shadow); overflow: hidden;
+  overflow: hidden;
 }
 .bench__bar {
   display: flex; align-items: center; gap: 12px;
@@ -196,144 +217,6 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
   .bench__bars .fill { transition: none; }
 }
 
-/* ---------- Sections ---------- */
-.section { padding: 30px 0; }
-.section--alt { background: var(--cream); border-block: 1px solid var(--line); }
-.section__head { max-width: 60ch; margin-bottom: 24px; }
-.section__kicker { font-family: var(--font-mono); font-size: .82rem; color: var(--support); }
-.section__head h2 { font-size: clamp(1.6rem, 2.8vw, 2.1rem); margin: 4px 0 0; color: var(--primary); }
-.section__sub { color: var(--ink-soft); margin: 8px 0 0; }
-
-/* ---------- About ---------- */
-/* The bio column stretches to the photo's height, so its contacts row can sit on the photo's bottom line */
-.about { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: stretch; }
-.about__bio { display: flex; flex-direction: column; }
-.about__points { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
-.about__points li { position: relative; padding-left: 26px; color: var(--ink-soft); font-size: 1.05rem; }
-.about__points li::before {
-  content: ""; position: absolute; left: 4px; top: .62em;
-  width: 8px; height: 8px; border-radius: 2px; background: var(--secondary);
-}
-.about__bio > p { margin: 0 0 12px; color: var(--ink-soft); }
-.about__bio em { color: var(--primary); font-style: italic; }
-.about__side { display: grid; gap: 16px; }
-.about__cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 40px; }
-
-.about__photo { margin: 0; position: relative; }
-.about__photo img {
-  width: 100%; max-width: 240px; height: auto; aspect-ratio: 1 / 1; object-fit: cover;
-  margin-inline: auto; display: block;
-  border-radius: var(--radius); border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-}
-/* The caption hangs below the photo (into the cards' top margin), so the photo's bottom ends the row */
-.about__photo figcaption {
-  position: absolute; top: 100%; left: 0; right: 0;
-  margin-top: 6px; text-align: center;
-  font-family: var(--font-mono); font-size: .82rem; color: var(--ink-soft);
-}
-
-.card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; }
-.card--soft { box-shadow: var(--shadow); }
-.card__title { margin: 0 0 4px; font-size: .82rem; text-transform: uppercase; letter-spacing: .12em; color: var(--support); }
-.card__role { margin: 0 0 2px; font-weight: 600; color: var(--primary); font-family: var(--font-display); }
-.card__meta { margin: 0; font-size: .92rem; color: var(--ink-soft); }
-
-/* ---------- Tags ---------- */
-.tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
-.tags--sm { margin-top: 10px; }
-.tag {
-  font-family: var(--font-mono); font-size: .76rem;
-  background: var(--sage); color: #2f3d2f;
-  padding: 3px 10px; border-radius: 999px; font-weight: 500;
-}
-.tags--sm .tag { background: rgba(92,122,94,.14); color: var(--support); }
-
-/* ---------- Projects (vertical list) ---------- */
-.projects { display: flex; flex-direction: column; gap: 14px; }
-
-.project {
-  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
-  overflow: hidden; display: grid; grid-template-columns: 340px minmax(0, 1fr);
-  transition: transform .2s ease, box-shadow .25s ease;
-}
-.project:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-.project__thumb {
-  display: flex; align-items: center; justify-content: center; min-width: 0;
-  padding: 12px; background: #fff; border-right: 1px solid var(--line);
-}
-.project__thumb img { width: 100%; height: auto; max-height: 220px; object-fit: contain; }
-.project__body { padding: 16px 20px; display: flex; flex-direction: column; flex: 1; }
-.project__title { margin: 0 0 4px; font-size: 1.18rem; color: var(--primary); }
-.project__desc { margin: 0; color: var(--ink-soft); font-size: .96rem; }
-.project__authors { margin: 8px 0 0; font-size: .85rem; color: var(--ink-soft); }
-.project__authors strong { color: var(--primary); }
-.project__authors a, .card__role a { color: inherit; text-decoration: underline; text-decoration-color: var(--secondary); text-underline-offset: 3px; }
-.project__links { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 10px; }
-.project__link { font-family: var(--font-display); font-weight: 600; color: var(--support); }
-.project__link:hover { color: var(--primary); }
-
-/* ---------- News (carousel) ---------- */
-.news__top { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
-.news__top .section__head { margin-bottom: 0; }
-.news__arrows { display: flex; gap: 10px; flex: none; }
-.news__arrow {
-  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
-  background: var(--cream); border: 1px solid var(--line); color: var(--primary);
-  transition: background .18s ease, border-color .18s ease, opacity .18s ease;
-}
-.news__arrow:hover:not(:disabled) { background: var(--secondary); border-color: var(--secondary); }
-.news__arrow:disabled { opacity: .35; cursor: default; }
-.news__arrow:focus-visible, .news__track:focus-visible { outline: 2px solid var(--secondary); outline-offset: 3px; }
-
-/* Three cards fill the row; the rest wait off to the right. Native scroll keeps touch swipes working */
-.news__track {
-  --news-gap: 14px;
-  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--news-gap)) / 3);
-  gap: var(--news-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-  border-radius: var(--radius);
-}
-.news__track::-webkit-scrollbar { display: none; }
-.news__item {
-  margin: 0; scroll-snap-align: start; min-width: 0;
-  background: var(--cream); border: 1px solid var(--line); border-radius: var(--radius);
-  overflow: hidden; display: flex; flex-direction: column;
-}
-/* Every card shares the GIF's 16:9 frame: photos are cropped to it, diagrams sit inside it */
-.news__media { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-bottom: 1px solid var(--line); }
-.news__media--photo { object-position: center 80%; }
-.news__media--fit { object-fit: contain; background: #fff; padding: 12px; }
-.news__media--flush { padding: 0; }
-.news__item figcaption { padding: 10px 14px 12px; font-size: .92rem; color: var(--ink-soft); }
-.news__date { display: block; margin-bottom: 2px; font-family: var(--font-mono); font-size: .76rem; color: var(--support); }
-.news__item figcaption a { color: var(--support); text-decoration: underline; text-underline-offset: 3px; }
-
-/* ---------- Contact ---------- */
-/* A single row of chips under the About tags; margin-top: auto drops it to the bottom of the bio column */
-.contacts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 16px; }
-.contact {
-  background: var(--cream); border: 1px solid var(--line); border-radius: 12px;
-  padding: 5px 10px 5px 5px; display: flex; align-items: center; gap: 8px;
-  transition: transform .18s ease, border-color .2s ease, box-shadow .2s ease;
-}
-.contact:hover { transform: translateY(-2px); border-color: var(--secondary); box-shadow: var(--shadow); }
-.contact__icon {
-  flex: none; width: 28px; height: 28px; border-radius: 8px;
-  display: grid; place-items: center;
-  background: var(--bg); border: 1px solid var(--line); color: var(--support);
-  transition: background .2s ease, color .2s ease;
-}
-.contact__icon svg { width: 16px; height: 16px; }
-.contact:hover .contact__icon { background: var(--support); color: var(--cream); }
-.contact__label { font: 600 .84rem/1.2 var(--font-display); color: var(--primary); white-space: nowrap; }
-
-/* ---------- Footer ---------- */
-/* The bottom padding keeps the footer clear of the fixed Human / Agent toggle */
-.site-footer { border-top: 1px solid var(--line); padding: 18px 0 80px; background: var(--cream); }
-.footer__inner { display: flex; align-items: center; gap: 14px; justify-content: center; text-align: center; flex-wrap: wrap; }
-.footer__icon { border-radius: 50%; }
-.site-footer p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
-
 /* ---------- Human / Agent view ---------- */
 .view-toggle {
   position: fixed; bottom: 24px; left: 50%; z-index: 60;
@@ -368,7 +251,7 @@ h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; font-weight: 6
 .agent-view { display: none; min-height: 100vh; background: var(--agent-bg); color: var(--agent-ink); }
 .agent-view__md {
   width: min(900px, 92%); margin-inline: auto; padding: 40px 0 120px;
-  font: 14px/1.7 var(--font-mono);
+  font: 13px/1.7 var(--font-mono);
   white-space: pre-wrap; overflow-wrap: anywhere;
 }
 
@@ -377,47 +260,23 @@ body:has(.view-toggle__input:checked) { background: var(--agent-bg); }
 body:has(.view-toggle__input:checked) > :is(.site-header, main, .site-footer) { display: none; }
 body:has(.view-toggle__input:checked) > .agent-view { display: block; }
 
-/* ---------- Reveal animation ---------- */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
-.reveal.is-visible { opacity: 1; transform: none; }
 
 /* ---------- Responsive ---------- */
-/* Below 1180px the photo column shrinks to the photo itself, so the bio keeps one-line points
-   and the four contact chips still fit one row */
-@media (max-width: 1180px) {
-  .about { grid-template-columns: minmax(0, 1fr) 240px; gap: 28px; }
-}
-
 @media (max-width: 860px) {
-  .hero { grid-template-columns: 1fr; gap: 28px; }
-  .about { grid-template-columns: 1fr; }
-  .about__photo figcaption { position: static; }
-  .about__cards { grid-template-columns: 1fr; margin-top: 24px; }
-  .project { grid-template-columns: 1fr; }
-  .project__thumb { border-right: 0; border-bottom: 1px solid var(--line); }
-  .news__track { grid-auto-columns: calc((100% - var(--news-gap)) / 2); }
+  .windows { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 20px; }
+  .windows .bench, .windows .bench__body { grid-row: auto; grid-template-rows: none; }
 }
-
-/* The nav collapses only on phones: its five links need about 520px */
 @media (max-width: 640px) {
-  .nav__toggle { display: flex; }
-  .nav__links {
-    position: absolute; top: 56px; left: 0; right: 0;
-    flex-direction: column; align-items: flex-start; gap: 0;
-    background: var(--bg); border-bottom: 1px solid var(--line);
-    padding: 8px 6%; max-height: 0; overflow: hidden;
-    transition: max-height .3s ease, padding .3s ease;
-  }
-  .nav__links.is-open { max-height: 440px; padding: 10px 6% 16px; }
-  .nav__links li { width: 100%; padding: 6px 0; }
-}
-
-@media (max-width: 480px) {
-  .news__track { grid-auto-columns: 100%; }
+  .intro { grid-template-columns: 1fr; }
+  .intro__text { width: auto; }
+  .intro__points li:first-child { white-space: normal; }
+  .intro__photo { order: -1; }
+  .intro__photo img { width: 140px; height: 140px; margin-inline: auto; }
+  .pub { grid-template-columns: 1fr; gap: 8px; }
+  .pub__thumb { width: 100%; height: auto; max-height: 180px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
-  .reveal { opacity: 1; transform: none; transition: none; }
   .view-toggle, .view-toggle__switch, .view-toggle__switch::after { transition: none; }
 }
