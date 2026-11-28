@@ -58,12 +58,14 @@ Native low-bit quantization of VLA models - W8A8 and W4A4 projections run on the
 - Tags: Quantization, TensorRT, INT4, VLA
 - Authors: H.T. Ho, K.D. Nguyen, Q.D. Nguyen, T.Q. Duong, N. Le, M. Guo, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
-### ggml-compiler
+### VIRGIL
 
-Compiles PyTorch and ONNX models into ggml programs that run on CPU and CUDA without Python - LLMs, VLMs and the robot policies built on them, each checked against llama.cpp and vla.cpp.
+Geometry and language in visual representations from unlabeled video for robot manipulation - an encoder pre-trained on 424k video clips to predict how a vision-language teacher and a 3D-reconstruction teacher see the scene change, with no text, action or geometry labels.
 
-- GitHub: https://github.com/khanhnd61-vr/ggml-compiler
-- Tags: Compiler, ggml, PyTorch, ONNX, GGUF
+- Paper: https://tmhoanggg.github.io/VIRGIL/static/virgil.pdf
+- Project page: https://tmhoanggg.github.io/VIRGIL/
+- Tags: Representation learning, Video, 3D, Manipulation
+- Authors: [H.M. Truong](https://tmhoanggg.github.io/), K.D. Nguyen, Q.A. Huynh, D.M.H. Nguyen, V.A. Ngo, [A.T. Le](https://anindex.github.io/)
 
 ## Companion sites
 
